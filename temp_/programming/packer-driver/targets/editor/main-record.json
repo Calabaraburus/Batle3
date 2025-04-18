@@ -1,0 +1,2642 @@
+{
+  "modules": {
+    "cce:/internal/x/cc": {
+      "mTimestamp": 13219.300399959087,
+      "chunkId": "06905a76530cf57ee019d9d8bcfb507c2d037fd3",
+      "imports": [
+        {
+          "value": "cce:/internal/x/cc-fu/base",
+          "resolved": "__unresolved_0",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 14
+            },
+            "end": {
+              "line": 1,
+              "column": 42
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/gfx-webgl",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 14
+            },
+            "end": {
+              "line": 2,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/gfx-webgl2",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 14
+            },
+            "end": {
+              "line": 3,
+              "column": 48
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/3d",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 14
+            },
+            "end": {
+              "line": 4,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/animation",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 14
+            },
+            "end": {
+              "line": 5,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/skeletal-animation",
+          "resolved": "__unresolved_5",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 14
+            },
+            "end": {
+              "line": 6,
+              "column": 56
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/2d",
+          "resolved": "__unresolved_6",
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 14
+            },
+            "end": {
+              "line": 7,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/ui",
+          "resolved": "__unresolved_7",
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 14
+            },
+            "end": {
+              "line": 8,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/particle",
+          "resolved": "__unresolved_8",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 14
+            },
+            "end": {
+              "line": 9,
+              "column": 46
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/particle-2d",
+          "resolved": "__unresolved_9",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 14
+            },
+            "end": {
+              "line": 10,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-framework",
+          "resolved": "__unresolved_10",
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 14
+            },
+            "end": {
+              "line": 11,
+              "column": 55
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-2d-framework",
+          "resolved": "__unresolved_11",
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 14
+            },
+            "end": {
+              "line": 12,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/intersection-2d",
+          "resolved": "__unresolved_12",
+          "loc": {
+            "start": {
+              "line": 13,
+              "column": 14
+            },
+            "end": {
+              "line": 13,
+              "column": 53
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/primitive",
+          "resolved": "__unresolved_13",
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 14
+            },
+            "end": {
+              "line": 14,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/profiler",
+          "resolved": "__unresolved_14",
+          "loc": {
+            "start": {
+              "line": 15,
+              "column": 14
+            },
+            "end": {
+              "line": 15,
+              "column": 46
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/audio",
+          "resolved": "__unresolved_15",
+          "loc": {
+            "start": {
+              "line": 16,
+              "column": 14
+            },
+            "end": {
+              "line": 16,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/video",
+          "resolved": "__unresolved_16",
+          "loc": {
+            "start": {
+              "line": 17,
+              "column": 14
+            },
+            "end": {
+              "line": 17,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/terrain",
+          "resolved": "__unresolved_17",
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 14
+            },
+            "end": {
+              "line": 18,
+              "column": 45
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/webview",
+          "resolved": "__unresolved_18",
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 14
+            },
+            "end": {
+              "line": 19,
+              "column": 45
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/tween",
+          "resolved": "__unresolved_19",
+          "loc": {
+            "start": {
+              "line": 20,
+              "column": 14
+            },
+            "end": {
+              "line": 20,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/tiled-map",
+          "resolved": "__unresolved_20",
+          "loc": {
+            "start": {
+              "line": 21,
+              "column": 14
+            },
+            "end": {
+              "line": 21,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/spine",
+          "resolved": "__unresolved_21",
+          "loc": {
+            "start": {
+              "line": 22,
+              "column": 14
+            },
+            "end": {
+              "line": 22,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/dragon-bones",
+          "resolved": "__unresolved_22",
+          "loc": {
+            "start": {
+              "line": 23,
+              "column": 14
+            },
+            "end": {
+              "line": 23,
+              "column": 50
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/base"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/gfx-webgl"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/gfx-webgl2"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/3d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/animation"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/skeletal-animation"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/ui"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/particle"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/particle-2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-framework"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-2d-framework"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/intersection-2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/primitive"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/profiler"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/audio"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/video"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/terrain"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/webview"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/tween"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/tiled-map"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/spine"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/dragon-bones"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "cce:/internal/x/prerequisite-imports": {
+      "mTimestamp": 18323404.050899982,
+      "chunkId": "654ca6a8cf2986d952e8c444eb1f074fc885bcfa",
+      "imports": [
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/FieldController.ts",
+          "resolved": "__unresolved_0",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 35
+            },
+            "end": {
+              "line": 5,
+              "column": 112
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileContollerListItem.ts",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 128
+            },
+            "end": {
+              "line": 5,
+              "column": 211
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileCreator.ts",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 227
+            },
+            "end": {
+              "line": 5,
+              "column": 300
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelController.ts",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 316
+            },
+            "end": {
+              "line": 5,
+              "column": 393
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelView.ts",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 409
+            },
+            "end": {
+              "line": 5,
+              "column": 480
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileController.ts",
+          "resolved": "__unresolved_5",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 496
+            },
+            "end": {
+              "line": 5,
+              "column": 585
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileInterBehaviour.ts",
+          "resolved": "__unresolved_6",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 601
+            },
+            "end": {
+              "line": 5,
+              "column": 694
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileController.ts",
+          "resolved": "__unresolved_7",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 710
+            },
+            "end": {
+              "line": 5,
+              "column": 803
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileInterBehaviour.ts",
+          "resolved": "__unresolved_8",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 819
+            },
+            "end": {
+              "line": 5,
+              "column": 916
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileController.ts",
+          "resolved": "__unresolved_9",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 932
+            },
+            "end": {
+              "line": 5,
+              "column": 1021
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileInterBehaviour.ts",
+          "resolved": "__unresolved_10",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1037
+            },
+            "end": {
+              "line": 5,
+              "column": 1130
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts",
+          "resolved": "__unresolved_11",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1146
+            },
+            "end": {
+              "line": 5,
+              "column": 1222
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts",
+          "resolved": "__unresolved_12",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1238
+            },
+            "end": {
+              "line": 5,
+              "column": 1318
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts",
+          "resolved": "__unresolved_13",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1334
+            },
+            "end": {
+              "line": 5,
+              "column": 1405
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileStateToColor.ts",
+          "resolved": "__unresolved_14",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1421
+            },
+            "end": {
+              "line": 5,
+              "column": 1499
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileController.ts",
+          "resolved": "__unresolved_15",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1515
+            },
+            "end": {
+              "line": 5,
+              "column": 1604
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileInterBehaviour.ts",
+          "resolved": "__unresolved_16",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1620
+            },
+            "end": {
+              "line": 5,
+              "column": 1713
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/models/AdittionalSprite.ts",
+          "resolved": "__unresolved_17",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1729
+            },
+            "end": {
+              "line": 5,
+              "column": 1799
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/models/FieldModel.ts",
+          "resolved": "__unresolved_18",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1815
+            },
+            "end": {
+              "line": 5,
+              "column": 1879
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/models/LevelModel.ts",
+          "resolved": "__unresolved_19",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1895
+            },
+            "end": {
+              "line": 5,
+              "column": 1959
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/models/MnemonicMapping.ts",
+          "resolved": "__unresolved_20",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 1975
+            },
+            "end": {
+              "line": 5,
+              "column": 2044
+            }
+          }
+        },
+        {
+          "value": "file:///C:/Projects/Cocos/ClbBlast/assets/models/TileModel.ts",
+          "resolved": "__unresolved_21",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 2060
+            },
+            "end": {
+              "line": 5,
+              "column": 2123
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/FieldController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileContollerListItem.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileCreator.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelView.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileStateToColor.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/AdittionalSprite.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/FieldModel.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/LevelModel.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/MnemonicMapping.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/TileModel.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/FieldController.ts": {
+      "mTimestamp": {
+        "mtime": 1659624590123.296,
+        "uuid": "a1d8de74-8d41-4d07-b296-3e5447e6b32b"
+      },
+      "chunkId": "bd39c98d79b7dbeb9b38299d22313a7b99b4f42e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "../tiles/TileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 31
+            },
+            "end": {
+              "line": 10,
+              "column": 56
+            }
+          }
+        },
+        {
+          "value": "../tiles/UsualTile/StdTileController",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 34
+            },
+            "end": {
+              "line": 12,
+              "column": 72
+            }
+          }
+        },
+        {
+          "value": "../../models/FieldModel",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 13,
+              "column": 27
+            },
+            "end": {
+              "line": 13,
+              "column": 52
+            }
+          }
+        },
+        {
+          "value": "./TileCreator",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 28
+            },
+            "end": {
+              "line": 14,
+              "column": 43
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/FieldModel.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileCreator.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "cce:/internal/code-quality/cr.mjs": {
+      "mTimestamp": 1659624212064,
+      "chunkId": "84741ad843cea9a440c5d8c2d379669b6551400d",
+      "imports": [],
+      "type": "esm",
+      "resolutions": []
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts": {
+      "mTimestamp": {
+        "mtime": 1659641421687.454,
+        "uuid": "3a1568e6-69ec-4c40-a450-5fe7ad871e1f"
+      },
+      "chunkId": "d8d5be19ffb30cb2b516f679e54fa6018936a632",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 7
+            },
+            "end": {
+              "line": 11,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "../../models/TileModel",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 26
+            },
+            "end": {
+              "line": 12,
+              "column": 50
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/TileModel.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/models/TileModel.ts": {
+      "mTimestamp": {
+        "mtime": 1659642031635.8584,
+        "uuid": "5fa4794f-021d-42c1-b06e-9c4fb6107f22"
+      },
+      "chunkId": "5c08a634d27d174fca34a9e2f636fdf60f8465cb",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "./AdittionalSprite",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 53
+            },
+            "end": {
+              "line": 10,
+              "column": 73
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/AdittionalSprite.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/models/AdittionalSprite.ts": {
+      "mTimestamp": {
+        "mtime": 1659642863498.2378,
+        "uuid": "27b39bd9-628b-49b9-a7fc-e5804e0ce41f"
+      },
+      "chunkId": "7677fd22d255dcfd6f0654108fea00a5a28a40b0",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 50
+            },
+            "end": {
+              "line": 1,
+              "column": 54
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileController.ts": {
+      "mTimestamp": {
+        "mtime": 1659639737766.1926,
+        "uuid": "ca3d7b59-5f8c-4afc-b188-eb849bb62462"
+      },
+      "chunkId": "d25211dad99250f97fcaaff7f5247a15f11eec6a",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 17,
+              "column": 7
+            },
+            "end": {
+              "line": 17,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "../TileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 31
+            },
+            "end": {
+              "line": 18,
+              "column": 50
+            }
+          }
+        },
+        {
+          "value": "../TileState",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 20,
+              "column": 26
+            },
+            "end": {
+              "line": 20,
+              "column": 40
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts": {
+      "mTimestamp": {
+        "mtime": 1659516113880.1257,
+        "uuid": "12ab4ed1-f45e-44c7-8493-f47107da95ee"
+      },
+      "chunkId": "2ea618981f4f493ee2da997741998e3ee242076d",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/models/FieldModel.ts": {
+      "mTimestamp": {
+        "mtime": 1659641548038.148,
+        "uuid": "79294f27-00ea-454e-940c-26ffb1bde382"
+      },
+      "chunkId": "d9c8349ba08c921a880d58e7acf7b4c7814f9583",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 7
+            },
+            "end": {
+              "line": 8,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "./TileModel",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 26
+            },
+            "end": {
+              "line": 9,
+              "column": 39
+            }
+          }
+        },
+        {
+          "value": "./MnemonicMapping",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 32
+            },
+            "end": {
+              "line": 10,
+              "column": 51
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/TileModel.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/MnemonicMapping.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/models/MnemonicMapping.ts": {
+      "mTimestamp": {
+        "mtime": 1659642093823.0679,
+        "uuid": "fc544aa7-bc1f-470b-a7fd-d78d0b294247"
+      },
+      "chunkId": "c9aedcc454dd1f7e09201bd9abe86eb64e1f71dd",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 37
+            },
+            "end": {
+              "line": 1,
+              "column": 41
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileCreator.ts": {
+      "mTimestamp": {
+        "mtime": 1659639737766.1926,
+        "uuid": "cc315349-1d50-4f0f-ab35-5e27b636e797"
+      },
+      "chunkId": "501f95505563c6d8badf18ae709787e8639434ce",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 65
+            },
+            "end": {
+              "line": 1,
+              "column": 69
+            }
+          }
+        },
+        {
+          "value": "./TileContollerListItem",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 38
+            },
+            "end": {
+              "line": 3,
+              "column": 63
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileContollerListItem.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/TileContollerListItem.ts": {
+      "mTimestamp": {
+        "mtime": 1659130735022.129,
+        "uuid": "56cd5243-992b-46ba-93d9-29f65009b165"
+      },
+      "chunkId": "9fbd3e8740563b2127beaabc35a4b84f7a9c54cf",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelController.ts": {
+      "mTimestamp": {
+        "mtime": 1659639824629.8767,
+        "uuid": "4e899ef5-6616-4f89-91b6-7687089978ac"
+      },
+      "chunkId": "91b1d12b33c282ce6fd657a44e2a0d67b9d5a738",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 38
+            },
+            "end": {
+              "line": 1,
+              "column": 42
+            }
+          }
+        },
+        {
+          "value": "../../models/LevelModel",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 27
+            },
+            "end": {
+              "line": 2,
+              "column": 52
+            }
+          }
+        },
+        {
+          "value": "./LevelView",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 26
+            },
+            "end": {
+              "line": 3,
+              "column": 39
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/models/LevelModel.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelView.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/models/LevelModel.ts": {
+      "mTimestamp": {
+        "mtime": 1659621845332.3887,
+        "uuid": "92bbb85f-bbc7-49f5-a2af-2fba90bb14a1"
+      },
+      "chunkId": "fc805c954987d85370fa1b714fef8ed67daeff49",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 49
+            },
+            "end": {
+              "line": 1,
+              "column": 53
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/level/LevelView.ts": {
+      "mTimestamp": {
+        "mtime": 1659617871484.271,
+        "uuid": "6e1208f2-fcf0-4b82-a59c-7583a84f2b2f"
+      },
+      "chunkId": "e06d1ab79fffeb7d0136c3a6243a669e58a8eb01",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 61
+            },
+            "end": {
+              "line": 1,
+              "column": 65
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileController.ts": {
+      "mTimestamp": {
+        "mtime": 1659623412818.9082,
+        "uuid": "fdc3fdb7-2922-4670-9e7b-b003a997aee4"
+      },
+      "chunkId": "2217372dfc4fc92389ef505aa6ce441b0acc19df",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 44
+            },
+            "end": {
+              "line": 1,
+              "column": 48
+            }
+          }
+        },
+        {
+          "value": "../TileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 31
+            },
+            "end": {
+              "line": 2,
+              "column": 50
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileInterBehaviour.ts": {
+      "mTimestamp": {
+        "mtime": 1659623231622.9524,
+        "uuid": "79c62c7f-1b39-49b7-8246-8174d4445350"
+      },
+      "chunkId": "f1509ca17c136333f01663bb0e025145892d2e90",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../TileInterBehaviour",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 35
+            },
+            "end": {
+              "line": 4,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "./BombTileController",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 35
+            },
+            "end": {
+              "line": 6,
+              "column": 57
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/BombTile/BombTileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts": {
+      "mTimestamp": {
+        "mtime": 1659191808574.5837,
+        "uuid": "f8d52abe-a2d6-47d7-93f1-99330314869a"
+      },
+      "chunkId": "76997d37d0e43f682e241daa30013eccf6a8b94e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../field/FieldController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 32
+            },
+            "end": {
+              "line": 2,
+              "column": 58
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/field/FieldController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileController.ts": {
+      "mTimestamp": {
+        "mtime": 1659512365606.123,
+        "uuid": "fce3c8b2-f16f-4ffb-a73e-4342deaf1b96"
+      },
+      "chunkId": "bb07ae9a318b15904fc8c50a405681327d515b0b",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 15,
+              "column": 7
+            },
+            "end": {
+              "line": 15,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "../TileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 16,
+              "column": 31
+            },
+            "end": {
+              "line": 16,
+              "column": 50
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileInterBehaviour.ts": {
+      "mTimestamp": {
+        "mtime": 1659623231622.9524,
+        "uuid": "f7470902-61ea-40b5-97ba-6d13de4f3991"
+      },
+      "chunkId": "ac5ecd923a8ebf650df23112647d3abbee0a9197",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../TileInterBehaviour",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 35
+            },
+            "end": {
+              "line": 4,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "./RocketTileController",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 37
+            },
+            "end": {
+              "line": 6,
+              "column": 61
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/RocketTile/RocketTileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileController.ts": {
+      "mTimestamp": {
+        "mtime": 1659639737766.1926,
+        "uuid": "80ae39e2-3558-49dd-b240-895a367a8002"
+      },
+      "chunkId": "6d5b2297aaa6bbd0d431e4d488078419fa6b7ec0",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 7
+            },
+            "end": {
+              "line": 14,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "../TileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 15,
+              "column": 31
+            },
+            "end": {
+              "line": 15,
+              "column": 50
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileInterBehaviour.ts": {
+      "mTimestamp": {
+        "mtime": 1659624590121.2974,
+        "uuid": "997b1cdf-5592-418b-a800-0129148a1b7a"
+      },
+      "chunkId": "74f039e661332b2e1832eddd24fab14066a7b275",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../TileInterBehaviour",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 35
+            },
+            "end": {
+              "line": 4,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "./StarTileController",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 35
+            },
+            "end": {
+              "line": 6,
+              "column": 57
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileStateToColor.ts": {
+      "mTimestamp": {
+        "mtime": 1659642149746.7983,
+        "uuid": "90b6e721-1366-46d0-b7c7-36b3856a913c"
+      },
+      "chunkId": "9c182d3ca7211f9afb77b7a28165b778d7048c6b",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 7
+            },
+            "end": {
+              "line": 6,
+              "column": 11
+            }
+          }
+        },
+        {
+          "value": "./TileState",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 26
+            },
+            "end": {
+              "line": 7,
+              "column": 39
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileInterBehaviour.ts": {
+      "mTimestamp": {
+        "mtime": 1659518288528.8618,
+        "uuid": "cc7bc8d5-ab51-4ec7-94a2-4f14965a2f0f"
+      },
+      "chunkId": "e4ba68b8eb260f3973cf5818473b457cbc94a3fe",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../StarTile/StarTileController",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 35
+            },
+            "end": {
+              "line": 3,
+              "column": 67
+            }
+          }
+        },
+        {
+          "value": "../TileInterBehaviour",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 35
+            },
+            "end": {
+              "line": 5,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "../TileState",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 26
+            },
+            "end": {
+              "line": 6,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "./StdTileController",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 34
+            },
+            "end": {
+              "line": 7,
+              "column": 55
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/StarTile/StarTileController.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileInterBehaviour.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/TileState.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///C:/Projects/Cocos/ClbBlast/assets/entities/tiles/UsualTile/StdTileController.ts"
+          },
+          "messages": []
+        }
+      ]
+    }
+  }
+}

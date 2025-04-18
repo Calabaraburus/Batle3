@@ -1,0 +1,134 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+// 老照片特效
+// 原理：
+// r = 0.393 * r + 0.769 * g + 0.189 * b; 
+// g = 0.349 * r + 0.686 * g + 0.168 * b; 
+// b = 0.272 * r + 0.534 * g + 0.131 * b;
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        alphaThreshold: { value: 0.5 }
+        oldLevel: {
+          value: 1.0,
+          editor: {
+            tooltip: "Effect level",
+            range: [0.0, 1.0]
+          }
+        }
+}%
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/alpha-test>
+
+  in vec4 color;
+
+  #if USE_OLD_PHOTO
+  uniform OldPhoto {
+    // 老化程度
+    float oldLevel;
+  };
+
+  /**
+   * 获取老化颜色
+   * 
+   * @param color 原始颜色 
+   *
+   * @return 老化后的颜色
+   */
+  vec4 getOldPhotoColor(vec4 color_in) {
+    float r = 0.393 * color_in.r + 0.769 * color_in.g + 0.189 * color_in.b; 
+    float g = 0.349 * color_in.r + 0.686 * color_in.g + 0.168 * color_in.b; 
+    float b = 0.272 * color_in.r + 0.534 * color_in.g + 0.131 * color_in.b;
+    return vec4(r, g, b, color_in.a);
+  }
+  #endif
+
+  #if USE_TEXTURE
+    in vec2 uv0;
+    #pragma builtin(local)
+    layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  #endif
+
+  vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+      #if IS_GRAY
+        float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;
+        o.r = o.g = o.b = gray;
+      #endif
+    #endif
+
+    o *= color;
+    ALPHA_TEST(o);
+
+     #if USE_OLD_PHOTO
+    vec4 srcColor = o;
+    vec4 oldColor = getOldPhotoColor(srcColor);
+
+    // o = srcColor + (oldColor - srcColor) * oldLevel;
+    o = mix(srcColor, oldColor, oldLevel);
+    #endif
+
+    return o;
+  }
+}%

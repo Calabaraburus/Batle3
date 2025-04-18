@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "bf6l88j0NAvp0UVX6m5aD1@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "поле",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1635,
+                "height": 1819
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 1635,
+                "height": 1819
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

@@ -1,0 +1,425 @@
+[
+  {
+    "__type__": "cc.animation.AnimationGraph",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_native": "",
+    "_layers": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_variables": {
+      "next": {
+        "__id__": 35
+      }
+    }
+  },
+  {
+    "__type__": "cc.animation.Layer",
+    "_stateMachine": {
+      "__id__": 2
+    },
+    "name": "",
+    "weight": 1,
+    "mask": null,
+    "additive": false,
+    "_stashes": {}
+  },
+  {
+    "__type__": "cc.animation.StateMachine",
+    "__editorExtras__": {
+      "name": "",
+      "id": "c6fec6a1-8bdc-4e0e-8015-e22dcc9ee467",
+      "clone": null
+    },
+    "_states": [
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 18
+      }
+    ],
+    "_transitions": [
+      {
+        "__id__": 22
+      },
+      {
+        "__id__": 23
+      },
+      {
+        "__id__": 27
+      },
+      {
+        "__id__": 31
+      }
+    ],
+    "_entryState": {
+      "__id__": 3
+    },
+    "_exitState": {
+      "__id__": 4
+    },
+    "_anyState": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "a4897ea2-d5d3-4b18-b134-8b78d9b97612",
+      "clone": null,
+      "centerX": -161,
+      "centerY": 3
+    },
+    "name": "Entry"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "6673e22f-f4b4-4a47-94d9-262887895a99",
+      "clone": null,
+      "centerX": 125,
+      "centerY": 0
+    },
+    "name": "Exit"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "095fbde4-055a-4a18-aada-5bc905ddc7a0",
+      "clone": null,
+      "centerX": 331,
+      "centerY": 89
+    },
+    "name": "Any"
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "55d7a644-8ef7-4c92-8d20-752cc926a8fd",
+      "clone": null,
+      "centerX": -43.25,
+      "centerY": 0.5
+    },
+    "name": "tutor2_0",
+    "_components": [],
+    "motion": {
+      "__id__": 7
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 8
+    },
+    "transitionOutEventBinding": {
+      "__id__": 9
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "a75bb3f8-3242-422b-b238-ca1b76014d24",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "b5506373-0964-4dd0-ad19-6bbcf658b1b5",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "21506813-4f2c-4003-adb5-ee78c78f1e15",
+      "clone": null,
+      "centerX": 66.75,
+      "centerY": -1
+    },
+    "name": "tutor2_1",
+    "_components": [],
+    "motion": {
+      "__id__": 11
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 12
+    },
+    "transitionOutEventBinding": {
+      "__id__": 13
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "1599edb9-d065-4f37-a98d-f4a5d26a3744",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "835d4257-7670-492a-9008-5c05dacf982d",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "469af42a-5ef4-4c8c-aec6-3bf7f432a5f8",
+      "clone": null,
+      "centerX": 178.75,
+      "centerY": 1
+    },
+    "name": "tutor2_2",
+    "_components": [],
+    "motion": {
+      "__id__": 15
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 16
+    },
+    "transitionOutEventBinding": {
+      "__id__": 17
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "a53162d8-97d7-4115-9d3a-d3531f2102aa",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "17b73806-340f-4e04-b772-65c49d055633",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "e5104e19-52c7-416a-a338-7622aa78e10b",
+      "clone": null,
+      "centerX": -41.25,
+      "centerY": 61
+    },
+    "name": "tutor2_3",
+    "_components": [],
+    "motion": {
+      "__id__": 19
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 20
+    },
+    "transitionOutEventBinding": {
+      "__id__": 21
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "0053260a-ef73-4bc8-b7d4-6466409d95bf",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "e09b359a-672c-49fb-aaac-a8054f6510d8",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 3
+    },
+    "to": {
+      "__id__": 6
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.AnimationTransition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 6
+    },
+    "to": {
+      "__id__": 10
+    },
+    "conditions": [
+      {
+        "__id__": 24
+      }
+    ],
+    "destinationStart": 0,
+    "relativeDestinationStart": false,
+    "startEventBinding": {
+      "__id__": 25
+    },
+    "endEventBinding": {
+      "__id__": 26
+    },
+    "duration": 0.3,
+    "relativeDuration": false,
+    "exitConditionEnabled": false,
+    "_exitCondition": 1
+  },
+  {
+    "__type__": "cc.animation.TriggerCondition",
+    "trigger": "next"
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationTransition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 10
+    },
+    "to": {
+      "__id__": 14
+    },
+    "conditions": [
+      {
+        "__id__": 28
+      }
+    ],
+    "destinationStart": 0,
+    "relativeDestinationStart": false,
+    "startEventBinding": {
+      "__id__": 29
+    },
+    "endEventBinding": {
+      "__id__": 30
+    },
+    "duration": 0.3,
+    "relativeDuration": false,
+    "exitConditionEnabled": false,
+    "_exitCondition": 1
+  },
+  {
+    "__type__": "cc.animation.TriggerCondition",
+    "trigger": "next"
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationTransition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 14
+    },
+    "to": {
+      "__id__": 18
+    },
+    "conditions": [
+      {
+        "__id__": 32
+      }
+    ],
+    "destinationStart": 0,
+    "relativeDestinationStart": false,
+    "startEventBinding": {
+      "__id__": 33
+    },
+    "endEventBinding": {
+      "__id__": 34
+    },
+    "duration": 0.3,
+    "relativeDuration": false,
+    "exitConditionEnabled": false,
+    "_exitCondition": 1
+  },
+  {
+    "__type__": "cc.animation.TriggerCondition",
+    "trigger": "next"
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.TriggerVariable",
+    "_flags": 2
+  }
+]

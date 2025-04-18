@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "55cGqVRAZALJGkes+YVxAq@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "bonusButton_back",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 437,
+                "height": 451
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 437,
+                "height": 451
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

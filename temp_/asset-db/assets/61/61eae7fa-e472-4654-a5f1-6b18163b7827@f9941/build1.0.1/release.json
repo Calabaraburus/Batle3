@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "616uf65HJGVKXxaxgWO3gn@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "red_star",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 240,
+                "height": 226
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 240,
+                "height": 226
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

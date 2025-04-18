@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "96caqjOS1JqLV+0mue4D/7@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "red_rocket",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 260,
+                "height": 255
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 260,
+                "height": 255
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

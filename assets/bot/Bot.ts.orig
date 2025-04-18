@@ -1,0 +1,296 @@
+//  Bot.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { randomRangeInt, tween, _decorator } from "cc";
+import { FieldAnalizer } from "../entities/field/FieldAnalizer";
+import type { ITileField } from "../entities/field/ITileField";
+import { TileTypeToConnectedTiles } from "../entities/field/AnalizedData";
+
+import { IBot } from "./IBot";
+import { FieldController } from "../entities/field/FieldController";
+import { TileController } from "../entities/tiles/TileController";
+import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
+import { Service } from "../entities/services/Service";
+import { TileService } from "../entities/services/TileService";
+import { PlayerModel } from "../models/PlayerModel";
+import { DataService } from "../entities/services/DataService";
+import { MnemonicMapping } from "../models/MnemonicMapping";
+import { GameManager } from "../entities/game/GameManager";
+import { FirewallCardBotAnalizator } from "./FirewallCardBotAnalizator";
+import { NextStepAttackTilesBotAnalizator } from "./NextStepAttackTilesBotAnalizator";
+import { BotAnalizator } from "./BotAnalizator";
+import { LightningCardBotAnalizator } from "./LightningCardBotAnalizator";
+import { lightning } from "../entities/effects/lightning";
+import { MaxTilesAttackBotAnalizator } from "./MaxTilesAttackBotAnalizator";
+import { ProtectionTilesAttackBotAnalizator } from "./ProtectionTilesAttackBotAnalizator";
+import { ShieldCardBotAnalizator } from "./ShieldCardBotAnalizator";
+import { CardService } from "../entities/services/CardService";
+import { BodyExchangeCardBotAnalizator } from "./BodyExchangeCardBotAnalizator";
+import { MeteoriteCardBotAnalizator } from "./MeteoriteCardBotAnalizator";
+import { MeteoriteLowCardBotAnalizator } from "./MeteoriteLowCardBotAnalizator";
+import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnalizator";
+import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
+import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
+import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
+import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
+import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
+import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
+import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
+import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
+import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+<<<<<<< HEAD
+import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
+import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
+import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
+import { LightningLowCardBotAnalizator } from "./LightningLowCardBotAnalizator";
+import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnalizator";
+=======
+import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
+const { ccclass, property } = _decorator;
+
+interface BotAnalizatorGroup {
+  [key: string]: BotAnalizator;
+}
+
+@ccclass("Bot")
+export class Bot extends Service implements IBot {
+  @property({ type: FieldController })
+  field: ITileField;
+  private _analizer: FieldAnalizer;
+  private _botModel: PlayerModel | null | undefined;
+  private _dataService: DataService | null;
+  private _tileService: TileService | null;
+  private _cardService: CardService | null;
+  private _gameManager: GameManager | null;
+
+  private tileAnalisers: BotAnalizatorGroup = {
+    largestGroup: new MaxTilesAttackBotAnalizator(this),
+    protect: new ProtectionTilesAttackBotAnalizator(this),
+    nextStep: new NextStepAttackTilesBotAnalizator(this),
+  };
+
+  cardAnalizers: CardAnalizator[] = [
+    // Shield card
+    new ShieldCardBotAnalizator("shield", this),
+<<<<<<< HEAD
+=======
+
+    // Lightning card analiser
+    new LightningCardBotAnalizator("lightning", this),
+
+    // Fire wall analizer
+    new FirewallCardBotAnalizator("firewall", this),
+
+    // Body exchange analizer
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
+    new BodyExchangeCardBotAnalizator("bodyexchange", this),
+
+    // Firewall cards
+    new FirewallCardBotAnalizator("firewall", this),
+    new FirewallLowCardBotAnalizator("firewallLow", this),
+    new FirewallMiddleCardBotAnalizator("firewallMiddle", this),
+
+    // Lightning cards
+    new LightningCardBotAnalizator("lightning", this),
+    new LightningLowCardBotAnalizator("lightningLow", this),
+    new LightningMiddleCardBotAnalizator("lightningMiddle", this),
+
+    // Meteorite cards
+    new MeteoriteCardBotAnalizator("meteorite", this),
+    new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteModdle", this),
+
+    // Worm cards
+    new WormCardBotAnalizator("worm", this),
+    new WormLowCardBotAnalizator("wormLow", this),
+    new WormMiddleCardBotAnalizator("wormMiddle", this),
+
+    // Catapult card
+    new CatapultCardBotAnalizator("catapult", this),
+
+    // Shaman card
+    new ShamanCardBotAnalizator("shaman", this),
+
+    // Assassin card
+    new AssassinCardBotAnalizator("assasin", this),
+
+    // Push card
+    new PushCardBotAnalizator("push", this),
+
+    //Counterattack card
+    new CounterattackCardBotAnalizator("c_attack", this),
+
+<<<<<<< HEAD
+    //Teleport card
+    new TeleportCardBotAnalizator("teleport", this),
+=======
+    // Mine card analizer
+    new MineCardBotAnalizator("mine", this),
+
+    // Totem card analizator
+    new TotemCardBotAnalizator("totem", this),
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
+  ];
+
+  public get dataService() {
+    return this._dataService;
+  }
+
+  public get cardService() {
+    return this._cardService;
+  }
+
+  public get tileService() {
+    return this._tileService;
+  }
+
+  public get botModel() {
+    return this._botModel;
+  }
+
+  public get analizer() {
+    return this._analizer;
+  }
+
+  start() {
+    this._dataService = this.getService(DataService);
+    this._tileService = this.getService(TileService);
+    this._gameManager = this.getService(GameManager);
+    this._cardService = this.getService(CardService);
+
+    if (this._dataService?.field != null)
+      this._analizer = new FieldAnalizer(this._dataService?.field);
+    this._botModel = this._dataService?.botModel;
+  }
+
+  public move(): void {
+    let analized_data = this._analizer.analize();
+
+    const tilesMove = () => {
+      console.log("[Bot] Search for cull strategy");
+
+      for (const key in this.tileAnalisers) {
+        if (Object.prototype.hasOwnProperty.call(this.tileAnalisers, key)) {
+          const element = this.tileAnalisers[key] as BotAnalizator;
+          if (element != null) {
+            element.analize(analized_data);
+          }
+        }
+      }
+
+      const atkWeight = this.calcAttacked(true) - this.calcAttacked(false);
+      console.log(`[Bot] Atack weight: ${atkWeight}`);
+
+      if (atkWeight < 0) {
+        if (this.tileAnalisers.protect.weight > 0) {
+          this.tileAnalisers.protect.decide();
+        } else {
+          this.tileAnalisers.largestGroup.decide();
+        }
+      } else {
+        if (this.tileAnalisers.nextStep.weight < 1) {
+          this.tileAnalisers.largestGroup.decide();
+        } else {
+          console.log(`[Bot] Attack.`);
+          this.tileAnalisers.nextStep.decide();
+        }
+      }
+
+      return true;
+    };
+
+    const twobj = { time: 0 };
+
+    const analizersQueue: BotAnalizator[] = [];
+
+    const baseTween = tween(twobj);
+
+    console.log("[Bot] analize cards");
+
+    this.cardAnalizers.forEach((a) => {
+      if (this.botModel?.bonuses.find((bm) => bm.mnemonic == a.cardMnemonic)) {
+        analizersQueue.push(a);
+      }
+    });
+
+    const childTween = tween(twobj)
+      .call(() => {
+        if (!this._gameManager?.isBehavioursInProccess) {
+          console.log("[Bot] All behaviours stop to prossed");
+          console.log("[Bot] Reanalize data");
+
+          analized_data = this._analizer.analize();
+
+          if (analizersQueue.length == 0) {
+            tilesMove();
+
+            console.log("[Bot] stop analizers tween");
+
+            baseTween.stop();
+            return;
+          }
+
+          console.log("[Bot] pick up next analizer");
+          const analizer = analizersQueue.pop();
+
+          if (analizer == null) return;
+
+          if (analizer.analize(analized_data) >= 1) {
+            console.log("[Bot] deside too activate card");
+            analizer.decide();
+          }
+        }
+      })
+      .delay(0.1);
+
+    baseTween.repeatForever(childTween).start();
+  }
+
+  pressTileSet(tiles: Set<TileController>) {
+    this.pressTileArray(new Array(...tiles.values()));
+  }
+
+  pressTileArray(tiles: TileController[]) {
+    const tileId = randomRangeInt(0, tiles.length);
+    const tileToPress = Array.from(tiles.values());
+    this.pressTile(tileToPress[tileId]);
+  }
+
+  pressTile(tile: TileController | null) {
+    tile?.clicked();
+    console.log(`[Bot] Clicked tile r:${tile?.row} c:${tile?.col}`);
+  }
+
+  private analize(): boolean {
+    throw new Error();
+    //field.logicField;
+  }
+
+  private calcAttacked(byMe = true): number {
+    let result = 0;
+    for (let index = 0; index < this.field.fieldModel.cols; index++) {
+      const startTile = this.field.getStartTile(index);
+      const endTile = this.field.getEndTile(index);
+
+      if (startTile != null && endTile != null) {
+        const frwd = endTile?.row - startTile?.row > 0 ? true : false;
+        const rowId =
+          (byMe ? startTile.row : endTile.row) + (frwd && byMe ? 1 : -1);
+
+        const tile = this.field.fieldMatrix.get(rowId, index);
+        if (tile.tileModel.containsTag(byMe ? "enemy" : "player")) {
+          result++;
+        }
+      }
+    }
+
+    return result;
+  }
+}

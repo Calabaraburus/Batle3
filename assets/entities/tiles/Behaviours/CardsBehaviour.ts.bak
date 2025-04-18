@@ -1,0 +1,185 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { tween, _decorator, Node, director } from "cc";
+import { PlayerModel } from "../../../models/PlayerModel";
+import { helpers } from "../../../scripts/helpers";
+import { GameBehaviour } from "../../behaviours/GameBehaviour";
+import { CardService } from "../../services/CardService";
+import { StdTileController } from "../UsualTile/StdTileController";
+import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
+import { CounterattackCardSubehaviour } from "./CounterattackCardSubehaviour";
+import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
+import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
+import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
+import { ISubBehaviour } from "./ISubBehaviour";
+<<<<<<< HEAD
+import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
+import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
+import { LightningMiddleCardSubehaviour } from "./LightningMiddleCardSubehaviour";
+import { MeteoriteCardSubehaviour } from "./MeteoriteCardSubehaviour";
+import { MeteoriteLowCardSubehaviour } from "./MeteoriteLowCardSubehaviour";
+import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour";
+import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
+import { PushCardSubehaviour } from "./PushCardSubehaviour";
+import { RecruitEnemyCardSubehaviour } from "./RecruitEnemyCardSubehaviour";
+=======
+import { LightningCardSubehaviour } from "./lightningCard";
+import { MineCardSubehaviour } from "./MineCardSubehaviour";
+>>>>>>> a81004031552358f319a1034e86dae261d370dc8
+import { ShieldCardSubehaviour } from "./shieldCardBehave";
+import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
+import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
+import { WormCardSubehaviour } from "./WormCardSubehaviour";
+import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
+import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
+import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
+const { ccclass } = _decorator;
+
+@ccclass("CardsBehaviour")
+export class CardsBehaviour extends GameBehaviour {
+  private _cardsRunDict = new Map<string, ISubBehaviour>();
+  private _cardsService: CardService | null;
+  private _effectsNode: Node | null;
+
+  public get effectsNode(): Node | null {
+    return this._effectsNode;
+  }
+  public get cardsService() {
+    return this._cardsService;
+  }
+
+  constructor() {
+    super();
+    this.type = helpers.typeName(StdTileController);
+
+    // Firewall cards
+    this._cardsRunDict.set("firewallLow", new FirewallLowCardSubehaviour(this));
+    this._cardsRunDict.set(
+      "firewallMiddle",
+      new FirewallMiddleCardSubehaviour(this)
+    );
+    this._cardsRunDict.set("firewall", new FirewallCardSubehaviour(this));
+
+    // Lightning cards
+    this._cardsRunDict.set(
+      "lightningLow",
+      new LightningLowCardSubehaviour(this)
+    );
+    this._cardsRunDict.set(
+      "lightningMiddle",
+      new LightningMiddleCardSubehaviour(this)
+    );
+    this._cardsRunDict.set("lightning", new LightningCardSubehaviour(this));
+
+    this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
+    this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
+    this._cardsRunDict.set("mine", new MineCardSubehaviour(this));
+    this._cardsRunDict.set(
+      "bodyExchange",
+      new BodyExchangeCardSubehaviour(this)
+    );
+
+    // Metiorite cards
+    this._cardsRunDict.set(
+      "meteoriteLow",
+      new MeteoriteLowCardSubehaviour(this)
+    );
+    this._cardsRunDict.set(
+      "meteoriteMiddle",
+      new MeteoriteMiddleCardSubehaviour(this)
+    );
+    this._cardsRunDict.set("meteorite", new MeteoriteCardSubehaviour(this));
+
+    // Worm cards
+    this._cardsRunDict.set("wormLow", new WormLowCardSubehaviour(this));
+    this._cardsRunDict.set("wormMiddle", new WormMiddleCardSubehaviour(this));
+    this._cardsRunDict.set("worm", new WormCardSubehaviour(this));
+
+    // Catapult card
+    this._cardsRunDict.set("catapult", new CatapultCardSubehaviour(this));
+
+    // Panic card
+    this._cardsRunDict.set("panic", new PanicCardSubehaviour(this));
+
+    // Teleport card
+    this._cardsRunDict.set("teleport", new TeleportCardSubehaviour(this));
+
+    // Counterattack card
+    this._cardsRunDict.set("c_attack", new CounterattackCardSubehaviour(this));
+
+    // RecruitEnemy card
+    this._cardsRunDict.set("recruit", new RecruitEnemyCardSubehaviour(this));
+
+    // RecruitEnemy card
+    this._cardsRunDict.set("push", new PushCardSubehaviour(this));
+  }
+
+  start() {
+    super.start();
+    const scene = director.getScene();
+    if (scene != undefined) {
+      this._effectsNode = scene.getChildByName("ParticleEffects");
+    }
+
+    this._cardsService = this.getService(CardService);
+  }
+
+  activateCondition(): boolean {
+    const model = this._cardsService?.getCurrentPlayerModel();
+    return model != null ? model.activeBonus != null : false;
+  }
+
+  singleRun(): void {
+    if (this.target == undefined) {
+      throw Error("[behaviour][cardsBehaviour] tile cant be undefined");
+    }
+    this.debug?.log("[behaviour][cardsBehaviour] cardsSingleRun");
+    this._inProcess = true;
+    const model = this._cardsService?.getCurrentPlayerModel();
+    const mnemonic = model?.activeBonus?.mnemonic;
+    if (mnemonic == null) return;
+
+    if (this._cardsRunDict.has(mnemonic)) {
+      const subBehave = this._cardsRunDict.get(mnemonic);
+
+      if (subBehave != undefined) {
+        if (subBehave.prepare()) {
+          subBehave.effect();
+
+          tween(this)
+            .delay(subBehave.effectDuration)
+            .call(() => {
+              if (subBehave.run()) {
+                this.finalize();
+              }
+            })
+            .start();
+        }
+      }
+    }
+  }
+
+  finalize(): void {
+    const model = this._cardsService?.getCurrentPlayerModel();
+
+    if (model != null) {
+      this.payCardPrice(model);
+      model.activeBonus!.alreadyUsedOnTurn = true;
+      this.deactivateBonus(model);
+      this.cardsService?.updateBonusesActiveState();
+    }
+
+    this.levelController?.updateData();
+
+    this.updateTileField();
+    this._inProcess = false;
+  }
+
+  payCardPrice(model: PlayerModel): void {
+    const curPlayer = this.cardsService!.getCurrentPlayerModel();
+    curPlayer!.manaCurrent -= model.activeBonus!.priceToActivate;
+  }
+
+  deactivateBonus(model: PlayerModel) {
+    model.unSetBonus();
+  }
+}

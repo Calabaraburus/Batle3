@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "63F4AMoQlE1oHj2Uqn9twp@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "purple_bomb",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 252
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 248,
+                "height": 252
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

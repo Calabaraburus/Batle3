@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8929059025",
+    "project_id": "rift-of-the-ranks",
+    "storage_bucket": "rift-of-the-ranks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8929059025:android:ec3a7d4748a68cfc6aa5f0",
+        "android_client_info": {
+          "package_name": "com.calabaraburus.batle2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaV1i3vZXlsD0Ir126QBKl4xZNyQcbQn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

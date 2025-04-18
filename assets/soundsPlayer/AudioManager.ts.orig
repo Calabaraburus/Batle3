@@ -1,0 +1,134 @@
+//  AudioManager.ts - ClbBlast
+//
+//  Calabaraburus (c) 2023
+//
+//  Author:Natalchishin Taras
+
+import { Node, AudioSource, AudioClip, resources, director, assert } from "cc";
+
+/**
+ * this is a sington class for audio play, can be easily called from anywhere in you project.
+ */
+export class AudioManager {
+  private mgrNodeName = "__audioMgr__";
+
+  private static _inst: AudioManager;
+  public static get instance(): AudioManager {
+    if (this._inst == null) {
+      this._inst = new AudioManager();
+    }
+    return this._inst;
+  }
+
+  private _audioSource: AudioSource;
+  constructor() {
+    // add to the scene.
+    const scene = director.getScene();
+
+    assert(scene, "Scene is null");
+
+    let audioMgr = scene.getChildByName(this.mgrNodeName);
+
+    if (audioMgr == null) {
+      // create a node as audioMgr
+      audioMgr = new Node();
+      audioMgr.name = this.mgrNodeName;
+
+      scene.addChild(audioMgr);
+
+      //@en make it as a persistent node, so it won't be destroied when scene change.
+      director.addPersistRootNode(audioMgr);
+
+      //@en add AudioSource componrnt to play audios.
+      this._audioSource = audioMgr.addComponent(AudioSource);
+    } else {
+      const ast = audioMgr.getComponent(AudioSource);
+
+      assert(ast, "Can't find audio source");
+
+      this._audioSource = ast;
+    }
+  }
+
+  public get audioSource() {
+    return this._audioSource;
+  }
+
+  /**
+   * @en
+   * play short audio, such as strikes,explosions
+   * @zh
+   * 播放短音频,比如 打击音效，爆炸音效等
+   * @param sound clip or url for the audio
+   * @param volume
+   */
+  playOneShot(sound: AudioClip | string, volume = 1.0) {
+    if (sound instanceof AudioClip) {
+      this._audioSource.playOneShot(sound, volume);
+    } else {
+      resources.load(sound, (err, clip: AudioClip) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this._audioSource.playOneShot(clip, volume);
+        }
+      });
+    }
+  }
+
+<<<<<<< HEAD
+  playMusic(audioName: string) {
+    const music = this.getTargetMusic(audioName);
+    if (!music) return;
+    this.audioSource.clip = music;
+
+    this.audioSource.play();
+=======
+  /**
+   * @en
+   * play long audio, such as the bg music
+   * @zh
+   * 播放长音频，比如 背景音乐
+   * @param sound clip or url for the sound
+   * @param volume
+   */
+  play(sound: AudioClip | string, volume = 1.0) {
+    if (sound instanceof AudioClip) {
+      this._audioSource.clip = sound;
+      this._audioSource.play();
+      this.audioSource.volume = volume;
+    } else {
+      resources.load(sound, (err, clip: AudioClip) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this._audioSource.clip = clip;
+          this._audioSource.play();
+          this.audioSource.volume = volume;
+        }
+      });
+    }
+>>>>>>> a6e45704a1dd7ab9c8aeef8b4317b13ba305e5d1
+  }
+
+  /**
+   * stop the audio play
+   */
+  stop() {
+    this._audioSource.stop();
+  }
+
+  /**
+   * pause the audio play
+   */
+  pause() {
+    this._audioSource.pause();
+  }
+
+  /**
+   * resume the audio play
+   */
+  resume() {
+    this._audioSource.play();
+  }
+}

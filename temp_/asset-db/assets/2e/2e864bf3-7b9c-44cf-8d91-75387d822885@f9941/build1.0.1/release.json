@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "2ehkvze5xEz42RdTh9giiF@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "green_bomb",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 252
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 248,
+                "height": 252
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

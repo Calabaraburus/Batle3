@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "8dCh6IyaxAIY+UiI56Cc+I@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "fireworks_h_p2",
+            "rect": {
+                "x": 0,
+                "y": 3,
+                "width": 131,
+                "height": 197
+            },
+            "offset": {
+                "x": -3,
+                "y": -1.5
+            },
+            "originalSize": {
+                "width": 137,
+                "height": 200
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

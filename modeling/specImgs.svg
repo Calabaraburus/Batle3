@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="specImgs.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.25606581"
+     inkscape:cx="400.28773"
+     inkscape:cy="560.40282"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter2"
+       x="-0.21701184"
+       y="-0.16520901"
+       width="1.4340237"
+       height="1.330418">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="11.024657"
+         id="feGaussianBlur2" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3"
+       x="-0.50744329"
+       y="-0.28484595"
+       width="2.0148866"
+       height="1.5696919">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="24.249913"
+         id="feGaussianBlur3" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="fill:#ffe680;stroke-width:0.529167"
+       id="path1"
+       inkscape:flatsided="false"
+       sodipodi:sides="4"
+       sodipodi:cx="31.782288"
+       sodipodi:cy="60.642067"
+       sodipodi:r1="91.99015"
+       sodipodi:r2="15.046957"
+       sodipodi:arg1="0.91776413"
+       sodipodi:arg2="1.7075937"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 87.675273,133.70479 29.730317,75.548453 -41.280438,116.53505 16.875902,58.590097 -24.110698,-12.420659 33.834258,45.735681 104.84501,4.7490813 46.688673,62.694037 Z"
+       transform="translate(70.870849,59.911439)"
+       inkscape:export-filename="starForSoulEffect.png"
+       inkscape:export-xdpi="8.6911621"
+       inkscape:export-ydpi="8.6911621" />
+    <ellipse
+       style="fill:#ffffff;stroke-width:0.529167;filter:url(#filter2);fill-opacity:1"
+       id="path2"
+       cx="317.21173"
+       cy="132.77429"
+       rx="60.962521"
+       ry="80.077888"
+       inkscape:export-filename="soulCardEffectGlow.png"
+       inkscape:export-xdpi="8.6911621"
+       inkscape:export-ydpi="8.6911621" />
+    <g
+       id="g3"
+       style="filter:url(#filter3)"
+       inkscape:export-filename="..\assets\entities\textures\conforeffects.png"
+       inkscape:export-xdpi="5.0305295"
+       inkscape:export-ydpi="5.0305295">
+      <ellipse
+         style="fill:#ffffff;fill-opacity:1;stroke-width:0.529167"
+         id="path3"
+         cx="-175.13808"
+         cy="52.696415"
+         rx="57.3461"
+         ry="59.929256" />
+      <path
+         id="rect3"
+         style="fill:#ffffff;stroke-width:0.472326"
+         d="m -176.32084,-91.694558 58.52886,131.887632 -56.16334,66.778466 -58.52886,-66.778466 z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+  </g>
+</svg>

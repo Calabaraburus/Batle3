@@ -1,0 +1,59 @@
+import { _decorator, Component, Node } from "cc";
+import { Service } from "./Service";
+import { TileController } from "../tiles/TileController";
+import { TileModel } from "../../models/TileModel";
+const { ccclass, property } = _decorator;
+
+@ccclass("MatchStatisticService")
+export class MatchStatisticService extends Service {
+  tilesNumber: number;
+  swordNumber: number;
+  bowNumber: number;
+  shieldNumber: number;
+
+  tilesNumberEnemy: number;
+  swordNumberEnemy: number;
+  bowNumberEnemy: number;
+  shieldNumberEnemy: number;
+
+  startTileStatistic() {
+    this.tilesNumber = 0;
+    this.swordNumber = 0;
+    this.bowNumber = 0;
+    this.shieldNumber = 0;
+
+    this.tilesNumberEnemy = 0;
+    this.swordNumberEnemy = 0;
+    this.bowNumberEnemy = 0;
+    this.shieldNumberEnemy = 0;
+  }
+
+  updateTapTileStatistic(tilesNumber: number, typeTile: TileModel) {
+    switch (typeTile.tileName) {
+      case "b":
+        this.tilesNumber += tilesNumber;
+        this.swordNumber += tilesNumber;
+        break;
+      case "k":
+        this.tilesNumber += tilesNumber;
+        this.bowNumber += tilesNumber;
+        break;
+      case "g":
+        this.tilesNumber += tilesNumber;
+        this.shieldNumber += tilesNumber;
+        break;
+      case "r":
+        this.tilesNumberEnemy += tilesNumber;
+        this.swordNumberEnemy += tilesNumber;
+        break;
+      case "p":
+        this.tilesNumberEnemy += tilesNumber;
+        this.bowNumberEnemy += tilesNumber;
+        break;
+      case "y":
+        this.tilesNumberEnemy += tilesNumber;
+        this.shieldNumberEnemy += tilesNumber;
+        break;
+    }
+  }
+}

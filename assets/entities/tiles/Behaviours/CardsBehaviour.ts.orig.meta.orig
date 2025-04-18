@@ -1,0 +1,16 @@
+{
+  "ver": "1.0.0",
+  "importer": "*",
+  "imported": true,
+<<<<<<< HEAD
+  "uuid": "3c8ac8b2-606f-435e-ae02-d864bd19f89a",
+=======
+  "uuid": "3621c38b-c131-490d-b636-623479ab90cc",
+>>>>>>> my-temporary-work
+  "files": [
+    ".json",
+    ".orig"
+  ],
+  "subMetas": {},
+  "userData": {}
+}

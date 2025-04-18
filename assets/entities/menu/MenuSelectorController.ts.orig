@@ -1,0 +1,94 @@
+import { _decorator, assert, director, Node } from "cc";
+import { MainMenu } from "./MainMenu";
+import { LoaderScreen } from "./LoaderScreen";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { SettingsLoader } from "../services/SettingsLoader";
+import { GameState } from "../game/GameState";
+import { GameParameters } from "../game/GameParameters";
+const { ccclass, property } = _decorator;
+
+@ccclass("MenuSelectorController")
+export class MenuSelectorController extends MainMenu {
+  private _tarnsitionScene = new LoaderScreen();
+  private _aManager: AudioManagerService | null | undefined;
+
+  @property(Node)
+  sections: Node[] = [];
+
+  settingsLoader: SettingsLoader;
+  parameters: GameParameters;
+  state: GameState;
+
+  start(): void {
+    this.init();
+
+    this._aManager = this.getService(AudioManagerService);
+
+    assert(this._aManager, "Can't find AudioManagerService");
+
+    this._aManager.playMusic("start_menu");
+
+    const tService = this.getService(SettingsLoader);
+
+    assert(tService, "SettingsLoader can't be found");
+
+    this.settingsLoader = tService;
+
+    this.parameters = this.settingsLoader.gameParameters;
+    this.state = this.settingsLoader.gameState;
+
+    this.settingSound(this, this.parameters.soundLevel.toString());
+    this.settingMusic(this, this.parameters.musicLevel.toString());
+  }
+
+  onLoad(): void {
+    this._aManager = this.getComponent(AudioManagerService);
+  }
+
+  openSectionMenu(sender: object, sectionMenu: string): void {
+<<<<<<< HEAD
+    this.menuSections.forEach((name) => {
+      if (name != sectionMenu) {
+        const menuFrom = find(name, this.node);
+        if (menuFrom != null) {
+          menuFrom.active = false;
+        }
+=======
+    this.sections.forEach((section) => {
+      if (section.name != sectionMenu) {
+        section.active = false;
+      } else {
+        section.active = true;
+>>>>>>> 61a2d31dc5cfc9c977f345843b4727aece320476
+      }
+    });
+  }
+
+  loadScene(sender: object, sceneName: string): void {
+    // stop start audio track
+    const currentScene = director.getScene()?.name;
+    if (currentScene == "scene_dev_art_1") {
+      this._aManager?.stopMusic();
+
+      this._aManager?.playMusic("start_menu");
+    } else if (sceneName == "scene_dev_art_1") {
+      this._aManager?.stopMusic();
+    }
+
+    director.loadScene(sceneName);
+  }
+
+  settingSound(sender: object, volume: string) {
+    this._aManager?.changeVolume(parseFloat(volume), "sound");
+
+    this.parameters.soundLevel = parseFloat(volume);
+    this.settingsLoader.saveParameters();
+  }
+
+  settingMusic(sender: object, volume: string) {
+    this._aManager?.changeVolume(parseFloat(volume), "music");
+
+    this.parameters.musicLevel = parseFloat(volume);
+    this.settingsLoader.saveParameters();
+  }
+}

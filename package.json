@@ -1,0 +1,38 @@
+{
+  "name": "Batle3",
+  "uuid": "764192fb-4cd1-404b-ad2a-d59c4b12bac2",
+  "version": "3.8.1",
+  "creator": {
+    "version": "3.8.5",
+    "registry": {
+      "remote": {}
+    },
+    "dependencies": {
+      "localization-editor": "1.0.1"
+    }
+  },
+  "dependencies": {
+    "@xstate/fsm": "^2.0.0",
+    "finity": "^0.5.4",
+    "inversify": "^6.0.1",
+    "inversify-inject-decorators": "^3.1.0",
+    "reflect-metadata": "^0.1.13",
+    "reinforce-js": "^1.5.1",
+    "typesafe-i18n": "^5.26.2"
+  },
+  "devDependencies": {
+    "@testdeck/mocha": "^0.2.0",
+    "@types/chai": "^4.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "chai": "^4.3.6",
+    "eslint": "^8.22.0",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "2.8.8",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "test": "nyc ./node_modules/.bin/_mocha './tests/**/*.test.ts'"
+  }
+}

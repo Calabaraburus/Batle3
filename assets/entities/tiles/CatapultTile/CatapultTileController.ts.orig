@@ -1,0 +1,125 @@
+//  MineTileController.ts - ClbBlast
+//
+//  Calabaraburus (c) 2023
+//
+
+import { _decorator, Sprite, tween } from "cc";
+import { TileController } from "../TileController";
+import { TileModel } from "../../../models/TileModel";
+import { TileState } from "../TileState";
+import { IAttackable } from "../IAttackable";
+import { CardService } from "../../services/CardService";
+import { EffectsService } from "../../services/EffectsService";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { BalistaCardEffect } from "../../effects/BalistaCardEffect";
+import { DataService } from "../../services/DataService";
+import { LevelView } from "../../level/LevelView";
+const { ccclass, property } = _decorator;
+
+@ccclass("CatapultTileController")
+export class CatapultTileController
+  extends TileController
+  implements IAttackable
+{
+  private _cardService: CardService | null;
+  private _curSprite: Sprite | null;
+  private _state: TileState;
+  private _attacksCountToDestroy: number;
+  private _attackedNumber: number;
+  private _effectsService: EffectsService | null;
+  private _cache: ObjectsCache | null;
+  private _dataService: DataService | null;
+  private _levelView: LevelView | null;
+
+  get attacksCountToDestroy() {
+    return this._attacksCountToDestroy;
+  }
+
+  start() {
+    super.start();
+    this._cardService = this.getService(CardService);
+    this._effectsService = this.getService(EffectsService);
+    this._cache = ObjectsCache.instance;
+    this._dataService = this.getService(DataService);
+    this._levelView = this.getService(LevelView);
+  }
+
+  turnEnds(): void {
+    const damageModel = this._cardService?.getCurrentPlayerModel();
+
+<<<<<<< HEAD
+    if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
+      if (oponentModel || oponentModel != null) {
+        this.playEffect();
+        oponentModel.life = oponentModel.life - 5;
+=======
+    if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
+      if (damageModel || damageModel != null) {
+        damageModel.life = damageModel.life - 5;
+>>>>>>> 3dd8e4e306de04e048960db94b708af86f0fc488
+      }
+    }
+  }
+
+  public get state(): TileState {
+    return this._state;
+  }
+
+  public setModel(tileModel: TileModel) {
+    super.setModel(tileModel);
+
+    this._attacksCountToDestroy = 1;
+
+    this._attackedNumber = this.attacksCountToDestroy;
+  }
+
+  public cacheCreate(): void {
+    super.cacheCreate();
+
+    this._attackedNumber = this.attacksCountToDestroy;
+  }
+
+  /** Attack this enemy with power.
+   * @power Power.
+   */
+  public attack(power = 1) {
+    if (this._attackedNumber > 0) {
+      this._attackedNumber -= power;
+
+      if (this._attackedNumber <= 0) {
+        this.destroyTile();
+      }
+    }
+  }
+
+  playEffect() {
+    const effect = this._cache?.getObject(BalistaCardEffect);
+
+    if (effect != null) {
+      effect.node.position = this.node.position;
+      effect.node.parent =
+        this._effectsService != null ? this._effectsService?.effectsNode : null;
+
+      const aim = this._dataService?.enemyFieldController?.node;
+
+      if (aim == null || aim == undefined) {
+        return;
+      }
+
+      effect.aim = aim;
+
+      effect.play();
+
+      const animator = tween(effect.node);
+
+      animator
+        .to(0.8, { position: aim.position })
+        .delay(0.8)
+        .call(() => effect.stopEmmit())
+        .delay(1)
+        .call(() => effect.cacheDestroy());
+
+      animator.start();
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "systemInfo": {
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz",
+        "version": "Windows 10 Pro"
+    },
+    "sceneListMap": {
+        "18a05c50-1ba0-4e14-a055-98a646068af9": "C:\\Projects\\Cocos\\ClbBlast\\assets\\scenes\\scene.scene",
+        "d3fc11bc-05dc-4e60-bc4f-f682fa74e8b6": "C:\\Projects\\Cocos\\ClbBlast\\assets\\entities\\2D\\2d-rendering-in-3d.scene"
+    },
+    "deviceMd5": "127440b150a4a843a0259e4168528752"
+}

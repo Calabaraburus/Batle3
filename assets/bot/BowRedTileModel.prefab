@@ -1,0 +1,135 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "BowRedTileModel",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "persistent": false,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "BowRedTileModel",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": null,
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 2
+      }
+    ],
+    "_prefab": {
+      "__id__": 7
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "5fa47lPAh1CwbBunE+2EH8i",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 3
+    },
+    "tileName": "p",
+    "sprite": {
+      "__uuid__": "44ebb638-3465-43f8-ad95-2565d90ba35c@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "starColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 53,
+      "b": 231,
+      "a": 255
+    },
+    "specialTile": false,
+    "serviceTile": false,
+    "tags": "#enemy #long_range",
+    "additionalSprites": [
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 6
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "aeZ/s2GutFyr16opNyO8P7"
+  },
+  {
+    "__type__": "AdittionalSprite",
+    "name": "bomb",
+    "sprite": {
+      "__uuid__": "d244025a-f03b-4dca-803b-6f386c26079e@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "AdittionalSprite",
+    "name": "rocket",
+    "sprite": {
+      "__uuid__": "27ec6248-92c3-47fe-b524-609a17ac7f4e@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "AdittionalSprite",
+    "name": "star",
+    "sprite": {
+      "__uuid__": "c28ef3eb-74ea-4087-851e-2a2c0e4d3bba@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "56NVMdTvpGqqukw0YCeUsn"
+  }
+]

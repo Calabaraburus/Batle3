@@ -1,0 +1,53 @@
+[
+    1,
+    [
+        "2cTRRyJkNJjZyCpfWm71V/@6c48a"
+    ],
+    [
+        "_textureSource"
+    ],
+    [
+        "cc.SpriteFrame"
+    ],
+    0,
+    [
+        {
+            "name": "roundedRectangle2",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 822,
+                "height": 333
+            },
+            "offset": {
+                "x": 0,
+                "y": 0
+            },
+            "originalSize": {
+                "width": 822,
+                "height": 333
+            },
+            "rotated": false,
+            "capInsets": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "packable": true
+        }
+    ],
+    [
+        0
+    ],
+    0,
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]

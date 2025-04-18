@@ -1,0 +1,29 @@
+{
+  "__version__": "1.0.6",
+  "general": {
+    "designResolution": {
+      "fitHeight": true,
+      "fitWidth": false,
+      "width": 2400,
+      "height": 1080
+    }
+  },
+  "layer": [
+    {
+      "name": "ParticleEffects",
+      "value": 524288
+    },
+    {
+      "name": "ui_back",
+      "value": 1
+    },
+    {
+      "name": "ui_front",
+      "value": 2
+    }
+  ],
+  "script": {
+    "preserveSymlinks": true
+  },
+  "custom_joint_texture_layouts": []
+}
