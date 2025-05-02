@@ -11,6 +11,7 @@ import {
 } from 'cc';
 const { ccclass, property, executeInEditMode } = _decorator;
 
+// Типы ячеек: пустая, игрок, враг
 const EMPTY = 0;
 const PLAYER = 1;
 const ENEMY = 2;
@@ -37,17 +38,20 @@ export class HexGridManager extends Component {
         this.clearGrid();
     }
 
+    // Перестроить поле
     refreshField() {
         this.clearGrid();
         this.generateField();
     }
 
+    // Удалить все старые ячейки
     clearGrid() {
         for (const child of this.node.children) {
             child.destroy();
         }
     }
 
+    // Основной метод генерации поля
     generateField() {
         if (!this.hexTilePrefab) return;
 
@@ -57,17 +61,24 @@ export class HexGridManager extends Component {
         const containerWidth = uiTransform.contentSize.width;
         const containerHeight = uiTransform.contentSize.height;
 
+        // Выбираем размеры сетки, подходящие под общее количество
         const [cols, rows] = this.calculateBestGridSize(this.totalTileCount);
         const [tileWidth, tileHeight] = this.calculateTileSize(containerWidth, containerHeight, cols, rows);
         const [fieldWidth, fieldHeight] = this.calculateFieldDimensions(cols, rows, tileWidth, tileHeight);
 
         this.calculatedFieldWidth = fieldWidth;
 
+        // Генерация структуры расположения
         const layout = this.generateFuzzyLayout(cols, rows, this.totalTileCount, this.playerTileCount, this.enemyTileCount);
+
+        // Определяем точку начала отрисовки
         const origin = this.calculateOrigin(containerWidth, containerHeight, fieldWidth, fieldHeight, tileWidth, tileHeight);
+
+        // Отрисовываем ячейки по сгенерированному макету
         this.buildFromLayout(layout, tileWidth, tileHeight, origin);
     }
 
+    // Подбираем количество колонок и строк для приближенного соответствия targetAspectRatio
     calculateBestGridSize(totalTiles: number): [number, number] {
         let bestCols = 0, bestRows = 0, bestDiff = Number.MAX_VALUE;
 
@@ -86,6 +97,7 @@ export class HexGridManager extends Component {
         return [bestCols, bestRows];
     }
 
+    // Расчет максимальных размеров тайлов
     calculateTileSize(containerWidth: number, containerHeight: number, cols: number, rows: number): [number, number] {
         const tileWidthMax = containerWidth / (1 + (cols - 1) * 0.75);
         const tileHeightMax = containerHeight / (rows + 0.5);
@@ -96,18 +108,21 @@ export class HexGridManager extends Component {
         return [tileWidth, tileHeight];
     }
 
+    // Расчет итоговой ширины и высоты поля
     calculateFieldDimensions(cols: number, rows: number, tileWidth: number, tileHeight: number): [number, number] {
-        const totalWidth = tileWidth * (1 + 0.75 * (cols - 1));
+        const totalWidth = tileWidth * (1 + 0.75 * (cols - 1)); // первая колонка + остальные по 75%
         const totalHeight = rows * tileHeight + tileHeight * 0.5;
         return [totalWidth, totalHeight];
     }
 
+    // Расчет стартовой позиции сетки в пределах ноды
     calculateOrigin(containerWidth: number, containerHeight: number, fieldWidth: number, fieldHeight: number, tileWidth: number, tileHeight: number): Vec3 {
         const offsetX = (containerWidth - fieldWidth) / 2 + tileWidth / 2;
         const offsetY = (containerHeight - fieldHeight) / 2 + tileHeight / 2;
         return new Vec3(-containerWidth / 2 + offsetX, containerHeight / 2 - offsetY, 0);
     }
 
+    // Отрисовка ячеек по двумерному массиву
     buildFromLayout(layout: number[][], tileWidth: number, tileHeight: number, origin: Vec3) {
         for (let y = 0; y < layout.length; y++) {
             for (let x = 0; x < layout[y].length; x++) {
@@ -117,7 +132,7 @@ export class HexGridManager extends Component {
                 const tile = instantiate(this.hexTilePrefab!) as Node;
                 this.node.addChild(tile);
 
-                const offsetY = (x % 2) * (tileHeight * 0.5);
+                const offsetY = (x % 2) * (tileHeight * 0.5); // вертикальное смещение для четных колонок
                 const posX = origin.x + x * tileWidth * 0.75;
                 const posY = origin.y - y * tileHeight - offsetY;
 
@@ -132,34 +147,31 @@ export class HexGridManager extends Component {
         }
     }
 
+    // Генерация макета с группировкой фракций и случайным распределением
     generateFuzzyLayout(cols: number, rows: number, total: number, players: number, enemies: number): number[][] {
-        const EMPTY = 0;
-        const PLAYER = 1;
-        const ENEMY = 2;
-    
         const layout: number[][] = Array.from({ length: rows }, () => Array(cols).fill(EMPTY));
         const available: [number, number][] = [];
-    
+
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
                 available.push([x, y]);
             }
         }
-    
+
         const placeTeam = (team: number, count: number) => {
             let placed = 0;
             let chance = 1.0;
             const temp: [number, number][] = [];
-    
+
             while (placed < count && available.length > 0) {
                 let i: number;
-    
+
                 if (temp.length === 0 || Math.random() > chance) {
-                    // Случайная начальная точка
+                    // Стартовая точка — случайная
                     i = Math.floor(Math.random() * available.length);
                 } else {
                     const [bx, by] = temp[Math.floor(Math.random() * temp.length)];
-                
+
                     const neighbors = [
                         [bx - 1, by], [bx + 1, by],
                         [bx, by - 1], [bx, by + 1],
@@ -167,36 +179,33 @@ export class HexGridManager extends Component {
                         [bx - 1, by + 1], [bx + 1, by + 1],
                     ].filter(([nx, ny]) =>
                         nx >= 0 && ny >= 0 && nx < cols && ny < rows && layout[ny][nx] === EMPTY
-                    ) as [number, number][]; // ЯВНО УКАЗЫВАЕМ ТИП
-                
+                    ) as [number, number][]; // ручной каст
+
                     if (neighbors.length === 0) {
                         chance = 1.0;
                         continue;
                     }
-                
+
                     const [nx, ny] = neighbors[Math.floor(Math.random() * neighbors.length)];
                     i = available.findIndex(([x, y]) => x === nx && y === ny);
                 }
-                
-    
+
                 if (i === -1) break;
-    
+
                 const [x, y] = available.splice(i, 1)[0];
                 layout[y][x] = team;
                 temp.push([x, y]);
                 placed++;
-    
-                chance *= 0.75;
+
+                chance *= 0.75; // шанс продолжать кластер уменьшается
             }
         };
-    
+
         placeTeam(PLAYER, players);
         placeTeam(ENEMY, enemies);
-    
+
         return layout;
     }
-    
-
 
     getShiftX(): number {
         const uiTransform = this.node.getComponent(UITransform);
