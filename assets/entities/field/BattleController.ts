@@ -2,6 +2,7 @@ import { _decorator, Component } from 'cc';
 import { HexGridManager } from './HexGridManager';
 import { HexCell } from './HexCell';
 import { TurnLabelController } from './TurnLabelController';
+import { UnitSubObject } from './UnitSubObject';
 
 const { ccclass, property } = _decorator;
 
@@ -52,6 +53,11 @@ export class BattleController extends Component {
             if (visual) {
                 const hexCell = visual.getComponent(HexCell);
                 hexCell?.markAsOpened();
+
+                const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+                if (unit && unit.isAlive) {
+                    unit.markAsDead(); // сменит спрайт через BaseUnitVisual
+                }
             }
 
             this.gridManager.revealCell(cell);
@@ -84,6 +90,11 @@ export class BattleController extends Component {
         if (visual) {
             const hexCell = visual.getComponent(HexCell);
             hexCell?.markAsOpened();
+
+            const unit = target.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+            if (unit && unit.isAlive) {
+                unit.markAsDead();
+            }
         }
 
         this.endTurn();

@@ -128,13 +128,6 @@ export class HexGridManager extends Component {
 
                 // Присваиваем визуальный узел логической ячейке
                 logicCell.setVisualNode(tile);
-
-                // Добавляем туман войны по умолчанию для врага
-                if (type === ENEMY && this.fogPrefab) {
-                    const fog = new FogSubObject();
-                    fog.fogPrefab = this.fogPrefab;
-                    logicCell.attachSubObject(fog);
-                }
                 
             }
         }
@@ -171,6 +164,13 @@ export class HexGridManager extends Component {
         }
     }
     
+    getPlayerCells(): GridCell[] {
+        return this.getAllCells().filter(cell => cell.getParameter<number>('type') === PLAYER);
+    }
+    
+    getEnemyCells(): GridCell[] {
+        return this.getAllCells().filter(cell => cell.getParameter<number>('type') === ENEMY);
+    }    
 
     generateFuzzyLayout(cols: number, rows: number, total: number, players: number, enemies: number): number[][] {
         const layout: number[][] = Array.from({ length: rows }, () => Array(cols).fill(EMPTY));
