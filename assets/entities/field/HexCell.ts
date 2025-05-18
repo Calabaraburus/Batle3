@@ -1,10 +1,14 @@
 import {
     _decorator, Component, Sprite, SpriteFrame, Node,
-    UITransform, Vec3, EventTouch
+    UITransform, Vec3, EventTouch,
+    CircleCollider2D,
+    PhysicsSystem2D
 } from 'cc';
 import { GridSubObject } from './GridSubObject';
 import { GridCell } from './GridCell';
 import { BattleController } from './BattleController';
+import { UnitSubObject } from './UnitSubObject';
+import { UnitGroupManager } from './UnitGroupManager';
 
 const { ccclass, property } = _decorator;
 
@@ -74,29 +78,42 @@ export class HexCell extends Component {
         return this.subObjects;
     }
 
+    // public handleClick(event: EventTouch) {
+    //     const uiTransform = this.node.parent?.getComponent(UITransform);
+    //     if (!uiTransform) return;
+
+    //     const screenPos = event.getUILocation();
+    //     const localClick = uiTransform.convertToNodeSpaceAR(new Vec3(screenPos.x, screenPos.y, 0));
+
+    //     if (this.checkHit(localClick)) {
+    //         console.log(`[HexCell] ✓ HIT self at (${this.gridX}, ${this.gridY})`);
+    //         BattleController.instance?.onCellClicked(this);
+    //         return;
+    //     }
+
+    //     for (const neighbor of this.neighbors) {
+    //         if (neighbor.checkHit(localClick)) {
+    //             console.log(`[HexCell] ✓ REDIRECT to neighbor at (${neighbor.gridX}, ${neighbor.gridY})`);
+    //             BattleController.instance?.onCellClicked(neighbor);
+    //             return;
+    //         }
+    //     }
+
+    //     console.log(`[HexCell] ✘ MISS on self and neighbors → localClick: (${localClick.x.toFixed(1)}, ${localClick.y.toFixed(1)})`);
+    // }
+
     public handleClick(event: EventTouch) {
-        const uiTransform = this.node.parent?.getComponent(UITransform);
-        if (!uiTransform) return;
+        const point = event.getUILocation();
+        const collider = this.node.getComponent(CircleCollider2D);
 
-        const screenPos = event.getUILocation();
-        const localClick = uiTransform.convertToNodeSpaceAR(new Vec3(screenPos.x, screenPos.y, 0));
-
-        if (this.checkHit(localClick)) {
-            console.log(`[HexCell] ✓ HIT self at (${this.gridX}, ${this.gridY})`);
+        if (collider && PhysicsSystem2D.instance.testPoint(point)) {
+            console.log(`[HexCell] ✓ HIT on collider`);
             BattleController.instance?.onCellClicked(this);
-            return;
+        } else {
+            console.log(`[HexCell] ✘ MISS on collider`);
         }
-
-        for (const neighbor of this.neighbors) {
-            if (neighbor.checkHit(localClick)) {
-                console.log(`[HexCell] ✓ REDIRECT to neighbor at (${neighbor.gridX}, ${neighbor.gridY})`);
-                BattleController.instance?.onCellClicked(neighbor);
-                return;
-            }
-        }
-
-        console.log(`[HexCell] ✘ MISS on self and neighbors → localClick: (${localClick.x.toFixed(1)}, ${localClick.y.toFixed(1)})`);
     }
+
 
     private checkHit(clickPos: Vec3): boolean {
         const localPos = this.node.position;
@@ -129,7 +146,7 @@ export class HexCell extends Component {
         this.node.off(Node.EventType.TOUCH_END, this.handleClick, this);
     }
 
-    public markAsOpened(): void {
+    public markAsOpened(suppressGroupCheck = false): void {
         this.setVisualState(1);
         this.disableInput();
 
@@ -137,5 +154,22 @@ export class HexCell extends Component {
         if (fogNode && fogNode.isValid) {
             fogNode.active = false;
         }
+
+        const cell = this.logicalCell;
+        if (!cell) return;
+
+        const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+
+        if (unit && unit.isAlive) {
+            unit.markAsDead(); // ⬅️ вызовем здесь — и только здесь
+
+            // ❌ убери этот блок:
+            // if (!suppressGroupCheck) {
+            //     UnitGroupManager.instance.onUnitDestroyed(unit);
+            // }
+        }
+
+        cell.addParameter('opened', true);
     }
-}
+
+} 

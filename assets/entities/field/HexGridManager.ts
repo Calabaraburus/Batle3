@@ -136,18 +136,18 @@ export class HexGridManager extends Component {
     linkNeighbors(cols: number, rows: number) {
         const evenOffsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, -1], [-1, -1]];
         const oddOffsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1]];
-    
+
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
                 const cell = this.grid[y]?.[x];
                 if (!cell) continue;
-    
+
                 const visual = cell.getVisualNode();
                 const hex = visual?.getComponent(HexCell);
                 if (!hex) continue;
-    
+
                 const offsets = x % 2 === 0 ? evenOffsets : oddOffsets;
-    
+
                 for (const [dx, dy] of offsets) {
                     const nx = x + dx;
                     const ny = y + dy;
@@ -157,12 +157,19 @@ export class HexGridManager extends Component {
                         const neighborHex = neighborVisual?.getComponent(HexCell);
                         if (neighborHex) {
                             hex.addNeighbor(neighborHex);
+
+                            // ✅ Также добавляем логическую связь
+                            const neighborCell = neighborHex.getLogicalCell();
+                            if (neighborCell && !cell.neighbors.includes(neighborCell)) {
+                                cell.neighbors.push(neighborCell);
+                            }
                         }
                     }
                 }
             }
         }
     }
+
     
     getPlayerCells(): GridCell[] {
         return this.getAllCells().filter(cell => cell.getParameter<number>('type') === PLAYER);

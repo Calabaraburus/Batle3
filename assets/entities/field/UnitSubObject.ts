@@ -1,10 +1,19 @@
 import { GridSubObject } from './GridSubObject';
 import { Node } from 'cc';
 import { BaseUnitVisual } from './BaseUnitVisual';
+import { UnitGroupManager } from './UnitGroupManager';
 
+/**
+ * Базовый класс боевого юнита, может быть частью группы.
+ */
 export abstract class UnitSubObject extends GridSubObject {
     public visualNode: Node | null = null;
     public isAlive = true;
+
+    /**
+     * Идентификатор группы, к которой принадлежит юнит
+     */
+    public groupId = '';
 
     /**
      * Убить юнита (сменить визуал через BaseUnitVisual)
@@ -16,6 +25,8 @@ export abstract class UnitSubObject extends GridSubObject {
             const visual = this.visualNode.getComponent(BaseUnitVisual);
             visual?.setDead();
         }
+
+        UnitGroupManager.instance.onUnitDestroyed(this);
     }
 
     /**
@@ -29,4 +40,4 @@ export abstract class UnitSubObject extends GridSubObject {
             visual?.setAlive();
         }
     }
-}
+} 
