@@ -37,18 +37,17 @@ export class BattleController extends Component {
     }
 
     updateTurnLabel() {
-        if (this.turnLabelController) {
+        const label = this.turnLabelController;
+        if (label) {
             const text = this.currentTurn === Turn.Player ? 'Ваш хід' : 'Хід противника';
-            this.turnLabelController.show(text, 1.5);
+            label.show(text, 1.5);
         }
     }
 
     /**
      * Помечает клетку как открытую и убирает туман войны.
      */
-    openAndRevealCell(cell: ReturnType<HexGridManager['getCell']>) {
-        if (!cell) return;
-
+    openAndRevealCell(cell: GridCell) {
         cell.addParameter('opened', true);
         this.gridManager?.revealCell(cell);
 
@@ -58,11 +57,10 @@ export class BattleController extends Component {
     }
 
     /**
-     * Выполняет обычную атаку на клетку.
+     * Выполняет обычную атаку на клетку игроком (по врагу).
+     * После атаки ход завершается.
      */
-    attackCell(cell: ReturnType<HexGridManager['getCell']>) {
-        if (!cell) return;
-
+    attackCell(cell: GridCell) {
         this.openAndRevealCell(cell);
 
         // Уничтожение юнита
@@ -72,16 +70,19 @@ export class BattleController extends Component {
             UnitGroupManager.instance.onUnitDestroyed(unit);
         }
 
-        // Проверка на предмет
+        // Обработка предметов
         const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
         if (item && !item.isReadyToUse()) {
-            item.activate();           // Показать как "доступный к активации"
-            this.selectedItem = item;     // Запоминаем предмет
+            item.activate();           // Показать как "готовый к активации"
+            this.selectedItem = item; // Запоминаем его
         }
 
         this.endTurn();
     }
 
+    /**
+     * Завершает ход и запускает поведение врага.
+     */
     endTurn() {
         this.currentTurn = this.currentTurn === Turn.Player ? Turn.Enemy : Turn.Player;
         this.updateTurnLabel();
@@ -91,6 +92,9 @@ export class BattleController extends Component {
         }
     }
 
+    /**
+     * Простая логика для бота: выбирает случайную ячейку игрока.
+     */
     botAct() {
         if (!this.gridManager) return;
 
@@ -112,7 +116,7 @@ export class BattleController extends Component {
     }
 
     /**
-     * Основной обработчик клика по клетке.
+     * Основной обработчик клика игрока по ячейке.
      */
     public onCellClicked(hexCell: HexCell): void {
         if (this.currentTurn !== Turn.Player || !this.gridManager) return;
@@ -122,27 +126,27 @@ export class BattleController extends Component {
 
         const isOpened = cell.getParameter('opened') === true;
 
-        // 1. Если предмет уже выбран и готов — применяем к цели
+        // 1. Если предмет уже выбран и готов к использованию
         if (this.tryUseSelectedItem(cell)) return;
 
-        // 2. Если ячейка содержит активируемый предмет — активируем его (без завершения хода)
+        // 2. Если можно активировать предмет на ячейке (вражеский предмет)
         if (this.tryActivateItem(cell)) return;
 
-        // 3. Если ячейка открыта, но ничего не происходит — выходим
+        // 3. Если ячейка открыта, но ничего не произошло
         if (isOpened) return;
 
-        // 4. Иначе — обычная атака, завершающая ход
+        // 4. Обычная атака
         this.attackCell(cell);
     }
 
-    /** Применение выбранного предмета */
+    /** Попытка применить ранее выбранный предмет */
     private tryUseSelectedItem(cell: GridCell): boolean {
         if (!this.selectedItem || !this.selectedItem.isReadyToArm()) return false;
 
         const success = this.selectedItem.tryApplyEffectTo(cell);
         if (success) {
             this.selectedItem = null;
-            // 🔸 Ход НЕ завершается, как по заданной логике
+            // ❗ Ход НЕ завершается (по логике предметов)
         }
         return true;
     }
@@ -154,12 +158,12 @@ export class BattleController extends Component {
 
         if (item && item.canBeActivatedBy(cell, playerType)) {
             if (!item.isReadyToArm()) {
-                item.arm();
+                item.arm(); // переводим в состояние "готов к применению"
             }
             this.selectedItem = item;
             return true;
         }
+
         return false;
     }
-
 }

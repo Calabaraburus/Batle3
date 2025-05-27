@@ -2,6 +2,7 @@ import { GridSubObject } from './GridSubObject';
 import { UITransform, Vec3, type Node, type Prefab } from 'cc';
 import { BaseItemVisual } from './BaseItemVisual';
 import { GridCell } from './GridCell';
+import { HexCell } from './HexCell';
 
 export abstract class ItemSubObject extends GridSubObject {
     public visualNode: Node | null = null;
@@ -14,7 +15,7 @@ export abstract class ItemSubObject extends GridSubObject {
     /** Предмет визуально скрыт (неактивен) */
     public activate(): void {
         const visual = this.visualNode?.getComponent(BaseItemVisual);
-        visual?.setActive(); // показать обычное состояние
+        visual?.setActive();
     }
 
     /** Предмет уничтожен (или обезврежен) */
@@ -30,6 +31,10 @@ export abstract class ItemSubObject extends GridSubObject {
 
     public isReadyToUse(): boolean {
         return this.isUsed;
+    }
+
+    public isSelectable(): boolean {
+        return !this.isUsed && this.isArmed;
     }
 
     /** Проверка: может ли игрок активировать этот предмет (своим нажатием) */
@@ -65,7 +70,7 @@ export abstract class ItemSubObject extends GridSubObject {
         this.isArmed = true;
 
         const visual = this.visualNode?.getComponent(BaseItemVisual);
-        visual?.setArmed(); // включает пульсацию
+        visual?.setArmed();
     }
 
     /** Удаляет предмет с поля: и логически, и визуально */
@@ -80,13 +85,32 @@ export abstract class ItemSubObject extends GridSubObject {
 
         // Удаляем из логики
         if (this.cell) {
-            this.cell.detachSubObject(this); // теперь cell ещё не null
+            this.cell.detachSubObject(this);
         }
 
         this.isUsed = true;
     }
 
-    /** Логика применения эффекта (реализуется в наследнике) */
+    /** Вспомогательный метод для удаления тумана с клетки */
+    protected revealFog(cell: GridCell): void {
+        const fogs = cell.getSubObjects().filter(s => s.constructor.name === 'FogSubObject');
+        for (const fog of fogs) cell.detachSubObject(fog);
+    }
+
+    /** Помечает клетку как поражённую и открывает её */
+    protected markCellAsHit(cell: GridCell): void {
+        cell.addParameter('destroyed', true);
+        cell.addParameter('opened', true);
+
+        this.revealFog(cell);
+
+        // const visual = cell.getVisualNode();
+        const hex = cell.getVisualNode()?.getComponent(HexCell);
+
+        hex?.markAsOpened(true);
+        hex?.markAsBurning();
+    }
+
     public abstract tryApplyEffectTo(target: GridCell): boolean;
 
     protected abstract onInit(): void;
