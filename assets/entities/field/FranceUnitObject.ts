@@ -13,7 +13,7 @@ export class FranceUnitObject extends UnitSubObject {
     public prefab: Prefab | null = null;
 
     @property({ tooltip: 'Коэффициент заполнения гекса (0.1 - 1.0)' })
-    public scaleRatio = 0.7;
+    public scaleRatio = 1;
 
     protected onInit(): void {
         if (!this.cell || !this.prefab) return;
@@ -43,6 +43,9 @@ export class FranceUnitObject extends UnitSubObject {
         // Активируем визуал "живой"
         const visual = this.visualNode.getComponent(BaseUnitVisual);
         visual?.setAlive();
+
+        this.updateHighlight();
+
     }
 
     protected onDestroy(): void {

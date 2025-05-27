@@ -2,6 +2,7 @@ import { GridSubObject } from './GridSubObject';
 import { Node } from 'cc';
 import { BaseUnitVisual } from './BaseUnitVisual';
 import { UnitGroupManager } from './UnitGroupManager';
+import { HexCell } from './HexCell';
 
 /**
  * Базовый класс боевого юнита, может быть частью группы.
@@ -40,4 +41,12 @@ export abstract class UnitSubObject extends GridSubObject {
             visual?.setAlive();
         }
     }
+
+    public updateHighlight(): void {
+        if (this.cell?.getParameter('type') === 1) {
+            const hex = this.cell.getVisualNode()?.getComponent(HexCell);
+            hex?.markAsFriendly();
+        }
+    }
+
 } 

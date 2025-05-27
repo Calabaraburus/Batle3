@@ -32,7 +32,7 @@ export class BombItemObject extends ItemSubObject {
 
         // Установить состояние по умолчанию (например, скрыт или неактивен)
         const visual = this.visualNode.getComponent(BombItemVisual);
-        visual?.setInactive?.();
+        visual?.setActive?.();
     }
 
     protected onDestroy(): void {

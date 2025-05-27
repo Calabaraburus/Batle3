@@ -29,8 +29,8 @@ export class HexGridManager extends Component {
     @property enemyTileCount = 100;
     @property totalTileCount = 150;
 
-    private baseWidth = 100;
-    private baseHeight = 86.6;
+    private baseWidth = 98;
+    private baseHeight = 63.8;
     private targetAspectRatio = 1 / 3;
     private calculatedFieldWidth = 0;
     private grid: GridCell[][] = [];
@@ -103,10 +103,11 @@ export class HexGridManager extends Component {
 
                 console.log(`Created HexTile at (${x}, ${y}) → pos (${posX.toFixed(1)}, ${posY.toFixed(1)})`);
 
-                const sprite = tile.getComponent(Sprite);
-                if (sprite) {
-                    sprite.color = type === PLAYER ? new Color(150, 200, 255) : new Color(255, 150, 150);
-                }
+                // изменение оттенка тайла для PLAYER/ENEMY
+                // const sprite = tile.getComponent(Sprite);
+                // if (sprite) {
+                //     sprite.color = type === PLAYER ? new Color(150, 200, 255) : new Color(255, 150, 150);
+                // }
 
                 const logicCell = new GridCell();
                 logicCell.addParameter('type', type);

@@ -2,12 +2,14 @@ import { _decorator, Component, Prefab } from 'cc';
 import { HexGridManager } from './HexGridManager';
 import { FranceUnitObject } from './FranceUnitObject';
 import { BombItemObject } from './BombItemObject';
+import { RocketItemObject } from './RocketItemObject';
 import { FogSubObject } from './FogSubObject';
-import type { GridCell } from './GridCell';
+import { PlacementPlanner } from './PlacementPlanner';
+import { UnitGroupManager } from './UnitGroupManager';
+import { GridCell } from './GridCell';
 import { UnitSubObject } from './UnitSubObject';
 import { ItemSubObject } from './ItemSubObject';
-import { PlacementPlanner } from './PlacementPlanner';
-import { UnitGroupManager } from './UnitGroupManager'; // 👈 добавляем импорт
+import { SpawnConfig } from './SpawnConfig';
 
 const { ccclass, property } = _decorator;
 
@@ -20,9 +22,6 @@ export class SubObjectGenerator extends Component {
     francePrefab: Prefab | null = null;
 
     @property({ type: Prefab })
-    bombPrefab: Prefab | null = null;
-
-    @property({ type: Prefab })
     fogPrefab: Prefab | null = null;
 
     @property({ type: [Number] })
@@ -31,8 +30,18 @@ export class SubObjectGenerator extends Component {
     @property({ type: [Number] })
     enemyUnitGroupSizes: number[] = [];
 
-    @property playerItems = 1;
-    @property enemyItems = 1;
+    // 🟩 Предметы как конфиги
+    @property({ type: SpawnConfig })
+    playerBombConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    enemyBombConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    playerRocketConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    enemyRocketConfig: SpawnConfig = new SpawnConfig();
 
     start() {
         if (!this.gridManager) return;
@@ -46,10 +55,38 @@ export class SubObjectGenerator extends Component {
         this.instantiateUnits(playerPlan, this.francePrefab, FranceUnitObject);
         this.instantiateUnits(enemyPlan, this.francePrefab, FranceUnitObject);
 
-        this.spawnCustomItems(playerCells, this.playerItems, this.bombPrefab, BombItemObject);
-        this.spawnCustomItems(enemyCells, this.enemyItems, this.bombPrefab, BombItemObject);
+        this.spawnItem(playerCells, this.playerBombConfig, BombItemObject);
+        this.spawnItem(playerCells, this.playerRocketConfig, RocketItemObject);
+
+        this.spawnItem(enemyCells, this.enemyBombConfig, BombItemObject);
+        this.spawnItem(enemyCells, this.enemyRocketConfig, RocketItemObject);
 
         this.spawnFog(enemyCells, this.fogPrefab);
+    }
+
+    private spawnItem<T extends ItemSubObject & { prefab: Prefab | null }>(
+        cells: GridCell[],
+        config: SpawnConfig,
+        ItemType: new () => T
+    ): void {
+        if (!config.prefab) return;
+
+        const available = [...cells].filter(cell =>
+            !cell.hasAnyMainSubObject() // исключаем ячейки с юнитами и предметами
+        );
+
+        if (available.length < config.count) {
+            console.warn(`[SpawnItem] Недостаточно свободных ячеек для ${ItemType.name}: нужно ${config.count}, доступно ${available.length}`);
+        }
+
+        for (let i = 0; i < config.count && available.length > 0; i++) {
+            const index = Math.floor(Math.random() * available.length);
+            const cell = available.splice(index, 1)[0];
+
+            const item = new ItemType();
+            item.prefab = config.prefab;
+            cell.attachSubObject(item);
+        }
     }
 
     private instantiateUnits<T extends UnitSubObject & { prefab: Prefab | null }>(
@@ -60,41 +97,14 @@ export class SubObjectGenerator extends Component {
         if (!prefab) return;
 
         for (const plan of plans) {
-            // 1. Создаем группу по ID
             UnitGroupManager.instance.createGroup(plan.groupId);
-
             for (const cell of plan.cells) {
                 const unit = new UnitType();
                 unit.prefab = prefab;
                 unit.groupId = plan.groupId;
-
-                // 2. Прикрепляем юнита к клетке (вызовет unit.onAttach → onInit)
                 cell.attachSubObject(unit);
-
-                // 3. Явно регистрируем в менеджере групп
                 UnitGroupManager.instance.registerUnitToGroup(plan.groupId, unit, cell);
             }
-        }
-    }
-
-
-    private spawnCustomItems<T extends ItemSubObject & { prefab: Prefab | null }>(
-        cells: GridCell[],
-        count: number,
-        prefab: Prefab | null,
-        ItemType: new () => T
-    ): void {
-        if (!prefab) return;
-
-        const available = [...cells].filter(cell => !cell.hasAnyMainSubObject());
-
-        for (let i = 0; i < count && available.length > 0; i++) {
-            const index = Math.floor(Math.random() * available.length);
-            const cell = available.splice(index, 1)[0];
-
-            const item = new ItemType();
-            item.prefab = prefab;
-            cell.attachSubObject(item);
         }
     }
 

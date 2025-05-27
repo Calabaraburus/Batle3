@@ -1,5 +1,5 @@
 import {
-    _decorator, Component, Sprite, SpriteFrame, Node,
+    _decorator, Component, Sprite, SpriteFrame, Node, Color,
     UITransform, Vec3, EventTouch,
     CircleCollider2D,
     PhysicsSystem2D
@@ -9,6 +9,7 @@ import { GridCell } from './GridCell';
 import { BattleController } from './BattleController';
 import { UnitSubObject } from './UnitSubObject';
 import { UnitGroupManager } from './UnitGroupManager';
+import { ItemSubObject } from './ItemSubObject';
 
 const { ccclass, property } = _decorator;
 
@@ -27,6 +28,9 @@ export class HexCell extends Component {
 
     @property({ type: [SpriteFrame] })
     stateSprites: SpriteFrame[] = [];
+
+    @property(Node)
+    destroyedOverlay: Node | null = null;
 
     start() {
         this.node.setSiblingIndex(999);
@@ -78,31 +82,15 @@ export class HexCell extends Component {
         return this.subObjects;
     }
 
-    // public handleClick(event: EventTouch) {
-    //     const uiTransform = this.node.parent?.getComponent(UITransform);
-    //     if (!uiTransform) return;
-
-    //     const screenPos = event.getUILocation();
-    //     const localClick = uiTransform.convertToNodeSpaceAR(new Vec3(screenPos.x, screenPos.y, 0));
-
-    //     if (this.checkHit(localClick)) {
-    //         console.log(`[HexCell] ✓ HIT self at (${this.gridX}, ${this.gridY})`);
-    //         BattleController.instance?.onCellClicked(this);
-    //         return;
-    //     }
-
-    //     for (const neighbor of this.neighbors) {
-    //         if (neighbor.checkHit(localClick)) {
-    //             console.log(`[HexCell] ✓ REDIRECT to neighbor at (${neighbor.gridX}, ${neighbor.gridY})`);
-    //             BattleController.instance?.onCellClicked(neighbor);
-    //             return;
-    //         }
-    //     }
-
-    //     console.log(`[HexCell] ✘ MISS on self and neighbors → localClick: (${localClick.x.toFixed(1)}, ${localClick.y.toFixed(1)})`);
-    // }
-
     public handleClick(event: EventTouch) {
+        const cell = this.logicalCell;
+        if (!cell) return;
+
+        // ⛔ Если тайл открыт и на нём нет предметов — игнорируем клик
+        if (cell.getParameter('opened') && !cell.hasItem()) {
+            return;
+        }
+
         const point = event.getUILocation();
         const collider = this.node.getComponent(CircleCollider2D);
 
@@ -114,6 +102,37 @@ export class HexCell extends Component {
         }
     }
 
+    public showDestroyedEffect(): void {
+        if (this.destroyedOverlay) {
+            this.destroyedOverlay.active = true;
+
+            const spriteFrame = this.destroyedOverlay.getComponent(Sprite);
+            if (spriteFrame){
+                spriteFrame.color = new Color(255, 255, 255, 150)
+            }
+            this.markAsBurning()
+        }
+    }
+
+    public hideDestroyedEffect(): void {
+        if (this.destroyedOverlay) {
+            this.destroyedOverlay.active = false;
+        }
+    }
+
+    public markAsBurning(): void {
+        const sprite = this.getComponent(Sprite);
+        if (sprite) {
+            sprite.color = new Color(255, 100, 100); // красноватый оттенок
+        }
+    }
+
+    public resetColor(): void {
+        const sprite = this.getComponent(Sprite);
+        if (sprite) {
+            sprite.color = new Color(255, 255, 255); // вернуть исходный
+        }
+    }
 
     private checkHit(clickPos: Vec3): boolean {
         const localPos = this.node.position;
@@ -147,8 +166,7 @@ export class HexCell extends Component {
     }
 
     public markAsOpened(suppressGroupCheck = false): void {
-        this.setVisualState(1);
-        this.disableInput();
+        this.markAsBurning();
 
         const fogNode = this.node.getChildByName('FogEffect');
         if (fogNode && fogNode.isValid) {
@@ -161,15 +179,25 @@ export class HexCell extends Component {
         const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
 
         if (unit && unit.isAlive) {
-            unit.markAsDead(); // ⬅️ вызовем здесь — и только здесь
-
-            // ❌ убери этот блок:
-            // if (!suppressGroupCheck) {
-            //     UnitGroupManager.instance.onUnitDestroyed(unit);
-            // }
+            unit.markAsDead();
         }
 
         cell.addParameter('opened', true);
+
+        const items = cell.getSubObjects().filter(obj => obj instanceof ItemSubObject) as ItemSubObject[];
+        for (const item of items) {
+            if (!item.isReadyToArm()) {
+                item.activate(); // активируем только неактивированный предмет
+            }
+        }
+
+    }
+        
+    public markAsFriendly(): void {
+        const sprite = this.getComponent(Sprite);
+        if (sprite) {
+            sprite.color = new Color(180, 235, 180); // зелёный оттенок
+        }
     }
 
 } 

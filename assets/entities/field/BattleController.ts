@@ -4,6 +4,8 @@ import { HexCell } from './HexCell';
 import { TurnLabelController } from './TurnLabelController';
 import { UnitSubObject } from './UnitSubObject';
 import { UnitGroupManager } from './UnitGroupManager';
+import { ItemSubObject } from './ItemSubObject';
+import { GridCell } from './GridCell';
 
 const { ccclass, property } = _decorator;
 
@@ -23,6 +25,7 @@ export class BattleController extends Component {
     turnLabelController: TurnLabelController | null = null;
 
     public currentTurn: Turn = Turn.Player;
+    private selectedItem: ItemSubObject | null = null;
 
     onLoad() {
         BattleController.instance = this;
@@ -35,36 +38,48 @@ export class BattleController extends Component {
 
     updateTurnLabel() {
         if (this.turnLabelController) {
-            const text = this.currentTurn === Turn.Player ? 'Ваш ход' : 'Ход врага';
+            const text = this.currentTurn === Turn.Player ? 'Ваш хід' : 'Хід противника';
             this.turnLabelController.show(text, 1.5);
         }
     }
 
-    attackCell(x: number, y: number) {
-        if (!this.gridManager) return;
-
-        const cell = this.gridManager.getCell(x, y);
+    /**
+     * Помечает клетку как открытую и убирает туман войны.
+     */
+    openAndRevealCell(cell: ReturnType<HexGridManager['getCell']>) {
         if (!cell) return;
 
-        const cellType = cell.getParameter<number>('type');
-        if (this.currentTurn === Turn.Player && cellType === 2) {
-            cell.addParameter('opened', true);
+        cell.addParameter('opened', true);
+        this.gridManager?.revealCell(cell);
 
-            const visual = cell.getVisualNode();
-            if (visual) {
-                const hexCell = visual.getComponent(HexCell);
-                hexCell?.markAsOpened();
+        const hexCell = cell.getVisualNode()?.getComponent(HexCell);
+        hexCell?.markAsOpened();
+        hexCell?.showDestroyedEffect?.();
+    }
 
-                const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
-                if (unit && unit.isAlive) {
-                    unit.markAsDead();
-                    UnitGroupManager.instance.onUnitDestroyed(unit);
-                }
-            }
+    /**
+     * Выполняет обычную атаку на клетку.
+     */
+    attackCell(cell: ReturnType<HexGridManager['getCell']>) {
+        if (!cell) return;
 
-            this.gridManager.revealCell(cell);
-            this.endTurn();
+        this.openAndRevealCell(cell);
+
+        // Уничтожение юнита
+        const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+        if (unit && unit.isAlive) {
+            unit.markAsDead();
+            UnitGroupManager.instance.onUnitDestroyed(unit);
         }
+
+        // Проверка на предмет
+        const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
+        if (item && !item.isReadyToUse()) {
+            item.activate();           // Показать как "доступный к активации"
+            this.selectedItem = item;     // Запоминаем предмет
+        }
+
+        this.endTurn();
     }
 
     endTurn() {
@@ -85,41 +100,66 @@ export class BattleController extends Component {
         if (targets.length === 0) return this.endTurn();
 
         const target = targets[Math.floor(Math.random() * targets.length)];
-        target.addParameter('opened', true);
-        this.gridManager.revealCell(target);
+        this.openAndRevealCell(target);
 
-        const visual = target.getVisualNode();
-        if (visual) {
-            const hexCell = visual.getComponent(HexCell);
-            hexCell?.markAsOpened();
-
-            const unit = target.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
-            if (unit && unit.isAlive) {
-                unit.markAsDead();
-                UnitGroupManager.instance.onUnitDestroyed(unit);
-            }
+        const unit = target.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+        if (unit && unit.isAlive) {
+            unit.markAsDead();
+            UnitGroupManager.instance.onUnitDestroyed(unit);
         }
 
         this.endTurn();
     }
 
-    onCellClicked(hexCell: HexCell): void {
-        console.log(`[BattleController] onCellClicked`);
-        if (this.currentTurn !== Turn.Player) return;
+    /**
+     * Основной обработчик клика по клетке.
+     */
+    public onCellClicked(hexCell: HexCell): void {
+        if (this.currentTurn !== Turn.Player || !this.gridManager) return;
 
         const cell = hexCell.getLogicalCell();
-        if (!cell) {
-            console.warn(`[BattleController] No logical cell found`);
-            return;
-        }
+        if (!cell) return;
 
-        const x = cell.getParameter<number>('x');
-        const y = cell.getParameter<number>('y');
+        const isOpened = cell.getParameter('opened') === true;
 
-        console.log(`[BattleController] Click on (${x}, ${y})`);
+        // 1. Если предмет уже выбран и готов — применяем к цели
+        if (this.tryUseSelectedItem(cell)) return;
 
-        if (typeof x === 'number' && typeof y === 'number') {
-            this.attackCell(x, y);
-        }
+        // 2. Если ячейка содержит активируемый предмет — активируем его (без завершения хода)
+        if (this.tryActivateItem(cell)) return;
+
+        // 3. Если ячейка открыта, но ничего не происходит — выходим
+        if (isOpened) return;
+
+        // 4. Иначе — обычная атака, завершающая ход
+        this.attackCell(cell);
     }
+
+    /** Применение выбранного предмета */
+    private tryUseSelectedItem(cell: GridCell): boolean {
+        if (!this.selectedItem || !this.selectedItem.isReadyToArm()) return false;
+
+        const success = this.selectedItem.tryApplyEffectTo(cell);
+        if (success) {
+            this.selectedItem = null;
+            // 🔸 Ход НЕ завершается, как по заданной логике
+        }
+        return true;
+    }
+
+    /** Попытка активировать предмет в ячейке */
+    private tryActivateItem(cell: GridCell): boolean {
+        const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
+        const playerType = this.currentTurn === Turn.Player ? 1 : 2;
+
+        if (item && item.canBeActivatedBy(cell, playerType)) {
+            if (!item.isReadyToArm()) {
+                item.arm();
+            }
+            this.selectedItem = item;
+            return true;
+        }
+        return false;
+    }
+
 }
