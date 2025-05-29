@@ -95,6 +95,10 @@ export class UnitGroupManager {
         return this.groups.get(id);
     }
 
+    public getGroupOf(unit: UnitSubObject): UnitGroupData | undefined {
+        return this.groups.get(unit.groupId);
+    }
+
     public clearAll(): void {
         this.groups.clear();
     }
