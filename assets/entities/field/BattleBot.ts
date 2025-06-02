@@ -5,12 +5,15 @@ import { UnitSubObject } from './UnitSubObject';
 import { RocketItemObject } from './RocketItemObject';
 import { RocketItemStrategy } from './RocketItemStrategy';
 import type { ItemStrategy } from './ItemStrategy';
+import { ShieldItemObject } from './ShieldItemObject';
+import { ShieldItemStrategy } from './ShieldItemStrategy';
 
 export class BattleBot {
     constructor(
         private grid: HexGridManager,           // Ссылка на менеджер поля
         private endTurn: () => void,            // Завершение хода
-        private revealCell: (cell: GridCell) => void // Метод для открытия клетки
+        private revealCell: (cell: GridCell) => void, // Метод для открытия клетки
+        private attackCell: (cell: GridCell) => void // Метод для атаки клетки
     ) {}
 
     /**
@@ -32,7 +35,7 @@ export class BattleBot {
      */
     private tryUseItem(cells: GridCell[]): boolean {
         const itemsToActivate = cells
-            .filter(c => c.getParameter('type') === 1 && c.getParameter('opened')) // ← игрок
+            .filter(c => c.getParameter('type') === 1 && c.getParameter('opened'))
             .flatMap(c => c.getSubObjects())
             .filter(obj => obj instanceof ItemSubObject && !obj.isReadyToUse()) as ItemSubObject[];
 
@@ -41,7 +44,7 @@ export class BattleBot {
         for (const item of itemsToActivate) {
             if (!item.isReadyToArm()) {
                 console.log('[BOT] Активирую предмет:', item.constructor.name);
-                item.arm(); // переводим в готовое состояние
+                item.arm();
             }
 
             const strategy = this.getStrategyForItem(item);
@@ -54,9 +57,10 @@ export class BattleBot {
             console.log('[BOT] Целей для применения:', targets.length);
 
             for (const target of targets) {
+                // 🔧 Передаём grid для применения предмета
                 if (item.tryApplyEffectTo(target)) {
                     console.log('[BOT] Успешное применение предмета');
-                    this.endTurn(); // ✅ Завершаем ход
+                    this.endTurn();
                     return true;
                 }
             }
@@ -70,40 +74,26 @@ export class BattleBot {
      * Приоритет — клетки возле уже открытых, ранее поражённых.
      */
     private tryAttack(cells: GridCell[]): boolean {
-        // Все закрытые клетки врага
         const unopenedEnemyCells = cells.filter(c =>
             c.getParameter('type') === 1 && !c.getParameter('opened')
         );
 
         if (unopenedEnemyCells.length === 0) return false;
 
-        // Приоритет — соседи ранее открытых (убитых) юнитов
         const targetedAroundHits = this.getNeighborTargetsAroundHits(cells);
 
-        // Выбор цели
         const target = targetedAroundHits.length > 0
             ? this.getRandom(targetedAroundHits)
             : this.getRandom(unopenedEnemyCells);
 
-        // Атакуем выбранную клетку
-        this.revealCell(target);
-
-        // Если в клетке живой юнит — убиваем его
-        const unit = target.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
-        if (unit && unit.isAlive) {
-            unit.markAsDead();
-        }
-
-        this.endTurn();
+        this.attackCell(target); // ✅ всё делает сам
         return true;
     }
 
     /**
      * Находит клетки рядом с уже поражёнными вражескими юнитами.
-     * Это потенциальные продолжения группы.
      */
     private getNeighborTargetsAroundHits(cells: GridCell[]): GridCell[] {
-        // Открытые клетки с мёртвыми юнитами
         const openedDeadUnits = cells.filter(c =>
             c.getParameter('opened') &&
             c.getSubObjects().some(obj => obj instanceof UnitSubObject && !obj.isAlive)
@@ -130,7 +120,10 @@ export class BattleBot {
             return new RocketItemStrategy();
         }
 
-        // Здесь можно добавить другие стратегии
+        if (item instanceof ShieldItemObject) {
+            return new ShieldItemStrategy();
+        }
+
         return null;
     }
 

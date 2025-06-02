@@ -7,6 +7,7 @@ import { UnitGroupManager } from './UnitGroupManager';
 import { ItemSubObject } from './ItemSubObject';
 import { GridCell } from './GridCell';
 import { BattleBot } from './BattleBot';
+import { ShieldEffectSubObject } from './ShieldEffectSubObject';
 
 const { ccclass, property } = _decorator;
 
@@ -36,16 +37,20 @@ export class BattleController extends Component {
 
     start() {
         if (this.gridManager) {
+            // Инициализируем бота с доступом к гриду и методами завершения хода и открытия ячейки
             this.bot = new BattleBot(
                 this.gridManager,
                 () => this.endTurn(),
-                (cell: GridCell) => this.openAndRevealCell(cell)
+                (cell: GridCell) => this.openAndRevealCell(cell),
+                (cell: GridCell) => this.attackCell(cell) // ✅ передаём корректную логику
             );
+
         }
         this.currentTurn = Turn.Player;
         this.updateTurnLabel();
     }
 
+    // Обновляет текст с информацией о текущем ходе
     updateTurnLabel() {
         if (this.turnLabelController) {
             const text = this.currentTurn === Turn.Player ? 'Ваш хід' : 'Хід противника';
@@ -53,6 +58,7 @@ export class BattleController extends Component {
         }
     }
 
+    // Открывает клетку, снимает туман, применяет визуальные эффекты
     openAndRevealCell(cell: GridCell) {
         if (!cell) return;
 
@@ -64,8 +70,16 @@ export class BattleController extends Component {
         hexCell?.showDestroyedEffect?.();
     }
 
+    // Выполняет атаку по клетке, проверяя юнита и предмет внутри
     attackCell(cell: GridCell) {
         if (!cell) return;
+
+        // 🛡️ Щит блокирует урон
+        const blocked = ShieldEffectSubObject.tryIntercept(cell); // 👈
+        if (blocked) {
+            this.endTurn();
+            return;
+        }   
 
         this.openAndRevealCell(cell);
 
@@ -84,6 +98,7 @@ export class BattleController extends Component {
         this.endTurn();
     }
 
+    // Завершает текущий ход и переключает ход между игроком и ботом
     endTurn() {
         this.currentTurn = this.currentTurn === Turn.Player ? Turn.Enemy : Turn.Player;
         this.updateTurnLabel();
@@ -93,6 +108,7 @@ export class BattleController extends Component {
         }
     }
 
+    // Обрабатывает клик по визуальной ячейке (HexCell)
     public onCellClicked(hexCell: HexCell): void {
         if (this.currentTurn !== Turn.Player || !this.gridManager) return;
 
@@ -103,9 +119,6 @@ export class BattleController extends Component {
         const cellType = cell.getParameter<number>('type');
         const playerType = 1;
 
-        // 🔒 Игнорируем клик по своим клеткам вообще
-        if (cellType === playerType) return;
-
         // 1. Применение активного предмета
         if (this.tryUseSelectedItem(cell)) return;
 
@@ -115,10 +128,14 @@ export class BattleController extends Component {
         // 3. Если уже открыта — ничего не делаем
         if (isOpened) return;
 
+        // 🔒 Игнорируем клик по своим клеткам вообще
+        if (cellType === playerType) return;
+
         // 4. Иначе — обычная атака
         this.attackCell(cell);
     }
 
+    // Пробует применить выбранный предмет, если он готов
     private tryUseSelectedItem(cell: GridCell): boolean {
         if (!this.selectedItem || !this.selectedItem.isReadyToArm()) return false;
 
@@ -129,6 +146,7 @@ export class BattleController extends Component {
         return true;
     }
 
+    // Пробует активировать предмет в клетке (если возможно)
     private tryActivateItem(cell: GridCell): boolean {
         const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
         const playerType = this.currentTurn === Turn.Player ? 1 : 2;
@@ -147,5 +165,4 @@ export class BattleController extends Component {
         }
         return false;
     }
-
 }

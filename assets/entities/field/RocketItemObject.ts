@@ -3,6 +3,7 @@ import { GridCell } from './GridCell';
 import { instantiate, Prefab } from 'cc';
 import { BaseItemVisual } from './BaseItemVisual';
 import { HexCell } from './HexCell';
+import { ShieldEffectSubObject } from './ShieldEffectSubObject';
 
 /**
  * Бонус "Ракета": поражает цель + один соседний тайл.
@@ -61,19 +62,21 @@ export class RocketItemObject extends ItemSubObject {
 
     /** Помечает клетку как поражённую, снимает туман, активирует визуал */
     protected markCellAsHit(cell: GridCell): void {
+        const blocked = ShieldEffectSubObject.tryIntercept(cell); // 👈 вызов
+        if (blocked) return;
+
+        // 💥 Разрушаем клетку
         cell.addParameter('destroyed', true);
         cell.addParameter('opened', true);
 
-        // Удалить все компоненты тумана
         const fogs = cell.getSubObjects().filter(s => s.constructor.name === 'FogSubObject');
         for (const fog of fogs) {
             cell.detachSubObject(fog);
         }
 
-        // Обновить визуал
         const hex = cell.getVisualNode()?.getComponent(HexCell);
-        hex?.markAsOpened(true);     // скрывает туман, помечает как открытую
-        hex?.markAsBurning();        // добавляет огонь
+        hex?.markAsOpened(true);
+        hex?.markAsBurning();
     }
 
     /** Вспомогательный метод: скрыть визуально предмет при установке */

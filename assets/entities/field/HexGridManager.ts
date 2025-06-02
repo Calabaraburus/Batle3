@@ -6,8 +6,6 @@ import {
     instantiate,
     Vec3,
     UITransform,
-    Color,
-    Sprite,
 } from 'cc';
 
 import { HexCell } from './HexCell';

@@ -1,4 +1,4 @@
-import { _decorator, Component, Prefab } from 'cc';
+import { _decorator, Component, Prefab, instantiate } from 'cc';
 import { HexGridManager } from './HexGridManager';
 import { FranceUnitObject } from './FranceUnitObject';
 import { BombItemObject } from './BombItemObject';
@@ -10,6 +10,8 @@ import { GridCell } from './GridCell';
 import { UnitSubObject } from './UnitSubObject';
 import { ItemSubObject } from './ItemSubObject';
 import { SpawnConfig } from './SpawnConfig';
+import { ShieldItemObject } from './ShieldItemObject';
+import { EffectSubObject } from './EffectSubObject';
 
 const { ccclass, property } = _decorator;
 
@@ -18,17 +20,24 @@ export class SubObjectGenerator extends Component {
     @property({ type: HexGridManager })
     gridManager: HexGridManager | null = null;
 
+    // юниты
     @property({ type: Prefab })
     francePrefab: Prefab | null = null;
 
+    // туман войны
     @property({ type: Prefab })
     fogPrefab: Prefab | null = null;
 
+    // отряды
     @property({ type: [Number] })
     playerUnitGroupSizes: number[] = [];
 
     @property({ type: [Number] })
     enemyUnitGroupSizes: number[] = [];
+
+    // эффекты
+    @property({ type: Prefab })
+    shieldEffectPrefab: Prefab | null = null;  
 
     // 🟩 Предметы как конфиги
     @property({ type: SpawnConfig })
@@ -42,6 +51,18 @@ export class SubObjectGenerator extends Component {
 
     @property({ type: SpawnConfig })
     enemyRocketConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    playerShieldConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    enemyShieldConfig: SpawnConfig = new SpawnConfig();
+
+    public static instance: SubObjectGenerator;
+
+    onLoad() {
+        SubObjectGenerator.instance = this;
+    }
 
     start() {
         if (!this.gridManager) return;
@@ -57,9 +78,11 @@ export class SubObjectGenerator extends Component {
 
         this.spawnItem(playerCells, this.playerBombConfig, BombItemObject);
         this.spawnItem(playerCells, this.playerRocketConfig, RocketItemObject);
+        this.spawnItem(playerCells, this.playerShieldConfig, ShieldItemObject);
 
         this.spawnItem(enemyCells, this.enemyBombConfig, BombItemObject);
         this.spawnItem(enemyCells, this.enemyRocketConfig, RocketItemObject);
+        this.spawnItem(enemyCells, this.enemyShieldConfig, ShieldItemObject);
 
         this.spawnFog(enemyCells, this.fogPrefab);
     }
@@ -72,7 +95,7 @@ export class SubObjectGenerator extends Component {
         if (!config.prefab) return;
 
         const available = [...cells].filter(cell =>
-            !cell.hasAnyMainSubObject() // исключаем ячейки с юнитами и предметами
+            !cell.hasAnyMainSubObject()
         );
 
         if (available.length < config.count) {
@@ -117,4 +140,19 @@ export class SubObjectGenerator extends Component {
             cell.attachSubObject(fog);
         }
     }
+
+    /** Универсальный метод спавна эффектов по клеткам */
+    public spawnEffect<T extends EffectSubObject>(
+        EffectType: new (...args: any[]) => T,
+        groupId: number,
+        cells: GridCell[],
+        prefab: Prefab
+    ): void {
+        for (const cell of cells) {
+            const effect = new EffectType(groupId);
+            effect.setVisualPrefab(prefab); // ⬅️ здесь ты передаёшь префаб вручную
+            cell.attachSubObject(effect);
+        }
+    }
+
 }
