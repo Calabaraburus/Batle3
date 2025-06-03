@@ -19,7 +19,7 @@ export class ShieldItemObject extends ItemSubObject {
         this.visualNode.name = 'ItemVisual';
         tileNode.addChild(this.visualNode);
 
-        this.scaleToCell();
+        this.scaleToCell(0.7, 0.7);
         this.setVisualHidden();
 
         this.ownerType = this.cell.getParameter<number>('type') || -1;

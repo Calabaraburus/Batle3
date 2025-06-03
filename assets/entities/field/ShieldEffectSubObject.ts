@@ -66,7 +66,8 @@ export class ShieldEffectSubObject extends EffectSubObject {
         cell.getVisualNode()?.getComponent(HexCell)?.resetColor();
         this.visualNode?.getComponent(ShieldEffectVisual)?.removeEffect();
 
-        this.visualNode?.destroy();
+        // this.visualNode?.destroy();
+        this.visualNode?.getComponent(ShieldEffectVisual)?.fadeOutAndDestroy();
         this.visualNode = null;
     }
 

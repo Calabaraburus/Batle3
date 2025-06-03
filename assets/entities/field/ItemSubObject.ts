@@ -46,7 +46,7 @@ export abstract class ItemSubObject extends GridSubObject {
     }
 
     /** Подгонка визуала под масштаб ячейки */
-    protected scaleToCell(): void {
+    protected scaleToCell(coefWidth: number, coefHeight: number): void {
         if (!this.cell || !this.visualNode) return;
 
         const tileNode = this.cell.getVisualNode();
@@ -56,8 +56,8 @@ export abstract class ItemSubObject extends GridSubObject {
         const itemTransform = this.visualNode.getComponent(UITransform);
         if (!tileTransform || !itemTransform) return;
 
-        const scaleX = tileTransform.contentSize.width / itemTransform.contentSize.width * 0.7;
-        const scaleY = tileTransform.contentSize.height / itemTransform.contentSize.height * 0.7;
+        const scaleX = tileTransform.contentSize.width / itemTransform.contentSize.width * coefWidth;
+        const scaleY = tileTransform.contentSize.height / itemTransform.contentSize.height * coefHeight;
         const uniformScale = Math.min(scaleX, scaleY);
 
         this.visualNode.setScale(new Vec3(uniformScale, uniformScale, 1));

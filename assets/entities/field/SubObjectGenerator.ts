@@ -35,9 +35,13 @@ export class SubObjectGenerator extends Component {
     @property({ type: [Number] })
     enemyUnitGroupSizes: number[] = [];
 
-    // эффекты
+    // эффекты как объекты
     @property({ type: Prefab })
     shieldEffectPrefab: Prefab | null = null;  
+
+    // эффекты анимации
+    @property({ type: Prefab })
+    explosionEffectPrefab: Prefab | null = null;    
 
     // 🟩 Предметы как конфиги
     @property({ type: SpawnConfig })
@@ -108,6 +112,11 @@ export class SubObjectGenerator extends Component {
 
             const item = new ItemType();
             item.prefab = config.prefab;
+
+            if (item instanceof RocketItemObject) {
+                item.explosionPrefab = this.explosionEffectPrefab;
+            }
+
             cell.attachSubObject(item);
         }
     }

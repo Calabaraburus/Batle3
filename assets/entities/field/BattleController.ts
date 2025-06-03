@@ -104,7 +104,7 @@ export class BattleController extends Component {
         this.updateTurnLabel();
 
         if (this.currentTurn === Turn.Enemy) {
-            setTimeout(() => this.bot.act(), 800);
+            setTimeout(() => this.bot.act(), 1000);
         }
     }
 

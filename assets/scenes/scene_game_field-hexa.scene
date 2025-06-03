@@ -181,7 +181,7 @@
     "_priority": 2,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 786.4229765013055,
+    "_orthoHeight": 715.625,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -401,7 +401,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 786.4229765013055,
+    "_orthoHeight": 715.625,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -620,7 +620,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "9bxVKTgLVLKKxBlWVkZ2Gt",
+    "fileId": "48CYYIvOJMLLU+wSt2YHu7",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -656,7 +656,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "94WxJbeQtBQobIHsFWyG/s",
+    "fileId": "5dQLPYxLlKBZyiLiz3BKfO",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -692,7 +692,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "70pqFBvExE/ZI1ljTMTGJ8",
+    "fileId": "fftOnZYINCZbqfVYDQG1c3",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -728,7 +728,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "39lMDbTMFIZrYP2AkLSild",
+    "fileId": "fag9u+qMZLcpVAyI8kwjoh",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -764,7 +764,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "80/IvCpO9LA5zdR4+JyPDR",
+    "fileId": "88zeS/etxDbp/Y7SVLSGBO",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -800,7 +800,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "b8UZ7cvGJLE4BxB4HjSMxN",
+    "fileId": "8cOX7L2PJMc6Rfhf/nkty0",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -836,7 +836,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "218RFJrZNItLtHHWTfDEEZ",
+    "fileId": "e1tXbVhMZLu5HB910+GEbn",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -872,7 +872,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "8dzalZVClLs7pJMxVkp0yh",
+    "fileId": "a1gd6nXK1FuYc7DhHWZuPq",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -908,7 +908,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "f4AkO5/W9KT6TjOZ2TX67U",
+    "fileId": "1fXpahD49C4bK6fhoeIo9k",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -944,7 +944,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "d8zdMiv6lH94VyKonmUkPS",
+    "fileId": "e1cJxie/FFd5GzFpKjMx/I",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -980,7 +980,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "29WpkLzlhCv7O4Ye6HagKI",
+    "fileId": "20ADHy6GxIG7ej0I396ZyH",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1016,7 +1016,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "89VUG2NwtNSb8/yFx8UXF9",
+    "fileId": "943t/uvS9P36E4Noi/BUQx",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1052,7 +1052,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "44KQnYdmRB145dcuZJ4vsm",
+    "fileId": "2cMFj//x9LgbuRPITuWQIn",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1088,7 +1088,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "76K2UHRH1Hzr9alKcnx/8X",
+    "fileId": "021S6AjE5Ib7xsDVloclBI",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1124,7 +1124,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "9cnEcGXZFNC74uIINZXSOa",
+    "fileId": "32BZ0LNeZDgKY27WtlV98D",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1160,7 +1160,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "246Fe6GllNiYhlHUQiX34+",
+    "fileId": "21L00JYTBEyJkeHSnYJ0ct",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1196,7 +1196,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "8eGPnS5/1HoKORXUEYr4La",
+    "fileId": "86Bdt/WHhPQbYm0ZmXNSlm",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1232,7 +1232,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "43ezQoEONGDoLP/f3V3sBO",
+    "fileId": "73ootxhylHFIix0YEU0xa+",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1268,7 +1268,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "4361iDty9MybI4Qf3tSbAG",
+    "fileId": "b474PQe4xBoY/IehbrLPDX",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1304,7 +1304,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "17HofX5IJKr7rfPfB5RvDH",
+    "fileId": "eaW7HAhh1ONIAtXZz/WE8H",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -1735,6 +1735,10 @@
       "__uuid__": "2000c59c-a0a6-475a-9bc0-0845c9c131a0",
       "__expectedType__": "cc.Prefab"
     },
+    "explosionEffectPrefab": {
+      "__uuid__": "655f43db-e300-433e-b63f-b3e877b00fdf",
+      "__expectedType__": "cc.Prefab"
+    },
     "playerBombConfig": {
       "__id__": 87
     },
@@ -1780,7 +1784,7 @@
       "__uuid__": "48c2308a-4d15-49ec-a93a-f787f682fad1",
       "__expectedType__": "cc.Prefab"
     },
-    "count": 1
+    "count": 4
   },
   {
     "__type__": "SpawnConfig",

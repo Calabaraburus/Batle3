@@ -1,6 +1,6 @@
 import { ItemSubObject } from './ItemSubObject';
 import { GridCell } from './GridCell';
-import { instantiate, Prefab } from 'cc';
+import { instantiate, Prefab, Animation } from 'cc';
 import { BaseItemVisual } from './BaseItemVisual';
 import { HexCell } from './HexCell';
 import { ShieldEffectSubObject } from './ShieldEffectSubObject';
@@ -11,6 +11,7 @@ import { ShieldEffectSubObject } from './ShieldEffectSubObject';
  */
 export class RocketItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;
+    public explosionPrefab: Prefab | null = null;
 
     /** Инициализация при добавлении на клетку */
     protected onInit(): void {
@@ -24,7 +25,7 @@ export class RocketItemObject extends ItemSubObject {
         this.visualNode.name = 'ItemVisual';
         tileNode.addChild(this.visualNode);
 
-        this.scaleToCell();       // Подгонка под тайл
+        this.scaleToCell(0.7, 0.7);       // Подгонка под тайл
         this.setVisualHidden();  // По умолчанию скрыт
 
         // Запоминаем сторону-владельца (противоположная будет активировать)
@@ -77,10 +78,34 @@ export class RocketItemObject extends ItemSubObject {
         const hex = cell.getVisualNode()?.getComponent(HexCell);
         hex?.markAsOpened(true);
         hex?.markAsBurning();
+        this.playExplosionEffect(cell);
     }
 
     /** Вспомогательный метод: скрыть визуально предмет при установке */
     protected setVisualHidden(): void {
         this.visualNode?.getComponent(BaseItemVisual)?.setHide();
     }
+
+    // воспроизводим анимацию взрыва
+    protected playExplosionEffect(cell: GridCell): void {
+        if (!this.explosionPrefab) return;
+
+        const explosion = instantiate(this.explosionPrefab);
+        const visualNode = cell.getVisualNode();
+        if (!visualNode) return;
+
+        visualNode.addChild(explosion);
+        explosion.setPosition(0, 0, 0);
+
+        // ⬇️ ВРЕМЕННО подменяем this.visualNode, чтобы использовать scaleToCell()
+        const prevVisual = this.visualNode;
+        this.visualNode = explosion;
+        this.scaleToCell(0.7, 0.7); // масштабируем взрыв
+        this.visualNode = prevVisual;
+
+        explosion.getComponent(Animation)?.play();
+
+        setTimeout(() => explosion.destroy(), 1000);
+    }
+
 }
