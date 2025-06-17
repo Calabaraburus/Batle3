@@ -8,6 +8,8 @@ import { ItemSubObject } from './ItemSubObject';
 import { GridCell } from './GridCell';
 import { BattleBot } from './BattleBot';
 import { ShieldEffectSubObject } from './ShieldEffectSubObject';
+import { VisualEffectPlayer } from './VisualEffectPlayer';
+import { wait } from './TimeUtils';
 
 const { ccclass, property } = _decorator;
 
@@ -74,12 +76,14 @@ export class BattleController extends Component {
     attackCell(cell: GridCell) {
         if (!cell) return;
 
+        this.playExplosionEffect(cell);
+
         // 🛡️ Щит блокирует урон
-        const blocked = ShieldEffectSubObject.tryIntercept(cell); // 👈
+        const blocked = ShieldEffectSubObject.tryIntercept(cell);
         if (blocked) {
             this.endTurn();
             return;
-        }   
+        }
 
         this.openAndRevealCell(cell);
 
@@ -89,23 +93,26 @@ export class BattleController extends Component {
             UnitGroupManager.instance.onUnitDestroyed(unit);
         }
 
-        const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
-        if (item && !item.isReadyToUse()) {
-            item.activate();
-            this.selectedItem = item;
-        }
+        // 💣 Обработка мгновенного предмета (например, бомбы)
+        // const triggered = this.tryAutoTriggerItem(cell);
+        // if (triggered) return;
+
+        // 💣 Проверка авто-предметов после атаки
+        if (this.checkAndTriggerAutoItems()) return;
 
         this.endTurn();
     }
 
     // Завершает текущий ход и переключает ход между игроком и ботом
-    endTurn() {
+    async endTurn() {
         this.currentTurn = this.currentTurn === Turn.Player ? Turn.Enemy : Turn.Player;
         this.updateTurnLabel();
 
         if (this.currentTurn === Turn.Enemy) {
             setTimeout(() => this.bot.act(), 1000);
         }
+
+        await wait(1000);
     }
 
     // Обрабатывает клик по визуальной ячейке (HexCell)
@@ -142,6 +149,9 @@ export class BattleController extends Component {
         const success = this.selectedItem.tryApplyEffectTo(cell);
         if (success) {
             this.selectedItem = null;
+            
+            // 💣 Проверка авто-предметов после использования
+            if (this.checkAndTriggerAutoItems()) return true;
         }
         return true;
     }
@@ -164,5 +174,54 @@ export class BattleController extends Component {
             return true;
         }
         return false;
+    }
+
+    // 💣 Обработка мгновенного предмета 
+    private tryAutoTriggerItem(cell: GridCell): boolean {
+        const item = cell.getSubObjects().find(obj => obj instanceof ItemSubObject) as ItemSubObject;
+        if (!item || item.isReadyToUse()) return false;
+
+        const triggered = item.tryApplyEffectTo(cell);
+        if (triggered) {
+            this.selectedItem = null;
+            this.endTurn(); // 💥 Мгновенно завершаем ход при срабатывании
+            return true;
+        }
+
+        item.activate();
+        this.selectedItem = item;
+        return false;
+    }
+
+    private checkAndTriggerAutoItems(): boolean {
+        if (!this.gridManager) return false;
+
+        const cells = this.gridManager.getAllCells();
+        for (const cell of cells) {
+            const isOpened = cell.getParameter('opened') === true;
+            if (!isOpened) continue;
+
+            const autoItem = cell.getSubObjects().find(obj =>
+                obj instanceof ItemSubObject &&
+                obj.isAutoTriggered &&
+                !obj.isReadyToUse()
+            ) as ItemSubObject;
+
+            if (autoItem) {
+                const triggered = autoItem.tryApplyEffectTo(cell);
+                if (triggered) {
+                    this.selectedItem = null;
+                    this.endTurn(); // 💥 завершение хода при успешной активации
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // вызов анимации 
+    protected playExplosionEffect(cell: GridCell): void {
+        VisualEffectPlayer.instance.playExplosion(cell);
     }
 }

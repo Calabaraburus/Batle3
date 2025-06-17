@@ -8,6 +8,8 @@ export abstract class ItemSubObject extends GridSubObject {
     public visualNode: Node | null = null;
     public prefab: Prefab | null = null;
 
+    public isAutoTriggered = false; // ❗ По умолчанию нет
+
     protected isUsed = false;
     protected isArmed = false;
     protected ownerType = -1; // 1 = игрок, 2 = враг
