@@ -29,7 +29,7 @@ export class HexGridManager extends Component {
 
     private baseWidth = 98;
     private baseHeight = 63.8;
-    private targetAspectRatio = 1 / 3;
+    private targetAspectRatio = 0.5;
     private calculatedFieldWidth = 0;
     private grid: GridCell[][] = [];
     private chanceToPlaceAllyHex = 0.8

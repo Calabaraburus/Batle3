@@ -10,6 +10,7 @@ export class MineTrapItemObject extends ItemSubObject {
 
     protected onInit(): void {
         if (!this.cell || !this.prefab) return;
+        this.isAutoTriggered = true; // авто активация бонуса
 
         const tileNode = this.cell.getVisualNode();
         if (!tileNode) return;

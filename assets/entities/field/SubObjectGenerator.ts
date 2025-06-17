@@ -12,6 +12,7 @@ import { ItemSubObject } from './ItemSubObject';
 import { SpawnConfig } from './SpawnConfig';
 import { ShieldItemObject } from './ShieldItemObject';
 import { EffectSubObject } from './EffectSubObject';
+import { MineTrapItemObject } from './MineTrapItemObject';
 
 const { ccclass, property } = _decorator;
 
@@ -40,24 +41,28 @@ export class SubObjectGenerator extends Component {
     shieldEffectPrefab: Prefab | null = null;   
 
     // 🟩 Предметы как конфиги
+    // мина ловушка
     @property({ type: SpawnConfig })
     playerMineTrapConfig: SpawnConfig = new SpawnConfig();
 
     @property({ type: SpawnConfig })
     enemyMineTrapConfig: SpawnConfig = new SpawnConfig();
 
+    // бомба
     @property({ type: SpawnConfig })
     playerBombConfig: SpawnConfig = new SpawnConfig();
 
     @property({ type: SpawnConfig })
     enemyBombConfig: SpawnConfig = new SpawnConfig();
 
+    // ракета
     @property({ type: SpawnConfig })
     playerRocketConfig: SpawnConfig = new SpawnConfig();
 
     @property({ type: SpawnConfig })
     enemyRocketConfig: SpawnConfig = new SpawnConfig();
 
+    // щит
     @property({ type: SpawnConfig })
     playerShieldConfig: SpawnConfig = new SpawnConfig();
 
@@ -82,10 +87,12 @@ export class SubObjectGenerator extends Component {
         this.instantiateUnits(playerPlan, this.francePrefab, FranceUnitObject);
         this.instantiateUnits(enemyPlan, this.francePrefab, FranceUnitObject);
 
+        this.spawnItem(playerCells, this.playerMineTrapConfig, MineTrapItemObject);
         this.spawnItem(playerCells, this.playerBombConfig, BombItemObject);
         this.spawnItem(playerCells, this.playerRocketConfig, RocketItemObject);
         this.spawnItem(playerCells, this.playerShieldConfig, ShieldItemObject);
 
+        this.spawnItem(enemyCells, this.enemyMineTrapConfig, MineTrapItemObject);
         this.spawnItem(enemyCells, this.enemyBombConfig, BombItemObject);
         this.spawnItem(enemyCells, this.enemyRocketConfig, RocketItemObject);
         this.spawnItem(enemyCells, this.enemyShieldConfig, ShieldItemObject);
