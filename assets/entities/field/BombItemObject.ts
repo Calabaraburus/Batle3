@@ -9,22 +9,7 @@ export class BombItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;
 
     protected onInit(): void {
-        this.isAutoTriggered = true;
-        if (!this.cell || !this.prefab) return;
-
-        const tileNode = this.cell.getVisualNode();
-        if (!tileNode) return;
-
-        this.visualNode = instantiate(this.prefab);
-        this.visualNode.name = 'ItemVisual';
-        tileNode.addChild(this.visualNode);
-
-        this.scaleToCell(0.65, 0.75);
-        this.visualNode.setPosition(new Vec3(0, 0, 0));
-
-        this.setVisualHidden();  // По умолчанию скрыт
-
-        this.ownerType = this.cell.getParameter<number>('type') ?? -1;
+        this.initVisual();
     }
 
     protected onDestroy(): void {

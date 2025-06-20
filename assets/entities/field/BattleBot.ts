@@ -93,6 +93,7 @@ export class BattleBot {
     private getNeighborTargetsAroundHits(cells: GridCell[]): GridCell[] {
         const hits = cells.filter(c =>
             c.getParameter('opened') &&
+            c.getParameter('type') === 1 &&
             c.getSubObjects().some(obj => obj instanceof UnitSubObject && !obj.isAlive)
         );
 

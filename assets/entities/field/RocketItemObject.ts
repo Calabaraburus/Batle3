@@ -16,21 +16,7 @@ export class RocketItemObject extends ItemSubObject {
 
     /** Инициализация при добавлении на клетку */
     protected onInit(): void {
-        if (!this.cell || !this.prefab) return;
-
-        const tileNode = this.cell.getVisualNode();
-        if (!tileNode) return;
-
-        // Создаём визуальный узел
-        this.visualNode = instantiate(this.prefab);
-        this.visualNode.name = 'ItemVisual';
-        tileNode.addChild(this.visualNode);
-
-        this.scaleToCell(0.7, 0.7);       // Подгонка под тайл
-        this.setVisualHidden();  // По умолчанию скрыт
-
-        // Запоминаем сторону-владельца (противоположная будет активировать)
-        this.ownerType = this.cell.getParameter<number>('type') || -1;
+        this.initVisual();
     }
 
     protected onDestroy(): void {

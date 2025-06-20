@@ -13,6 +13,7 @@ import { SpawnConfig } from './SpawnConfig';
 import { ShieldItemObject } from './ShieldItemObject';
 import { EffectSubObject } from './EffectSubObject';
 import { MineTrapItemObject } from './MineTrapItemObject';
+import { SaboteurItemObject } from '../bonusItems/saboteur/SaboteurItemObject';
 
 const { ccclass, property } = _decorator;
 
@@ -55,6 +56,13 @@ export class SubObjectGenerator extends Component {
     @property({ type: SpawnConfig })
     enemyBombConfig: SpawnConfig = new SpawnConfig();
 
+    // диверсант
+    @property({ type: SpawnConfig })
+    playerSaboteurConfig: SpawnConfig = new SpawnConfig();
+
+    @property({ type: SpawnConfig })
+    enemySaboteurConfig: SpawnConfig = new SpawnConfig();
+
     // ракета
     @property({ type: SpawnConfig })
     playerRocketConfig: SpawnConfig = new SpawnConfig();
@@ -89,11 +97,13 @@ export class SubObjectGenerator extends Component {
 
         this.spawnItem(playerCells, this.playerMineTrapConfig, MineTrapItemObject);
         this.spawnItem(playerCells, this.playerBombConfig, BombItemObject);
+        this.spawnItem(playerCells, this.playerSaboteurConfig, SaboteurItemObject);
         this.spawnItem(playerCells, this.playerRocketConfig, RocketItemObject);
         this.spawnItem(playerCells, this.playerShieldConfig, ShieldItemObject);
 
         this.spawnItem(enemyCells, this.enemyMineTrapConfig, MineTrapItemObject);
         this.spawnItem(enemyCells, this.enemyBombConfig, BombItemObject);
+        this.spawnItem(enemyCells, this.enemySaboteurConfig, SaboteurItemObject);
         this.spawnItem(enemyCells, this.enemyRocketConfig, RocketItemObject);
         this.spawnItem(enemyCells, this.enemyShieldConfig, ShieldItemObject);
 

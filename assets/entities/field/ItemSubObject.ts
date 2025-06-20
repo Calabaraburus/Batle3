@@ -1,10 +1,14 @@
 import { GridSubObject } from './GridSubObject';
-import { UITransform, Vec3, type Node, type Prefab } from 'cc';
+import { instantiate, UITransform, Vec3, type Node, type Prefab } from 'cc';
 import { BaseItemVisual } from './BaseItemVisual';
 import { GridCell } from './GridCell';
 import { HexCell } from './HexCell';
+import { VisualEffectPlayer } from './VisualEffectPlayer';
 
 export abstract class ItemSubObject extends GridSubObject {
+
+    public stealable = true; // возможность красть предметы
+
     public visualNode: Node | null = null;
     public prefab: Prefab | null = null;
 
@@ -13,6 +17,7 @@ export abstract class ItemSubObject extends GridSubObject {
     protected isUsed = false;
     protected isArmed = false;
     protected ownerType = -1; // 1 = игрок, 2 = враг
+    public visualScale: Vec3 = new Vec3(1, 1, 1); // сохраняем масштаб
 
     /** Предмет визуально скрыт (неактивен) */
     public activate(): void {
@@ -27,6 +32,30 @@ export abstract class ItemSubObject extends GridSubObject {
         this.isUsed = true;
     }
 
+    protected initVisual(scaleCoef = 0.7): void {
+        if (!this.cell || !this.prefab) return;
+
+        const tileNode = this.cell.getVisualNode();
+        if (!tileNode) return;
+
+        if (!this.visualNode) {
+            this.visualNode = instantiate(this.prefab);
+            this.visualNode.name = 'ItemVisual';
+            tileNode.addChild(this.visualNode);
+            this.scaleToCell(scaleCoef, scaleCoef);
+        }
+
+        const wasStolen = this.cell.getParameter('wasStolen') === true;
+        if (wasStolen) {
+            this.setVisualActive();
+            this.cell.removeParameter('wasStolen');
+        } else {
+            this.setVisualHidden();
+        }
+
+        this.ownerType = this.cell.getParameter<number>('type') || -1;
+    }
+
     public isReadyToArm(): boolean {
         return this.isArmed;
     }
@@ -37,6 +66,38 @@ export abstract class ItemSubObject extends GridSubObject {
 
     public isSelectable(): boolean {
         return !this.isUsed && this.isArmed;
+    }
+
+    public setOwner(newType: number): void {
+        this.ownerType = newType;
+    }
+
+    protected setVisualActive(): void {
+        const visual = this.visualNode?.getComponent(BaseItemVisual);
+        visual?.setActive();
+    }
+
+        /** Вспомогательный метод: скрыть визуально предмет при установке */
+    protected setVisualHidden(): void {
+        this.visualNode?.getComponent(BaseItemVisual)?.setHide();
+    }
+
+    // воспроизводим анимацию взрыва
+    protected playExplosionEffect(cell: GridCell): void {
+        VisualEffectPlayer.instance.playExplosion(cell);
+    }
+
+    /** Сбрасывает предмет в неактивное состояние (если активация невозможна) */
+    public resetState(): void {
+        this.isArmed = false;
+
+        const visual = this.visualNode?.getComponent(BaseItemVisual);
+        visual?.setActive();
+
+        // Сброс масштаба к сохранённому значению
+        if (this.visualNode?.isValid) {
+            this.visualNode.setScale(this.visualScale);
+        }
     }
 
     /** Проверка: может ли игрок активировать этот предмет (своим нажатием) */
@@ -62,7 +123,8 @@ export abstract class ItemSubObject extends GridSubObject {
         const scaleY = tileTransform.contentSize.height / itemTransform.contentSize.height * coefHeight;
         const uniformScale = Math.min(scaleX, scaleY);
 
-        this.visualNode.setScale(new Vec3(uniformScale, uniformScale, 1));
+        this.visualScale = new Vec3(uniformScale, uniformScale, 1); // 💾 сохранить масштаб
+        this.visualNode.setScale(this.visualScale);
     }
 
     /** Переводит предмет в "готов к применению" */

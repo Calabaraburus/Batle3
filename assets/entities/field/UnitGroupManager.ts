@@ -1,8 +1,7 @@
-// В UnitGroupManager.ts — заменим метод triggerGroupDestructionEffect на расширенную версию
-
 import { GridCell } from './GridCell';
 import { HexCell } from './HexCell';
 import { UnitSubObject } from './UnitSubObject';
+import { ScoreManager } from '../pointsSystem/ScoreManager';
 
 export interface UnitGroupData {
     id: string;
@@ -89,6 +88,9 @@ export class UnitGroupManager {
                 hex?.markAsOpened(true); // передаём suppressGroupCheck = true
             }
         }
+
+        ScoreManager.instance.registerGroupDestroyed(group.units.length); // 💥 За уничтожение группы
+
     }
 
     public getGroup(id: string): UnitGroupData | undefined {

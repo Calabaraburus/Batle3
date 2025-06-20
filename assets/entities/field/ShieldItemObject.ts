@@ -10,19 +10,7 @@ export class ShieldItemObject extends ItemSubObject {
     private static nextGroupId = 1;
 
     protected onInit(): void {
-        if (!this.cell || !this.prefab) return;
-
-        const tileNode = this.cell.getVisualNode();
-        if (!tileNode) return;
-
-        this.visualNode = instantiate(this.prefab);
-        this.visualNode.name = 'ItemVisual';
-        tileNode.addChild(this.visualNode);
-
-        this.scaleToCell(0.7, 0.7);
-        this.setVisualHidden();
-
-        this.ownerType = this.cell.getParameter<number>('type') || -1;
+        this.initVisual();
     }
 
     protected onDestroy(): void {
@@ -68,7 +56,4 @@ export class ShieldItemObject extends ItemSubObject {
         return true;
     }
 
-    private setVisualHidden(): void {
-        this.visualNode?.getComponent(BaseItemVisual)?.setHide();
-    }
 }

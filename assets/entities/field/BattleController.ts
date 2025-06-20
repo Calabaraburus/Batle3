@@ -1,4 +1,4 @@
-import { _decorator, Component } from 'cc';
+import { _decorator, Component, Node } from 'cc';
 import { HexGridManager } from './HexGridManager';
 import { HexCell } from './HexCell';
 import { TurnLabelController } from './TurnLabelController';
@@ -10,6 +10,8 @@ import { BattleBot } from './BattleBot';
 import { ShieldEffectSubObject } from './ShieldEffectSubObject';
 import { VisualEffectPlayer } from './VisualEffectPlayer';
 import { wait } from './TimeUtils';
+import { BattleUIPanel } from '../UI_components/BattleUIPanel';
+import { ScoreManager } from '../pointsSystem/ScoreManager';
 
 const { ccclass, property } = _decorator;
 
@@ -25,9 +27,13 @@ export class BattleController extends Component {
     @property({ type: HexGridManager })
     gridManager: HexGridManager | null = null;
 
-    @property({ type: TurnLabelController })
-    turnLabelController: TurnLabelController | null = null;
+    // @property({ type: TurnLabelController })
+    // turnLabelController: TurnLabelController | null = null;
 
+    @property({ type: Node })
+    battleUIPanelNode: Node | null = null;
+
+    private battleUIPanel: BattleUIPanel | null;
     public currentTurn: Turn = Turn.Player;
     public selectedItem: ItemSubObject | null = null;
 
@@ -49,15 +55,24 @@ export class BattleController extends Component {
 
         }
         this.currentTurn = Turn.Player;
+        if(this.battleUIPanelNode){
+            this.battleUIPanel = this.battleUIPanelNode?.getComponent(BattleUIPanel);
+            if (this.battleUIPanel){
+                ScoreManager.instance.init(this.battleUIPanel);
+            }
+        }
+
         this.updateTurnLabel();
     }
 
     // Обновляет текст с информацией о текущем ходе
     updateTurnLabel() {
-        if (this.turnLabelController) {
-            const text = this.currentTurn === Turn.Player ? 'Ваш хід' : 'Хід противника';
-            this.turnLabelController.show(text, 1.5);
-        }
+        // if (this.turnLabelController) {
+        //     const text = this.currentTurn === Turn.Player ? 'Ваш хід' : 'Хід противника';
+        //     this.turnLabelController.show(text, 1.5);
+        // }
+        // обновляем игрока на панели
+        this.battleUIPanel?.updateTurn(this.currentTurn);  
     }
 
     // Открывает клетку, снимает туман, применяет визуальные эффекты
@@ -85,17 +100,18 @@ export class BattleController extends Component {
             return;
         }
 
-        this.openAndRevealCell(cell);
-
         const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+
         if (unit && unit.isAlive) {
+            ScoreManager.instance.registerHit();
             unit.markAsDead();
             UnitGroupManager.instance.onUnitDestroyed(unit);
+        } else {
+            ScoreManager.instance.registerMiss();
         }
 
-        // 💣 Обработка мгновенного предмета (например, бомбы)
-        // const triggered = this.tryAutoTriggerItem(cell);
-        // if (triggered) return;
+        this.openAndRevealCell(cell); // теперь безопасно
+
 
         // 💣 Проверка авто-предметов после атаки
         if (this.checkAndTriggerAutoItems()) return;
@@ -110,7 +126,7 @@ export class BattleController extends Component {
 
         if (this.currentTurn === Turn.Enemy) {
             setTimeout(() => this.bot.act(), 1000);
-        }
+        } 
 
         await wait(1000);
     }

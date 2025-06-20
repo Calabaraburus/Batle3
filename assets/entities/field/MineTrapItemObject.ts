@@ -9,22 +9,7 @@ export class MineTrapItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;
 
     protected onInit(): void {
-        if (!this.cell || !this.prefab) return;
-        this.isAutoTriggered = true; // авто активация бонуса
-
-        const tileNode = this.cell.getVisualNode();
-        if (!tileNode) return;
-
-        this.visualNode = instantiate(this.prefab);
-        this.visualNode.name = 'ItemVisual';
-        tileNode.addChild(this.visualNode);
-
-        this.scaleToCell(0.65, 0.75);
-        this.visualNode.setPosition(new Vec3(0, 0, 0));
-
-        this.setVisualHidden();  // По умолчанию скрыт
-
-        this.ownerType = this.cell.getParameter<number>('type') ?? -1;
+        this.initVisual();
     }
 
     protected onDestroy(): void {

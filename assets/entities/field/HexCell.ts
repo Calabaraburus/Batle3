@@ -165,7 +165,7 @@ export class HexCell extends Component {
         this.node.off(Node.EventType.TOUCH_END, this.handleClick, this);
     }
 
-    public markAsOpened(suppressGroupCheck = false): void {
+    public markAsOpened(forceKill = false): void {
         this.markAsBurning();
 
         const fogNode = this.node.getChildByName('FogEffect');
@@ -176,10 +176,11 @@ export class HexCell extends Component {
         const cell = this.logicalCell;
         if (!cell) return;
 
-        const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
-
-        if (unit && unit.isAlive) {
-            unit.markAsDead();
+        if (forceKill) {
+            const unit = cell.getSubObjects().find(obj => obj instanceof UnitSubObject) as UnitSubObject;
+            if (unit && unit.isAlive) {
+                unit.markAsDead();
+            }
         }
 
         cell.addParameter('opened', true);
@@ -187,10 +188,9 @@ export class HexCell extends Component {
         const items = cell.getSubObjects().filter(obj => obj instanceof ItemSubObject) as ItemSubObject[];
         for (const item of items) {
             if (!item.isReadyToArm()) {
-                item.activate(); // активируем только неактивированный предмет
+                item.activate();
             }
         }
-
     }
         
     public markAsFriendly(): void {

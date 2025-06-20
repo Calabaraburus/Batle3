@@ -1,4 +1,5 @@
 import { _decorator, Component, Sprite, SpriteFrame, Tween, tween, Vec3 } from 'cc';
+import { GridCell } from './GridCell';
 const { ccclass, property } = _decorator;
 
 /**
@@ -36,6 +37,37 @@ export class BaseItemVisual extends Component {
         if (sprite && this.stateSprites[index]) {
             sprite.spriteFrame = this.stateSprites[index];
         }
+    }
+
+    /** анимация полета (например для кражи) */
+    public playStealAnimation(fromCell: GridCell, toCell: GridCell, baseScale: Vec3): void {
+        const node = this.node;
+        if (!node || !node.isValid) return;
+
+        const fromWorld = fromCell.getVisualNode()?.getWorldPosition();
+        const toWorld = toCell.getVisualNode()?.getWorldPosition();
+        if (!fromWorld || !toWorld) return;
+
+        node.setWorldPosition(fromWorld);
+        node.setScale(baseScale);
+        node.active = true;
+
+        const scaleUp = new Vec3(baseScale.x * 1.1, baseScale.y * 1.1, baseScale.z);
+
+        tween(node)
+            .to(0.5, { worldPosition: toWorld }, { easing: 'quadInOut' }) // перелёт
+            .call(() => {
+                // pop-эффект
+                tween(node)
+                    .to(0.15, { scale: scaleUp })
+                    .to(0.15, { scale: baseScale })
+                    .delay(0.2) // пауза перед удалением
+                    .call(() => {
+                        node.destroy(); // удаляем визуал
+                    })
+                    .start();
+            })
+            .start();
     }
 
     /** Запускает анимацию пульсации вокруг базового масштаба */

@@ -28,7 +28,7 @@ export class HexGridManager extends Component {
     @property totalTileCount = 150;
 
     private baseWidth = 98;
-    private baseHeight = 63.8;
+    private baseHeight = 64;
     private targetAspectRatio = 0.5;
     private calculatedFieldWidth = 0;
     private grid: GridCell[][] = [];
