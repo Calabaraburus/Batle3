@@ -1,8 +1,8 @@
-import { ItemSubObject } from '../../field/ItemSubObject';
 import { GridCell } from '../../field/GridCell';
 import { instantiate, Prefab, tween, Vec3 } from 'cc';
 import { SaboteurItemVisual } from './SaboteurItemVisual';
-import { BaseItemVisual } from '../../field/BaseItemVisual';
+import { ItemSubObject } from '../ItemSubObject';
+import { BaseItemVisual } from '../BaseItemVisual';
 
 export class SaboteurItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;

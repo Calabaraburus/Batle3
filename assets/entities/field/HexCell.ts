@@ -4,12 +4,12 @@ import {
     CircleCollider2D,
     PhysicsSystem2D
 } from 'cc';
-import { GridSubObject } from './GridSubObject';
 import { GridCell } from './GridCell';
-import { BattleController } from './BattleController';
-import { UnitSubObject } from './UnitSubObject';
-import { UnitGroupManager } from './UnitGroupManager';
-import { ItemSubObject } from './ItemSubObject';
+import { GridSubObject } from '../subObjects/GridSubObject';
+import { BattleController } from '../battle/BattleController';
+import { UnitSubObject } from '../subObjects/units/UnitSubObject';
+import { ItemSubObject } from '../bonusItems/ItemSubObject';
+
 
 const { ccclass, property } = _decorator;
 

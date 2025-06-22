@@ -1,7 +1,7 @@
-import { GridSubObject } from './GridSubObject';
-import { Node } from 'cc';
-import { UnitSubObject } from './UnitSubObject';
-import { ItemSubObject } from './ItemSubObject';
+import { ItemSubObject } from "../bonusItems/ItemSubObject";
+import { GridSubObject } from "../subObjects/GridSubObject";
+import { UnitSubObject } from "../subObjects/units/UnitSubObject";
+import { _decorator, Node } from 'cc';
 
 /**
  * GridCell — логическая ячейка поля.

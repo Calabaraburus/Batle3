@@ -10,7 +10,7 @@ import {
 
 import { HexCell } from './HexCell';
 import { GridCell } from './GridCell';
-import { FogSubObject } from './FogSubObject';
+import { FogSubObject } from '../subObjects/fog/FogSubObject';
 
 const { ccclass, property, executeInEditMode } = _decorator;
 

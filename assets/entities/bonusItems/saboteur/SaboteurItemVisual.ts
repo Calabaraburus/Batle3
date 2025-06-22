@@ -1,6 +1,6 @@
 import { _decorator, Component, tween, Vec3, UIOpacity } from 'cc';
-import { BaseItemVisual } from '../../field/BaseItemVisual';
 import { GridCell } from '../../field/GridCell';
+import { BaseItemVisual } from '../BaseItemVisual';
 
 const { ccclass } = _decorator;
 

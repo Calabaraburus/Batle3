@@ -1,9 +1,10 @@
+import { UnitGroupManager } from '../battle/UnitGroupManager';
+import { VisualEffectPlayer } from '../battleEffects/VisualEffectPlayer';
+import { ItemSubObject } from '../bonusItems/ItemSubObject';
+import { ShieldEffectSubObject } from '../bonusItems/shieldEffect/ShieldEffectSubObject';
+import { UnitSubObject } from '../subObjects/units/UnitSubObject';
 import { GridCell } from './GridCell';
-import { UnitSubObject } from './UnitSubObject';
-import { UnitGroupManager } from './UnitGroupManager';
-import { ItemSubObject } from './ItemSubObject';
-import { ShieldEffectSubObject } from './ShieldEffectSubObject';
-import { VisualEffectPlayer } from './VisualEffectPlayer';
+
 
 /**
  * Обрабатывает попадание в клетку.

@@ -1,6 +1,6 @@
 import { _decorator, Component, Label } from 'cc';
-import { Turn } from '../field/BattleController';
 import { ScoreManager } from '../pointsSystem/ScoreManager';
+import { Turn } from '../battle/BattleController';
 
 const { ccclass, property } = _decorator;
 

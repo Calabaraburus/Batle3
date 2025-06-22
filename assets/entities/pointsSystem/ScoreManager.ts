@@ -1,5 +1,5 @@
+import { BattleController, Turn } from '../battle/BattleController';
 import { BattleUIPanel } from '../UI_components/BattleUIPanel';
-import { BattleController, Turn } from '../field/BattleController';
 
 export class ScoreManager {
     private static instanceRef: ScoreManager;
