@@ -4,11 +4,15 @@ import { ShieldItemStrategy } from './ShieldItemStrategy';
 import { HexGridManager } from '../field/HexGridManager';
 import { GridCell } from '../field/GridCell';
 import { ItemSubObject } from '../bonusItems/ItemSubObject';
-import { BattleController } from '../battle/BattleController';
 import { UnitSubObject } from '../subObjects/units/UnitSubObject';
 import { RocketItemObject } from '../bonusItems/rocket/RocketItemObject';
 import { ShieldItemObject } from '../bonusItems/shield/ShieldItemObject';
-import { _decorator} from 'cc';
+import { BattleController } from '../battle/BattleController';
+import { ItemManager } from '../battle/ItemManager';
+import { TurnManager } from '../battle/TurnManager';
+import { VictoryChecker } from '../../resources/levels/VictoryChecker';
+import { SaboteurItemObject } from '../bonusItems/saboteur/SaboteurItemObject';
+import { SaboteurItemStrategy } from './SaboteurItemStrategy';
 
 export class BattleBot {
     constructor(
@@ -19,10 +23,11 @@ export class BattleBot {
     ) {}
 
     /** Основной метод поведения бота */
-    public act(): void {
+    public async act(): Promise<void> {
+        if (TurnManager.instance.isTurnFrozen()) return; // ✅ Защита
         const cells = this.grid.getAllCells();
 
-        const usedItem = this.tryUseItems(cells);
+        const usedItem = await this.tryUseItems(cells);
 
         const canAttack = cells.some(c =>
             c.getParameter('type') === 1 && !c.getParameter('opened')
@@ -36,7 +41,7 @@ export class BattleBot {
     }
 
     /** Попытка применить все доступные предметы */
-    private tryUseItems(cells: GridCell[]): boolean {
+    private async tryUseItems(cells: GridCell[]): Promise<boolean> {
         const items = cells
             .filter(c => c.getParameter('type') === 1 && c.getParameter('opened'))
             .flatMap(c => c.getSubObjects())
@@ -57,16 +62,19 @@ export class BattleBot {
                 continue;
             }
 
-            const targets = strategy.evaluateTargets(this.grid.getAllCells(), item);
+            const targets = strategy.evaluateTargets(cells, item);
             console.log(`[BOT] Целей для применения (${item.constructor.name}):`, targets.length);
 
             for (const target of targets) {
                 const applied = item.tryApplyEffectTo(target);
                 if (applied) {
                     console.log('[BOT] Применил предмет:', item.constructor.name);
-                    BattleController.instance.selectedItem = null; // ⛔ сбрасываем
                     usedAtLeastOne = true;
-                    break; // ✅ переходим к следующему предмету
+
+                    // 💣 Автотриггеры после применения
+                    await ItemManager.instance.tryAutoTriggerItems();
+                    VictoryChecker.instance?.checkVictory();
+                    break;
                 }
             }
         }
@@ -114,6 +122,7 @@ export class BattleBot {
     private getStrategyForItem(item: ItemSubObject): ItemStrategy | null {
         if (item instanceof RocketItemObject) return new RocketItemStrategy();
         if (item instanceof ShieldItemObject) return new ShieldItemStrategy();
+        if (item instanceof SaboteurItemObject) return new SaboteurItemStrategy();
         return null;
     }
 

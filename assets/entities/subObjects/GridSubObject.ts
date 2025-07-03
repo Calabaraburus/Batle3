@@ -16,6 +16,11 @@ export abstract class GridSubObject {
         this.cell = null;
     }
 
+    // В GridSubObject
+    public setHidden(hidden: boolean): void {
+        // по умолчанию ничего — переопределяется в потомках
+    }
+
     // Переопределяется в потомках
     protected abstract onInit(): void;
     protected abstract onDestroy(): void;

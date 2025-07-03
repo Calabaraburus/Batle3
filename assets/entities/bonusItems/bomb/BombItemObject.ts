@@ -10,6 +10,7 @@ export class BombItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;
 
     protected onInit(): void {
+        this.isAutoTriggered = true; // 💣 теперь бомба считается автотриггерной
         this.initVisual();
     }
 

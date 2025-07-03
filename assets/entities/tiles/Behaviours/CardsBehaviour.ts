@@ -27,7 +27,7 @@ import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
 import { WormCardSubehaviour } from "./WormCardSubehaviour";
 import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
 import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
-import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
+import { CatapultCardSubehaviour } from "./CatapultCardSubehaviour";
 import { AssassinCardSubehaviour } from "./AssassinCardSubehaviour";
 import { ShamanCardSubehaviour } from "./ShamanCardSubehaviour";
 import { EffectsService } from "../../services/EffectsService";
@@ -190,9 +190,9 @@ export class CardsBehaviour extends GameBehaviour {
     this._cardsRunDict.set("berserkLow", new BerserkLowCardSubehaviour(this));
   }
 
-  start() {
+  // start() {
 
-  }
+  // }
 
   activateCondition(): boolean {
     const model = this.currentPlayerModel;

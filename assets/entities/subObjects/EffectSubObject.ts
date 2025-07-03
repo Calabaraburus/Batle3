@@ -9,6 +9,7 @@ export abstract class EffectSubObject extends GridSubObject {
     public abstract onRemove(): void;
 
     public consume(): void {
+        console.log('[ShieldEffect] consume →', this.constructor.name, this.cell?.getParameter('x'), this.cell?.getParameter('y'));
         this.onRemove();
         if (this.cell) {
             this.cell.detachSubObject(this);
@@ -21,6 +22,10 @@ export abstract class EffectSubObject extends GridSubObject {
 
     public setVisualNode(node: Node): void {
         this.visual = node;
+    }
+
+    public assignPrefab(prefab: Prefab): void {
+        this.visualPrefab = prefab;
     }
 
     protected scaleToCell(): void {

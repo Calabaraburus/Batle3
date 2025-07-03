@@ -1,0 +1,17 @@
+{
+  "totalTiles": 70,
+  "playerTiles": 30,
+  "enemyTiles": 35,
+  "playerUnits": [2, 2],
+  "enemyUnits": [2,1,1],
+  "playerItems": {
+    "rocket": 2
+  },
+  "enemyItems": {
+    "mine": 3,
+    "captive": 3
+  },
+  "victoryCondition": {
+    "type": "activateCaptives"
+  }
+}

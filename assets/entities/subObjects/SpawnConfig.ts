@@ -13,4 +13,7 @@ export class SpawnConfig extends CCObject {
 
     @property({ type: Number })
     count = 0;
+
+    @property
+    itemId = '';
 }

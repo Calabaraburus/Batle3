@@ -1,0 +1,16 @@
+{
+  "totalTiles": 50,
+  "playerTiles": 25,
+  "enemyTiles": 20,
+  "playerUnits": [2, 1],
+  "enemyUnits": [2],
+  "playerItems": {
+    "mine": 1
+  },
+  "enemyItems": {
+    "mine": 1
+  },
+  "victoryCondition": {
+    "type": "eliminateAllEnemies"
+  }
+}

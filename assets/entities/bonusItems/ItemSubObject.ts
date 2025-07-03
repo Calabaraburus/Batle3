@@ -33,6 +33,25 @@ export abstract class ItemSubObject extends GridSubObject {
         this.isUsed = true;
     }
 
+    // сокрытие визуала
+    public override setHidden(hidden: boolean): void {
+        if (this.visualNode?.isValid) {
+            this.visualNode.active = !hidden;
+        }
+    }
+
+    public attachToCell(cell: GridCell): void {
+        cell.attachSubObject(this);
+    }
+
+    /**
+     * Вызывается при привязке объекта к клетке
+     * Можно переопределить в потомке для кастомной логики
+     */
+    public onAttachToCell(cell: GridCell): void {
+        this.cell = cell;
+    }
+
     protected initVisual(scaleCoef = 0.7): void {
         if (!this.cell || !this.prefab) return;
 

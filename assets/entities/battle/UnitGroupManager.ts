@@ -2,12 +2,14 @@ import { GridCell } from '../field/GridCell';
 import { HexCell } from '../field/HexCell';
 import { ScoreManager } from '../pointsSystem/ScoreManager';
 import { UnitSubObject } from '../subObjects/units/UnitSubObject';
+import { BattleController } from './BattleController';
 
 export interface UnitGroupData {
     id: string;
     units: UnitSubObject[];
     cells: GridCell[];
     isDestroyed: boolean;
+    ownerType: 'player' | 'enemy'; // ⬅️ Добавлено поле для различия сторон
 }
 
 export class UnitGroupManager {
@@ -19,22 +21,28 @@ export class UnitGroupManager {
 
     private groups: Map<string, UnitGroupData> = new Map();
 
-    public createGroup(id: string): void {
+    /**
+     * Создаёт новую группу с владельцем.
+     */
+    public createGroup(id: string, ownerType: 'player' | 'enemy'): void {
         if (!this.groups.has(id)) {
             this.groups.set(id, {
                 id,
                 units: [],
                 cells: [],
                 isDestroyed: false,
+                ownerType,
             });
         }
     }
 
+    /**
+     * Привязывает юнита к группе.
+     */
     public registerUnitToGroup(id: string, unit: UnitSubObject, cell: GridCell): void {
         const group = this.groups.get(id);
         if (!group) return;
 
-        // 🔒 Предотвращаем повторную регистрацию
         if (group.units.includes(unit) || group.cells.includes(cell)) return;
 
         unit.groupId = id;
@@ -44,6 +52,9 @@ export class UnitGroupManager {
         group.cells.push(cell);
     }
 
+    /**
+     * Обработка смерти юнита — проверка на уничтожение всей группы.
+     */
     public onUnitDestroyed(unit: UnitSubObject): void {
         const id = unit.groupId;
         const group = this.groups.get(id);
@@ -56,6 +67,9 @@ export class UnitGroupManager {
         }
     }
 
+    /**
+     * Побочный эффект при уничтожении группы — открытие соседних клеток и начисление очков.
+     */
     private triggerGroupDestructionEffect(group: UnitGroupData): void {
         console.log(`[GroupEffect] Triggered for group ${group.id}`);
         const affected = new Set<GridCell>();
@@ -76,32 +90,57 @@ export class UnitGroupManager {
             if (sameOwner) {
                 neighbor.addParameter('destroyed', true);
 
-                // Удаление тумана войны
                 const fogs = neighbor.getSubObjects().filter(sub => sub.constructor.name === 'FogSubObject');
                 for (const fog of fogs) {
                     neighbor.detachSubObject(fog);
                 }
 
-                // Открытие тайла без повторной проверки группы
-                const visual = neighbor.getVisualNode();
-                const hex = visual?.getComponent(HexCell);
-                hex?.markAsOpened(true); // передаём suppressGroupCheck = true
+                BattleController.instance.openAndRevealCell(neighbor);
             }
         }
 
-        ScoreManager.instance.registerGroupDestroyed(group.units.length); // 💥 За уничтожение группы
-
+        ScoreManager.instance.registerGroupDestroyed(group.units.length);
     }
 
+    /**
+     * Возвращает одну группу по ID.
+     */
     public getGroup(id: string): UnitGroupData | undefined {
         return this.groups.get(id);
     }
 
+    /**
+     * Возвращает группу, к которой принадлежит юнит.
+     */
     public getGroupOf(unit: UnitSubObject): UnitGroupData | undefined {
         return this.groups.get(unit.groupId);
     }
 
+    /**
+     * Очищает все группы.
+     */
     public clearAll(): void {
         this.groups.clear();
+    }
+
+    /**
+     * Возвращает все группы игрока.
+     */
+    public getAllPlayerGroups(): UnitGroupData[] {
+        return Array.from(this.groups.values()).filter(group => group.ownerType === 'player');
+    }
+
+    /**
+     * Возвращает все группы врага.
+     */
+    public getAllEnemyGroups(): UnitGroupData[] {
+        return Array.from(this.groups.values()).filter(group => group.ownerType === 'enemy');
+    }
+
+    /**
+     * Возвращает всех юнитов на поле.
+     */
+    public getAllUnits(): UnitSubObject[] {
+        return Array.from(this.groups.values()).flatMap(group => group.units);
     }
 }

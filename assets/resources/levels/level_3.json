@@ -1,0 +1,24 @@
+{
+  "totalTiles": 120,
+  "playerTiles": 50,
+  "enemyTiles": 50,
+  "playerUnits": [3,2,1],
+  "enemyUnits": [3,2,1],
+  "playerItems": {
+    "shield": 2,
+    "mine": 3,
+    "rocket": 3,
+    "bomb": 3,
+    "saboteur": 2
+  },
+  "enemyItems": {
+    "shield": 2,
+    "mine": 3,
+    "rocket": 3,
+    "bomb": 3,
+    "saboteur": 2
+  },
+  "victoryCondition": {
+    "type": "eliminateAllEnemies"
+  }
+}

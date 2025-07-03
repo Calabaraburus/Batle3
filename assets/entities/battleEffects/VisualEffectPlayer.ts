@@ -2,7 +2,6 @@ import { _decorator, Component, Node, Prefab, Animation, instantiate, UITransfor
 import { GridCell } from '../field/GridCell';
 import { wait } from '../battle/TimeUtils';
 
-
 const { ccclass, property } = _decorator;
 
 @ccclass('VisualEffectPlayer')
@@ -12,8 +11,34 @@ export class VisualEffectPlayer extends Component {
     @property({ type: Prefab })
     public explosionEffectPrefab: Prefab | null = null;
 
+    // Текущие активные анимации по ключам
+    private activeEffects: Set<string> = new Set();
+
     onLoad() {
         VisualEffectPlayer.instance = this;
+    }
+
+    /**
+     * Запускает отслеживаемый эффект (по уникальному ключу)
+     */
+    private beginBlock(key: string): void {
+        this.activeEffects.add(key);
+    }
+
+    /**
+     * Завершает отслеживаемый эффект
+     */
+    private endBlock(key: string): void {
+        this.activeEffects.delete(key);
+    }
+
+    /**
+     * Ожидает завершения всех отслеживаемых эффектов
+     */
+    public async waitForAllEffects(): Promise<void> {
+        while (this.activeEffects.size > 0) {
+            await wait(100);
+        }
     }
 
     /**
@@ -24,13 +49,15 @@ export class VisualEffectPlayer extends Component {
         if (!this.explosionEffectPrefab) return;
 
         const visualNode = cell.getVisualNode();
-        if (!visualNode) return;
+        if (!visualNode || !visualNode.isValid) return;
+
+        const key = `explosion-${Math.random()}`; // Уникальный ID
+        this.beginBlock(key);
 
         const explosion = instantiate(this.explosionEffectPrefab);
         explosion.setPosition(new Vec3(0, 0, 0));
         visualNode.addChild(explosion);
 
-        // Масштабируем под размер клетки
         const target = visualNode.getComponent(UITransform);
         const effect = explosion.getComponent(UITransform);
         if (target && effect) {
@@ -41,10 +68,12 @@ export class VisualEffectPlayer extends Component {
         }
 
         explosion.getComponent(Animation)?.play();
-        setTimeout(() => explosion.destroy(), 600);
 
-        await wait(1000);
+        await wait(600);
+        if (explosion?.isValid) explosion.destroy();
 
+        await wait(400); // Остаточная задержка
+        this.endBlock(key);
     }
 
     /**
@@ -53,10 +82,11 @@ export class VisualEffectPlayer extends Component {
     async flashAndFadeOut(node: Node, sprite: Sprite, duration = 0.5): Promise<void> {
         if (!node || !sprite) return;
 
-        // Добавим прозрачность
+        const key = `fade-${Math.random()}`;
+        this.beginBlock(key);
+
         const opacityComp = node.getComponent(UIOpacity) || node.addComponent(UIOpacity);
 
-        // Вспышка (белый), затем возвращение цвета
         const originalColor = sprite.color.clone();
         sprite.color = new Color(255, 255, 255, 255);
 
@@ -67,9 +97,12 @@ export class VisualEffectPlayer extends Component {
         tween(opacityComp)
             .delay(0.1)
             .to(duration, { opacity: 0 })
-            .call(() => node.destroy())
+            .call(() => {
+                if (node?.isValid) node.destroy();
+                this.endBlock(key);
+            })
             .start();
 
-        await wait(1000);
+        await wait(duration * 1000 + 200);
     }
 }

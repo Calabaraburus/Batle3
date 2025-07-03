@@ -32,7 +32,7 @@ export class BaseItemVisual extends Component {
     }
 
     /** Приватно: применяет нужный спрайт по индексу, если есть */
-    private setSpriteFrame(index: number): void {
+    protected setSpriteFrame(index: number): void {
         const sprite = this.getComponent(Sprite);
         if (sprite && this.stateSprites[index]) {
             sprite.spriteFrame = this.stateSprites[index];

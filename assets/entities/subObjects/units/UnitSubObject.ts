@@ -1,4 +1,4 @@
-import { Node } from 'cc';
+import { Node, Prefab } from 'cc';
 import { BaseUnitVisual } from './BaseUnitVisual';
 import { GridSubObject } from '../GridSubObject';
 import { UnitGroupManager } from '../../battle/UnitGroupManager';
@@ -12,10 +12,15 @@ export abstract class UnitSubObject extends GridSubObject {
     public visualNode: Node | null = null;
     public isAlive = true;
 
+    public prefab: Prefab | null = null;
+
     /**
      * Идентификатор группы, к которой принадлежит юнит
      */
     public groupId = '';
+
+    // Идентификатор юнита
+    public unitId = '';
 
     /**
      * Убить юнита (сменить визуал через BaseUnitVisual)
@@ -29,6 +34,13 @@ export abstract class UnitSubObject extends GridSubObject {
         }
 
         UnitGroupManager.instance.onUnitDestroyed(this);
+    }
+
+    // сокрытие визуала
+    public override setHidden(hidden: boolean): void {
+        if (this.visualNode?.isValid) {
+            this.visualNode.active = !hidden;
+        }
     }
 
     /**

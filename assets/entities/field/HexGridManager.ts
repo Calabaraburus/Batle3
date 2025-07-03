@@ -11,6 +11,8 @@ import {
 import { HexCell } from './HexCell';
 import { GridCell } from './GridCell';
 import { FogSubObject } from '../subObjects/fog/FogSubObject';
+import { HexGridUtils } from './HexGridUtils';
+import { HexGridLayoutGenerator } from './HexGridLayoutGenerator';
 
 const { ccclass, property, executeInEditMode } = _decorator;
 
@@ -27,33 +29,47 @@ export class HexGridManager extends Component {
     @property enemyTileCount = 100;
     @property totalTileCount = 150;
 
+    @property
+    public useLevelConfig = false;  // 🆕 флаг запуска поля инспектор/конфиг
+    private wasCleared = false; // защита от повторной очистки
+
     private baseWidth = 98;
     private baseHeight = 64;
     private targetAspectRatio = 0.5;
     private calculatedFieldWidth = 0;
     private grid: GridCell[][] = [];
-    private chanceToPlaceAllyHex = 0.8
+    private chanceToPlaceAllyHex = 0.8;
 
     onEnable() {
-        this.refreshField();
+        if (!this.useLevelConfig) {
+            this.refreshField();
+        }
     }
 
     onDestroy() {
-        this.clearGrid();
+        // this.clearGrid();
     }
 
+    /** Полное обновление поля */
     refreshField() {
         this.clearGrid();
         this.generateField();
     }
 
+    /** Удаление всех дочерних узлов и очистка grid-массива */
     clearGrid() {
-        for (const child of this.node.children) {
-            child.destroy();
+        if (this.wasCleared) return;
+        this.wasCleared = true;
+
+        for (const child of [...this.node.children]) {
+            if (child && child.isValid) {
+                child.destroy();
+            }
         }
         this.grid = [];
     }
 
+    /** Генерация поля из настроек */
     generateField() {
         if (!this.hexTilePrefab) return;
 
@@ -63,19 +79,20 @@ export class HexGridManager extends Component {
         const containerWidth = uiTransform.contentSize.width;
         const containerHeight = uiTransform.contentSize.height;
 
-        const [cols, rows] = this.calculateBestGridSize(this.totalTileCount);
-        const [tileWidth, tileHeight] = this.calculateTileSize(containerWidth, containerHeight, cols, rows);
-        const [fieldWidth, fieldHeight] = this.calculateFieldDimensions(cols, rows, tileWidth, tileHeight);
+        const [cols, rows] = HexGridUtils.calculateBestGridSize(this.totalTileCount, this.targetAspectRatio);
+        const [tileWidth, tileHeight] = HexGridUtils.calculateTileSize(containerWidth, containerHeight, cols, rows, this.baseWidth, this.baseHeight);
+        const [fieldWidth, fieldHeight] = HexGridUtils.calculateFieldDimensions(cols, rows, tileWidth, tileHeight);
 
         this.calculatedFieldWidth = fieldWidth;
 
-        const layout = this.generateFuzzyLayout(cols, rows, this.totalTileCount, this.playerTileCount, this.enemyTileCount);
-        const origin = this.calculateOrigin(containerWidth, containerHeight, fieldWidth, fieldHeight, tileWidth, tileHeight);
+        const layout = HexGridLayoutGenerator.generate(cols, rows, this.totalTileCount, this.playerTileCount, this.enemyTileCount);
+        const origin = HexGridUtils.calculateOrigin(containerWidth, containerHeight, fieldWidth, fieldHeight, tileWidth, tileHeight);
 
         this.buildFromLayout(layout, tileWidth, tileHeight, origin);
         this.linkNeighbors(cols, rows);
     }
 
+    /** Создание тайлов по макету */
     buildFromLayout(layout: number[][], tileWidth: number, tileHeight: number, origin: Vec3) {
         for (let y = 0; y < layout.length; y++) {
             this.grid[y] = [];
@@ -95,21 +112,11 @@ export class HexGridManager extends Component {
                 const posY = origin.y - y * tileHeight - offsetY;
 
                 tile.setPosition(new Vec3(posX, posY, 0));
-                console.log(`[Grid] Placing hex (${x}, ${y}) at world pos:`, tile.getWorldPosition());
-
                 tile.setScale(new Vec3(tileWidth / this.baseWidth, tileHeight / this.baseHeight, 1));
-
-                console.log(`Created HexTile at (${x}, ${y}) → pos (${posX.toFixed(1)}, ${posY.toFixed(1)})`);
-
-                // изменение оттенка тайла для PLAYER/ENEMY
-                // const sprite = tile.getComponent(Sprite);
-                // if (sprite) {
-                //     sprite.color = type === PLAYER ? new Color(150, 200, 255) : new Color(255, 150, 150);
-                // }
 
                 const logicCell = new GridCell();
                 logicCell.addParameter('type', type);
-                logicCell.addParameter('x', x); // Добавляем координаты
+                logicCell.addParameter('x', x);
                 logicCell.addParameter('y', y);
 
                 const hexCell = tile.getComponent(HexCell);
@@ -122,16 +129,14 @@ export class HexGridManager extends Component {
                 hexCell.gridY = y;
                 hexCell.cellType = type;
                 hexCell.setLogicalCell(logicCell);
+                logicCell.setVisualNode(tile);
 
                 this.grid[y][x] = logicCell;
-
-                // Присваиваем визуальный узел логической ячейке
-                logicCell.setVisualNode(tile);
-                
             }
         }
     }
 
+    /** Связывает гексы с соседями */
     linkNeighbors(cols: number, rows: number) {
         const evenOffsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, -1], [-1, -1]];
         const oddOffsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1]];
@@ -141,8 +146,7 @@ export class HexGridManager extends Component {
                 const cell = this.grid[y]?.[x];
                 if (!cell) continue;
 
-                const visual = cell.getVisualNode();
-                const hex = visual?.getComponent(HexCell);
+                const hex = cell.getVisualNode()?.getComponent(HexCell);
                 if (!hex) continue;
 
                 const offsets = x % 2 === 0 ? evenOffsets : oddOffsets;
@@ -152,12 +156,9 @@ export class HexGridManager extends Component {
                     const ny = y + dy;
                     if (ny >= 0 && ny < rows && nx >= 0 && nx < cols) {
                         const neighbor = this.grid[ny]?.[nx];
-                        const neighborVisual = neighbor?.getVisualNode();
-                        const neighborHex = neighborVisual?.getComponent(HexCell);
+                        const neighborHex = neighbor?.getVisualNode()?.getComponent(HexCell);
                         if (neighborHex) {
                             hex.addNeighbor(neighborHex);
-
-                            // ✅ Также добавляем логическую связь
                             const neighborCell = neighborHex.getLogicalCell();
                             if (neighborCell && !cell.neighbors.includes(neighborCell)) {
                                 cell.neighbors.push(neighborCell);
@@ -169,15 +170,54 @@ export class HexGridManager extends Component {
         }
     }
 
-    
+    // ======= Access Helpers ========
+
     getPlayerCells(): GridCell[] {
         return this.getAllCells().filter(cell => cell.getParameter<number>('type') === PLAYER);
     }
-    
+
     getEnemyCells(): GridCell[] {
         return this.getAllCells().filter(cell => cell.getParameter<number>('type') === ENEMY);
-    }    
+    }
 
+    getCell(x: number, y: number): GridCell | null {
+        return this.grid[y]?.[x] ?? null;
+    }
+
+    getAllCells(): GridCell[] {
+        return this.grid.flat().filter(Boolean) as GridCell[];
+    }
+
+    getAllHexCells(): HexCell[] {
+        return this.getAllCells()
+            .map(cell => cell.getVisualNode()?.getComponent(HexCell))
+            .filter((hex): hex is HexCell => !!hex);
+    }
+
+    getAllVisualCells(): HexCell[] {
+        return this.node.children
+            .map(child => child.getComponent(HexCell))
+            .filter((hex): hex is HexCell => !!hex);
+    }
+
+    getShiftX(): number {
+        const uiTransform = this.node.getComponent(UITransform);
+        return uiTransform ? (uiTransform.contentSize.width - this.calculatedFieldWidth) / 2 : 0;
+    }
+
+    updateNodeSize(width: number, height: number) {
+        this.node.getComponent(UITransform)?.setContentSize(width, height);
+    }
+
+    /** Раскрытие клетки (удаление тумана) */
+    revealCell(cell: GridCell): void {
+        const fogs = cell.getSubObjects().filter(sub => sub instanceof FogSubObject);
+        for (const fog of fogs) {
+            cell.detachSubObject(fog);
+        }
+    }
+
+    /** Генерация рассредоточенного макета размещения тайлов */
     generateFuzzyLayout(cols: number, rows: number, total: number, players: number, enemies: number): number[][] {
         const layout: number[][] = Array.from({ length: rows }, () => Array(cols).fill(EMPTY));
         const available: [number, number][] = [];
@@ -200,7 +240,6 @@ export class HexGridManager extends Component {
                     i = Math.floor(Math.random() * available.length);
                 } else {
                     const [bx, by] = temp[Math.floor(Math.random() * temp.length)];
-
                     const neighbors = [
                         [bx - 1, by], [bx + 1, by],
                         [bx, by - 1], [bx, by + 1],
@@ -235,125 +274,4 @@ export class HexGridManager extends Component {
 
         return layout;
     }
-
-    calculateBestGridSize(totalTiles: number): [number, number] {
-        let bestCols = 0, bestRows = 0, bestDiff = Number.MAX_VALUE;
-
-        for (let cols = 3; cols <= 50; cols++) {
-            const rows = Math.ceil(totalTiles / cols);
-            const usedCols = Math.ceil(totalTiles / rows);
-            const ratio = rows / usedCols;
-            const diff = Math.abs(ratio - this.targetAspectRatio);
-            if (diff < bestDiff) {
-                bestDiff = diff;
-                bestCols = usedCols;
-                bestRows = rows;
-            }
-        }
-
-        return [bestCols, bestRows];
-    }
-
-    calculateTileSize(containerWidth: number, containerHeight: number, cols: number, rows: number): [number, number] {
-        const tileWidthMax = containerWidth / (1 + (cols - 1) * 0.75);
-        const tileHeightMax = containerHeight / (rows + 0.5);
-
-        const tileHeight = Math.min(tileHeightMax, tileWidthMax * (this.baseHeight / this.baseWidth));
-        const tileWidth = tileHeight * (this.baseWidth / this.baseHeight);
-
-        return [tileWidth, tileHeight];
-    }
-
-    calculateFieldDimensions(cols: number, rows: number, tileWidth: number, tileHeight: number): [number, number] {
-        const totalWidth = tileWidth * (1 + 0.75 * (cols - 1));
-        const totalHeight = rows * tileHeight + tileHeight * 0.5;
-        return [totalWidth, totalHeight];
-    }
-
-    calculateOrigin(containerWidth: number, containerHeight: number, fieldWidth: number, fieldHeight: number, tileWidth: number, tileHeight: number): Vec3 {
-        const offsetX = (containerWidth - fieldWidth) / 2 + tileWidth / 2;
-        const offsetY = (containerHeight - fieldHeight) / 2 + tileHeight / 2;
-        return new Vec3(-containerWidth / 2 + offsetX, containerHeight / 2 - offsetY, 0);
-    }
-
-    getShiftX(): number {
-        const uiTransform = this.node.getComponent(UITransform);
-        if (!uiTransform) return 0;
-        return (uiTransform.contentSize.width - this.calculatedFieldWidth) / 2;
-    }
-
-    updateNodeSize(width: number, height: number) {
-        const uiTransform = this.node.getComponent(UITransform);
-        if (uiTransform) {
-            uiTransform.setContentSize(width, height);
-        }
-    }
-
-    // Получить логическую ячейку по координатам
-    public getCell(x: number, y: number): GridCell | null {
-        if (this.grid[y] && this.grid[y][x]) {
-            return this.grid[y][x];
-        }
-        return null;
-    }
-
-    // Получить все логические ячейки в одном массиве
-    public getAllCells(): GridCell[] {
-        const all: GridCell[] = [];
-        for (const row of this.grid) {
-            for (const cell of row) {
-                if (cell) all.push(cell);
-            }
-        }
-        return all;
-    }
-
-    // Получить все HexCell, размещённые как дочерние ноды поля
-    public getAllHexCells(): HexCell[] {
-        const result: HexCell[] = [];
-    
-        for (const row of this.grid) {
-            for (const logicalCell of row) {
-                const visualNode = logicalCell?.getVisualNode();
-                if (visualNode?.isValid) {
-                    const hexCell = visualNode.getComponent(HexCell);
-                    if (hexCell) {
-                        result.push(hexCell);
-                        console.log(`[Grid] Found HexCell at (${hexCell.gridX}, ${hexCell.gridY}) — worldPos: ${visualNode.worldPosition}`);
-                    }
-                }
-            }
-        }
-    
-        console.log(`[Grid] Total HexCells collected: ${result.length}`);
-        return result;
-    }   
-
-    // Раскрытие клетки (например, при атаке)
-    public revealCell(cell: GridCell): void {
-        // Удаляем все субобъекты типа FogSubObject
-        const fogs = cell.getSubObjects().filter(sub => sub instanceof FogSubObject);
-        for (const fog of fogs) {
-            cell.detachSubObject(fog);
-        }
-
-        // Дополнительно можно обновить визуал, если нужно
-    }
-
-        /**
-     * Возвращает все визуальные HexCell, которые размещены на поле.
-     */
-    getAllVisualCells(): HexCell[] {
-        const cells: HexCell[] = [];
-        this.node.children.forEach(child => {
-            const hexCell = child.getComponent(HexCell);
-            if (hexCell) {
-                cells.push(hexCell);
-            }
-        });
-        return cells;
-    }
-
-
-
 }

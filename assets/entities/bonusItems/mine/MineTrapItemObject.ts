@@ -4,12 +4,14 @@ import { GridCell } from '../../field/GridCell';
 import { BattleController } from '../../battle/BattleController';
 import { BaseItemVisual } from '../BaseItemVisual';
 import { VisualEffectPlayer } from '../../battleEffects/VisualEffectPlayer';
+import { ItemManager } from '../../battle/ItemManager';
 
 
 export class MineTrapItemObject extends ItemSubObject {
     public prefab: Prefab | null = null;
 
     protected onInit(): void {
+        this.isAutoTriggered = true; // 💣 теперь мина считается автотриггерной
         this.initVisual();
     }
 
@@ -42,6 +44,9 @@ export class MineTrapItemObject extends ItemSubObject {
             const random = unopened[Math.floor(Math.random() * unopened.length)];
             this.markCellAsHit(random);
             this.playExplosionEffect(random);
+
+            // ✅ Пробуем активировать автотриггеры (например, бомбы)
+            ItemManager.instance.tryAutoTriggerItemsOnCell(random);
         }
 
         this.consume();

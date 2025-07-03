@@ -45,6 +45,10 @@ export class ShieldEffectSubObject extends EffectSubObject {
             node.setSiblingIndex(tileNode.children.length - 1);
         }
 
+        console.log('🛡️ shield visual node', node.name, node.active, node.getScale(), node.getWorldPosition());
+
+        console.log('children of tileNode:', tileNode.children.map(n => n.name));
+
         this.visualNode = node;
         this.setVisualNode(node);
         this.scaleToCell(); // масштабируем под тайл
