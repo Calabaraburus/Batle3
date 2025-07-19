@@ -1,0 +1,16 @@
+{
+  "totalTiles": 20,
+  "playerTiles": 10,
+  "enemyTiles": 10,
+  "playerUnits": [1,1,1],
+  "enemyUnits": [1,1],
+  "playerItems": {
+  },
+  "enemyItems": {
+    "shield": 1,
+    "rocket": 1
+  },
+  "victoryCondition": {
+    "type": "eliminateAllEnemies"
+  }
+}

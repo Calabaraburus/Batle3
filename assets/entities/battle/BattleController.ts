@@ -10,6 +10,8 @@ import { TurnManager } from './TurnManager';
 import { AttackManager } from './AttackManager';
 import { ItemManager } from './ItemManager';
 import { ItemSubObject } from '../bonusItems/ItemSubObject';
+import { TutorialManager } from '../tutorial/TutorialManager';
+import { SubObjectGenerator } from '../subObjects/SubObjectGenerator';
 
 const { ccclass, property } = _decorator;
 
@@ -28,19 +30,18 @@ export class BattleController extends Component {
     @property({ type: Node })
     battleUIPanelNode: Node | null = null;
 
-    private battleUIPanel: BattleUIPanel | null;
+    private battleUIPanel: BattleUIPanel | null = null;
     public bot: BattleBot;
 
     onLoad() {
         BattleController.instance = this;
     }
 
-    start() {
+    public async start(): Promise<void> {
         if (!this.gridManager) return;
 
         const allCells = this.gridManager.getAllCells();
 
-        // 🧠 Инициализация бота
         this.bot = new BattleBot(
             this.gridManager,
             () => this.delayedEndTurn(),
@@ -48,43 +49,37 @@ export class BattleController extends Component {
             (cell) => AttackManager.instance.attack(cell)
         );
 
-        // 🧩 Инициализация менеджеров
         new ItemManager(allCells);
         new AttackManager();
 
         TurnManager.instance = new TurnManager();
         TurnManager.instance.gridManager = this.gridManager;
 
-        // 🎛️ UI-панель
         if (this.battleUIPanelNode) {
-            this.battleUIPanel = this.battleUIPanelNode?.getComponent(BattleUIPanel);
+            this.battleUIPanel = this.battleUIPanelNode.getComponent(BattleUIPanel);
             if (this.battleUIPanel) {
                 ScoreManager.instance.init(this.battleUIPanel);
             }
         }
 
+        if (!SubObjectGenerator.instance.useLevelConfig) {
+            await SubObjectGenerator.instance.generateObjects();
+        }
+
+        this.startBattle();
     }
 
-    /**
-     * Обновление надписи текущего хода
-     */
-    updateTurnLabel() {
-        this.battleUIPanel?.updateTurn(TurnManager.instance.getCurrentTurn());
-    }
-
-    /**
-     * запустить первый ход
-     */
     public startBattle() {
         this.updateTurnLabel();
         TurnManager.instance.startFirstTurn();
     }
 
-    /**
-     * Открытие клетки и отображение разрушения
-     */
-    openAndRevealCell(cell: GridCell) {
-        if (!cell || TurnManager.instance.isTurnFrozen()) return; // 🧊 Добавлена защита
+    updateTurnLabel() {
+        this.battleUIPanel?.updateTurn(TurnManager.instance.getCurrentTurn());
+    }
+
+    public openAndRevealCell(cell: GridCell) {
+        if (!cell || TurnManager.instance.isTurnFrozen()) return;
 
         cell.addParameter('opened', true);
         this.gridManager?.revealCell(cell);
@@ -93,7 +88,6 @@ export class BattleController extends Component {
         hexCell?.markAsOpened();
         hexCell?.showDestroyedEffect?.();
 
-        // 🟢 Включаем визуал всех субобъектов
         for (const sub of cell.getSubObjects()) {
             if (typeof sub.setHidden === 'function') {
                 sub.setHidden(false);
@@ -103,12 +97,17 @@ export class BattleController extends Component {
         ItemManager.instance.tryAutoTriggerItemsOnCell(cell);
     }
 
-    /**
-     * Обработка клика по гексу
-     */
     public onCellClicked(hexCell: HexCell): void {
-        if (TurnManager.instance.isTurnFrozen()) return; // ✅ Защита
+        if (TurnManager.instance.isTurnFrozen()) return;
         if (!TurnManager.instance.isPlayerTurn() || !this.gridManager) return;
+
+        // 🧭 Проверка туториала
+        if (TutorialManager.instance.isActive) {
+            // const allowed = TutorialManager.instance.canClickCell(hexCell);
+            // if (!allowed) return;
+            // TutorialManager.instance.handleCellClick(hexCell);
+            TutorialManager.instance.nextStep();
+        }
 
         const cell = hexCell.getLogicalCell();
         if (!cell) return;
@@ -117,7 +116,6 @@ export class BattleController extends Component {
         const cellType = cell.getParameter<number>('type');
         const playerType = 1;
 
-        // 🎯 Порядок обработки: активировать предмет -> выбрать предмет -> удар
         ItemManager.instance.tryUseSelectedItemOn(cell).then((used) => {
             if (used) return;
 
@@ -129,27 +127,11 @@ export class BattleController extends Component {
         });
     }
 
-    /**
-     * вызов конца хода с ожиданием завершения анимаций
-     */
     public async delayedEndTurn(): Promise<void> {
-        // ⏳ Ждём завершения всех визуальных эффектов
         await VisualEffectPlayer.instance.waitForAllEffects();
-
-        // ✅ Завершаем ход
         await TurnManager.instance.endCurrentTurn();
     }
 
-    /**
-     * Анимация взрыва
-     */
-    protected playExplosionEffect(cell: GridCell): void {
-        VisualEffectPlayer.instance.playExplosion(cell);
-    }
-
-    /**
-     * Сброс временных эффектов, предметов и состояний
-     */
     public clearTemporaryStates(): void {
         ItemManager.instance.reset();
     }

@@ -15,14 +15,16 @@ export class ShieldEffectSubObject extends EffectSubObject {
     private groupId: number;
     private visualNode: Node | null = null;
 
-    constructor(groupId: number) {
+    constructor(groupId?: number) {
         super();
-        this.groupId = groupId;
+        this.groupId = groupId !== undefined ? groupId : -1;
 
-        if (!ShieldEffectSubObject.groups.has(groupId)) {
-            ShieldEffectSubObject.groups.set(groupId, []);
+        if (this.groupId >= 0) {
+            if (!ShieldEffectSubObject.groups.has(this.groupId)) {
+                ShieldEffectSubObject.groups.set(this.groupId, []);
+            }
+            ShieldEffectSubObject.groups.get(this.groupId)!.push(this);
         }
-        ShieldEffectSubObject.groups.get(groupId)!.push(this);
     }
 
     protected onInit(): void {

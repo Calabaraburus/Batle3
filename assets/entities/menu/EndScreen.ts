@@ -29,6 +29,7 @@ export class EndScreen extends Component {
     }
 
     public retryLevel() {
+        GameContext.instance.reset(); // 💡 Очищаем выбранный уровень и результат
         director.loadScene('scene_game_field-hexa');
     }
 }

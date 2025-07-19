@@ -1,6 +1,8 @@
 // Модуль утилит для расчётов, связанных с гексагональной сеткой
 
 import { Vec3 } from "cc";
+import { GridCell } from "./GridCell";
+import { BattleController } from "../battle/BattleController";
 
 export class HexGridUtils {
     /**
@@ -69,4 +71,43 @@ export class HexGridUtils {
         const offsetY = (containerHeight - fieldHeight) / 2 + tileHeight / 2;
         return new Vec3(-containerWidth / 2 + offsetX, containerHeight / 2 - offsetY, 0);
     }
+
 }
+
+
+    const evenDirectionOffsets = [
+        { dx: 0, dy: -1 },   // 0: вверх
+        { dx: 1, dy: -1 },   // 1: вверх-право
+        { dx: 1, dy: 0 },    // 2: вниз-право
+        { dx: 0, dy: 1 },    // 3: вниз
+        { dx: -1, dy: 0 },   // 4: вниз-лево
+        { dx: -1, dy: -1 },  // 5: вверх-лево
+    ];
+
+    const oddDirectionOffsets = [
+        { dx: 0, dy: -1 },   // 0: вверх
+        { dx: 1, dy: 0 },    // 1: вверх-право
+        { dx: 1, dy: 1 },    // 2: вниз-право
+        { dx: 0, dy: 1 },    // 3: вниз
+        { dx: -1, dy: 1 },   // 4: вниз-лево
+        { dx: -1, dy: 0 },   // 5: вверх-лево
+    ];
+
+    export function getNeighborInDirection(cell: GridCell, direction: number): GridCell | null {
+        const x = cell.getParameter<number>('x');
+        const y = cell.getParameter<number>('y');
+
+        if (x === undefined || y === undefined) return null;
+
+        const offsets = x % 2 === 0 ? evenDirectionOffsets : oddDirectionOffsets;
+        const offset = offsets[direction];
+
+        const nx = x + offset.dx;
+        const ny = y + offset.dy;
+
+        console.log(`[Rocket] Исходная: (${x},${y}), четность x: ${x % 2}`);
+        console.log(`[Rocket] Смещение: dx=${offset.dx}, dy=${offset.dy}`);
+        console.log(`[Rocket] Цель: (${nx},${ny})`);
+
+        return BattleController.instance.gridManager!.getCell(nx, ny);
+    }

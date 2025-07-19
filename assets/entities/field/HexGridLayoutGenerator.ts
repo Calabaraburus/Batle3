@@ -8,7 +8,7 @@ export class HexGridLayoutGenerator {
      * @param players Кол-во ячеек игрока
      * @param enemies Кол-во ячеек врага
      */
-    static generate(cols: number, rows: number, total: number, players: number, enemies: number): number[][] {
+    static generate(cols: number, rows: number, total: number, players: number, enemies: number, chanceToCluster: number): number[][] {
         const EMPTY = 0;
         const layout: number[][] = Array.from({ length: rows }, () => Array(cols).fill(EMPTY));
         const available: [number, number][] = [];
@@ -57,12 +57,12 @@ export class HexGridLayoutGenerator {
                 temp.push([x, y]);
                 placed++;
 
-                chance *= chanceToCluster;
+                chance = chanceToCluster;
             }
         };
 
-        placeTeam(1, players); // PLAYER = 1
-        placeTeam(2, enemies); // ENEMY = 2
+        placeTeam(1, players, chanceToCluster); // PLAYER = 1
+        placeTeam(2, enemies, chanceToCluster); // ENEMY = 2
 
         return layout;
     }

@@ -27,8 +27,8 @@ export class MineTrapItemObject extends ItemSubObject {
         if (!this.cell || this.cell !== target) return false;
 
         // Наносим урон по своей клетке
-        this.markCellAsHit(target);
-        this.playExplosionEffect(target);
+        // this.markCellAsHit(target);
+        // this.playExplosionEffect(target);
 
         // Поражаем случайный закрытый тайл противоположной стороны
         const enemyType = this.ownerType === 1 ? 2 : 1;

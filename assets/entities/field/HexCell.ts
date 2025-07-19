@@ -134,6 +134,18 @@ export class HexCell extends Component {
         }
     }
 
+    public highlightOnce(duration = 0.5): void {
+        const sprite = this.getComponent(Sprite);
+        if (!sprite) return;
+
+        const originalColor = sprite.color.clone();
+        sprite.color = new Color(255, 255, 100); // жёлтый
+
+        this.scheduleOnce(() => {
+            sprite.color = originalColor;
+        }, duration);
+    }
+
     private checkHit(clickPos: Vec3): boolean {
         const localPos = this.node.position;
         const width = 100;  // реальный размер тайла по X

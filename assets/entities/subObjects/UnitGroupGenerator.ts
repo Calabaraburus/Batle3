@@ -46,6 +46,10 @@ export class UnitGroupGenerator extends Component {
         ];
     }
 
+    public getUnitDefinition(type: string, owner: 'player' | 'enemy'): UnitDefinition | null {
+        return this.unitRegistry.find(u => u.id === type && u.owner === owner) || null;
+    }
+
     public generateGroups(owner: 'player' | 'enemy'): void {
         if (!this.gridManager) return;
 

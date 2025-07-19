@@ -183,16 +183,12 @@ export abstract class ItemSubObject extends GridSubObject {
 
     /** Помечает клетку как поражённую и открывает её */
     protected markCellAsHit(cell: GridCell): void {
-        cell.addParameter('destroyed', true);
-        cell.addParameter('opened', true);
+        cell.addParameter('destroyed', true);     // 📛 Отметим как уничтоженную
+        cell.reveal(true);                        // 👁 Раскрытие, туман, активация, убийство юнита и предметов
 
-        this.revealFog(cell);
-
-        // const visual = cell.getVisualNode();
+        // Дополнительно можно оставить отдельную подсветку
         const hex = cell.getVisualNode()?.getComponent(HexCell);
-
-        hex?.markAsOpened(true);
-        hex?.markAsBurning();
+        hex?.markAsBurning();                     // 🔥 Красная подсветка
     }
 
     public abstract tryApplyEffectTo(target: GridCell): boolean;

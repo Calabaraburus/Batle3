@@ -32,7 +32,7 @@ export class BaseItemVisual extends Component {
     }
 
     /** Приватно: применяет нужный спрайт по индексу, если есть */
-    protected setSpriteFrame(index: number): void {
+    public setSpriteFrame(index: number): void {
         const sprite = this.getComponent(Sprite);
         if (sprite && this.stateSprites[index]) {
             sprite.spriteFrame = this.stateSprites[index];
@@ -71,7 +71,7 @@ export class BaseItemVisual extends Component {
     }
 
     /** Запускает анимацию пульсации вокруг базового масштаба */
-    private startPulse(): void {
+    protected startPulse(): void {
         this.stopPulse(); // Сбросить, если уже был активен
 
         const baseScale = this.node.getScale();
@@ -88,7 +88,7 @@ export class BaseItemVisual extends Component {
     }
 
     /** Останавливает пульсацию и сбрасывает ссылку */
-    private stopPulse(): void {
+    public stopPulse(): void {
         if (this.pulseTween) {
             this.pulseTween.stop();
             this.pulseTween = null;

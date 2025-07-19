@@ -20,10 +20,7 @@ export interface LevelConfig {
   enemyUnits: number[];
   playerItems: Record<string, number>;
   enemyItems: Record<string, number>;
-  victoryCondition: {
-    type: string;
-    [key: string]: any; // если будут параметры типа "count", "zone", и т.д.
-  };
+  victoryCondition: { type: string; [key: string]: any };
 }
 
 @ccclass('LevelManager')
@@ -40,7 +37,10 @@ export class LevelManager extends Component {
     private unitGroupGenerator: UnitGroupGenerator | null = null;
 
     @property({ type: Node }) 
-    levelStartWindow: Node | null = null; // окно информации об уровне перед боем
+    levelStartWindow: Node | null = null;
+
+    public currentLevelData: LevelConfig | null = null;  // ✅ Сохраняем загруженный JSON
+    private levelName = '';
 
     onLoad() {
         LevelManager.instance = this;
@@ -50,13 +50,15 @@ export class LevelManager extends Component {
      * Загружает уровень из JSON-файла по имени
      */
     public async loadLevelFromJson(levelName: string): Promise<void> {
-        const path = `levels/${levelName}`; // без .json и без "resources/"
+        const path = `levels/${levelName}`;
         try {
             const asset = await this.loadJsonAsset(path);
             if (!asset || !asset.json) {
                 throw new Error(`[LevelManager] JsonAsset is null or invalid at path: ${path}`);
             }
-            this.loadLevel(asset.json as LevelConfig);
+            this.currentLevelData = asset.json as LevelConfig;  // ✅ сохраняем данные
+            this.levelName = levelName;
+            this.loadLevel(this.currentLevelData);
         } catch (error) {
             console.error(`[LevelManager] Failed to load level '${levelName}':`, error);
         }
@@ -82,47 +84,49 @@ export class LevelManager extends Component {
             console.error('[LevelManager] Объекты GridManager, UnitGroupGenerator или SubObjectGenerator не назначены');
             return;
         }
-        // 0. передаем в инфо окно данные об уровне
-        if (this.levelStartWindow){
-                if (this.levelStartWindow?.active === false) {
+
+        // --- Показать окно описания уровня ---
+        if (this.levelStartWindow) {
+            if (!this.levelStartWindow.active) {
                 this.levelStartWindow.active = true;
             }
-
-            const panel = this.levelStartWindow?.getComponent(MissionDescriptionPanel);
+            const panel = this.levelStartWindow.getComponent(MissionDescriptionPanel);
             panel?.setLevelInfo(config);
         }
-        
 
-        // 1. Генерация поля по количеству клеток
+        // --- Генерация поля ---
         this.gridManager.totalTileCount = config.totalTiles;
         this.gridManager.playerTileCount = config.playerTiles;
         this.gridManager.enemyTileCount = config.enemyTiles;
-        this.gridManager.generateField();
+        
+        if (this.levelName == 'level_tutorial') {
+            this.gridManager.buildFromCounts(config.totalTiles, config.playerTiles, config.enemyTiles);
+        } else {
+            this.gridManager.generateField();
+        }
 
-        // 2. Передача размеров групп юнитов в генератор
+        // --- Передача групп юнитов ---
         this.unitGroupGenerator.playerGroupSizes = config.playerUnits;
         this.unitGroupGenerator.enemyGroupSizes = config.enemyUnits;
 
-        // 3. Установка ссылок на генераторы
+        // --- Подключаем генераторы ---
         this.objectGenerator.gridManager = this.gridManager;
         this.objectGenerator.unitGroupGenerator = this.unitGroupGenerator;
 
-        // 4. Установка количества предметов
-        this.objectGenerator?.clearAllCounts(); //обнул всех предметов полученных из инспектора
+        // --- Сброс и установка предметов ---
+        this.objectGenerator.clearAllCounts();
         for (const [itemId, count] of Object.entries(config.playerItems)) {
             this.objectGenerator.setItemCount('player', itemId, count);
         }
-
         for (const [itemId, count] of Object.entries(config.enemyItems)) {
             this.objectGenerator.setItemCount('enemy', itemId, count);
         }
 
-        // 5. Генерация всех объектов: юниты, предметы, туман
+        // --- Генерация объектов ---
         this.objectGenerator.generateObjects();
 
-        // 6. Инициализация условия победы
+        // --- Условия победы ---
         VictoryChecker.resetInstance();
         new VictoryChecker(config.victoryCondition as VictoryCondition);
-
     }
 }

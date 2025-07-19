@@ -39,11 +39,12 @@ export class HexGridManager extends Component {
     private calculatedFieldWidth = 0;
     private grid: GridCell[][] = [];
     private chanceToPlaceAllyHex = 0.8;
+    private chanceToCluster = 0.6;  //регулятор плотности поля
 
     onEnable() {
-        if (!this.useLevelConfig) {
-            this.refreshField();
-        }
+        // if (!this.useLevelConfig) {
+        //     this.refreshField();
+        // }
     }
 
     onDestroy() {
@@ -85,7 +86,7 @@ export class HexGridManager extends Component {
 
         this.calculatedFieldWidth = fieldWidth;
 
-        const layout = HexGridLayoutGenerator.generate(cols, rows, this.totalTileCount, this.playerTileCount, this.enemyTileCount);
+        const layout = HexGridLayoutGenerator.generate(cols, rows, this.totalTileCount, this.playerTileCount, this.enemyTileCount, this.chanceToCluster);
         const origin = HexGridUtils.calculateOrigin(containerWidth, containerHeight, fieldWidth, fieldHeight, tileWidth, tileHeight);
 
         this.buildFromLayout(layout, tileWidth, tileHeight, origin);
@@ -168,6 +169,99 @@ export class HexGridManager extends Component {
                 }
             }
         }
+    }
+
+    // строительство упорядоченного поля
+    public buildFromCounts(totalTiles: number, playerTiles: number, enemyTiles: number): void {
+        const uiTransform = this.node.getComponent(UITransform);
+        if (!uiTransform) return;
+
+        const containerWidth = uiTransform.contentSize.width;
+        const containerHeight = uiTransform.contentSize.height;
+
+        const cols = Math.ceil(Math.sqrt(totalTiles));
+        const rows = Math.ceil(totalTiles / cols);
+
+        const [tileWidth, tileHeight] = HexGridUtils.calculateTileSize(
+            containerWidth,
+            containerHeight,
+            cols,
+            rows,
+            this.baseWidth,
+            this.baseHeight
+        );
+
+        const [fieldWidth, fieldHeight] = HexGridUtils.calculateFieldDimensions(
+            cols,
+            rows,
+            tileWidth,
+            tileHeight
+        );
+
+        const origin = HexGridUtils.calculateOrigin(
+            containerWidth,
+            containerHeight,
+            fieldWidth,
+            fieldHeight,
+            tileWidth,
+            tileHeight
+        );
+
+        this.grid = [];
+
+        // ✅ Собираем список всех позиций
+        const allCells: { x: number; y: number }[] = [];
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                if (allCells.length >= totalTiles) continue;
+                allCells.push({ x, y });
+            }
+        }
+
+        // ✅ Сортируем: сначала по X (слева направо), потом по Y (сверху вниз)
+        allCells.sort((a, b) => a.x - b.x || a.y - b.y);
+
+        // ✅ Готовим список типов
+        const typeList = new Array(playerTiles).fill(PLAYER)
+            .concat(new Array(enemyTiles).fill(ENEMY))
+            .concat(new Array(totalTiles - playerTiles - enemyTiles).fill(EMPTY));
+
+        // ✅ Расставляем тайлы
+        for (let i = 0; i < allCells.length; i++) {
+            const { x, y } = allCells[i];
+            const type = typeList[i];
+
+            const tile = instantiate(this.hexTilePrefab!) as Node;
+            this.node.addChild(tile);
+
+            const offsetY = (x % 2) * (tileHeight * 0.5);
+            const posX = origin.x + x * tileWidth * 0.75;
+            const posY = origin.y - y * tileHeight - offsetY;
+
+            tile.setPosition(new Vec3(posX, posY, 0));
+            tile.setScale(new Vec3(tileWidth / this.baseWidth, tileHeight / this.baseHeight, 1));
+
+            const logicCell = new GridCell();
+            logicCell.addParameter('type', type);
+            logicCell.addParameter('x', x);
+            logicCell.addParameter('y', y);
+            logicCell.x = x;
+            logicCell.y = y;
+
+            const hexCell = tile.getComponent(HexCell)!;
+            hexCell.gridX = x;
+            hexCell.gridY = y;
+            hexCell.cellType = type;
+            hexCell.setLogicalCell(logicCell);
+            logicCell.setVisualNode(tile);
+
+            if (!this.grid[y]) {
+                this.grid[y] = [];
+            }
+            this.grid[y][x] = logicCell;
+        }
+
+        this.linkNeighbors(cols, rows);
     }
 
     // ======= Access Helpers ========

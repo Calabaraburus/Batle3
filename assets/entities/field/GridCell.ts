@@ -2,12 +2,20 @@ import { ItemSubObject } from "../bonusItems/ItemSubObject";
 import { GridSubObject } from "../subObjects/GridSubObject";
 import { UnitSubObject } from "../subObjects/units/UnitSubObject";
 import { _decorator, Node } from 'cc';
+import { HexCell } from "./HexCell";
+import { ItemManager } from "../battle/ItemManager";
+import { EffectSubObject } from "../subObjects/EffectSubObject";
 
 /**
  * GridCell — логическая ячейка поля.
  * Хранит параметры, субобъекты (юниты, предметы и прочее) и визуальный узел.
  */
 export class GridCell {
+
+    // координаты в сетке
+    public x = 0;
+    public y = 0;
+
     // Словарь параметров ячейки (тип, координаты и др.)
     private parameters: Map<string, any> = new Map();
 
@@ -69,6 +77,29 @@ export class GridCell {
         return this.subObjects;
     }
 
+    public reveal(forceKill = false): void {
+        this.addParameter('opened', true);
+
+        const hex = this.getVisualNode()?.getComponent(HexCell);
+        hex?.markAsOpened(forceKill); // вызывает .markAsBurning и т.п.
+
+        // ⛅ Удаляем туман
+        const fogs = this.getSubObjects().filter(obj => obj.constructor.name === 'FogSubObject');
+        for (const fog of fogs) {
+            this.detachSubObject(fog);
+        }
+
+        // 🔄 Показываем визуалы
+        for (const sub of this.getSubObjects()) {
+            if (typeof sub.setHidden === 'function') {
+                sub.setHidden(false);
+            }
+        }
+
+        // 💣 Автоактивация (например, бомбы)
+        ItemManager.instance.tryAutoTriggerItemsOnCell(this);
+    }
+
     // --- Работа с визуальной частью ---
 
     setVisualNode(node: Node): void {
@@ -87,6 +118,10 @@ export class GridCell {
 
     hasItem(): boolean {
         return this.subObjects.some(obj => obj instanceof ItemSubObject);
+    }
+
+    hasEffect(): boolean {
+        return this.subObjects.some(obj => obj instanceof EffectSubObject);
     }
 
     hasAnyMainSubObject(): boolean {

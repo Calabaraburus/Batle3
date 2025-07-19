@@ -44,9 +44,9 @@ export class ShieldItemObject extends ItemSubObject {
 
         SubObjectGenerator.instance.spawnEffect(
             ShieldEffectSubObject,
-            groupId,
+            prefab,
             cellsToProtect,
-            prefab
+            true // ← пусть универсальный метод сам создаст groupId
         );
 
         this.consume();
