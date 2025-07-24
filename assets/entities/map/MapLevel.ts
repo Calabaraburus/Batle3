@@ -25,9 +25,14 @@ export class MapLevel extends Service {
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
         this._settingsLoader.loadPlayerCurrentGameState();
-        this._audioConfig = this.getServiceOrThrow(AudioConfigurator);
         this._strtWnd = this.getServiceOrThrow(StartLevelWindow);
-        this._audioConfig.applyList(this._audioConfig.mapMusicList);
+        this._audioConfig = AudioConfigurator.instance;
+        if (this._audioConfig) {
+            this._audioConfig.applyList(this._audioConfig.mapMusicList);
+        } else {
+            console.warn('AudioConfigurator not available!');
+        }
+
         this.updateMap();
     }
 

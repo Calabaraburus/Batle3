@@ -6,8 +6,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass("AudioManagerService")
 export class AudioManagerService extends Service {
+  static instance: AudioManagerService;
+
   private _currentMusicList: string[] = [];
-  private _currentMusicId: number = 0;
+  private _currentMusicId = 0;
   private _musicStoped = true;
   private _taskQueue: Queue<() => void> = new Queue<() => void>;
   private _soundVolume = 0;
@@ -18,6 +20,15 @@ export class AudioManagerService extends Service {
 
   @property(AudioClip)
   music: AudioClip[] = [];
+
+  onLoad() {
+        if (!AudioManagerService.instance) {
+            AudioManagerService.instance = this;
+        } else {
+            console.warn('AudioManagerService: duplicate detected, destroying!');
+            this.node.destroy();
+        }
+    }
 
   get currentMusicList() {
     return this._currentMusicList;
@@ -106,7 +117,7 @@ export class AudioManagerService extends Service {
   protected update(dt: number): void {
 
     if (!this._taskQueue.isEmpty) {
-      var task = this._taskQueue.dequeue();
+      const task = this._taskQueue.dequeue();
       task();
       return;
     }

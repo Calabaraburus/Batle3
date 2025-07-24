@@ -1,12 +1,20 @@
-import { _decorator, Component, director } from 'cc';
+import { _decorator, director } from 'cc';
+import { Service } from '../services/Service';
+import { AudioConfigurator } from '../services/AudioConfigurator';
+
 const { ccclass } = _decorator;
 
 @ccclass('IntroSceneController')
-export class IntroSceneController extends Component {
-    /**
-     * Метод вызывается при клике на кнопку "Начать".
-     */
+export class IntroSceneController extends Service {
+    private _audioConfigurator: AudioConfigurator;
+
+    start() {
+        this._audioConfigurator = AudioConfigurator.instance;
+
+        this._audioConfigurator.applyList(this._audioConfigurator.levelMusicList);
+    }
+
     public onStartButtonClick(): void {
-        director.loadScene('MainMenu'); // Замените на точное имя вашей сцены
+        director.loadScene('MainMenu');
     }
 }

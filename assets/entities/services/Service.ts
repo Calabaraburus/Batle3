@@ -16,9 +16,7 @@ export class Service extends Component {
   }
 
   static getService<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: new (...args: any[]) => T
   ): T | null {
     const scene = director.getScene();
     if (scene == null) return null;
@@ -26,41 +24,33 @@ export class Service extends Component {
   }
 
   getService<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: new (...args: any[]) => T
   ): T | null {
     return Service.getService(classConstructor);
   }
 
   static getServiceOrThrow<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: new (...args: any[]) => T
   ): T {
     const scene = director.getScene();
     if (scene == null) throw Error("Can't get scene");
     const t = scene.getComponentInChildren(classConstructor);
     assert(t != null, `Can't get service ${classConstructor.name}`);
-
     return t;
   }
 
   getServiceOrThrow<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: new (...args: any[]) => T
   ): T {
     return Service.getServiceOrThrow(classConstructor);
   }
 
   static getServices<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: new (...args: any[]) => T
   ): T[] {
     const scene = director.getScene();
     if (scene == null) return [];
     return scene.getComponentsInChildren(classConstructor);
   }
+
 }

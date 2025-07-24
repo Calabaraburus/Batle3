@@ -9,9 +9,9 @@ export class Window extends Service {
     private _groups: Node[] = [];
     private _uiOpacity: UIOpacity;
     private _tweenObj: targetWndTweenObj;
-    private _speed: number = 0.3;
-    private _isOpened: boolean = false;
-    private _wasInit: boolean = false;
+    private _speed = 0.3;
+    private _isOpened = false;
+    private _wasInit = false;
 
     public get isOpened() {
         return this._isOpened;

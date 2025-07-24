@@ -1,4 +1,4 @@
-import { _decorator, CCString, Component, game, Node, randomRangeInt, sys } from "cc";
+import { _decorator, CCString, Component, director, game, Node, randomRangeInt, sys } from "cc";
 import { Service } from "./Service";
 import { SettingsLoader } from "./SettingsLoader";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
@@ -7,23 +7,37 @@ const { ccclass, property } = _decorator;
 
 @ccclass("AudioConfigurator")
 export class AudioConfigurator extends Service {
+    private static _instance: AudioConfigurator;
+
+    public static get instance(): AudioConfigurator {
+        return this._instance;
+    }
     private _settingsLoader: SettingsLoader;
     private _audio: AudioManagerService;
 
     public get audioManager() { return this._audio; }
 
-    @property(CCString)
+    @property([CCString])
     levelMusicList: string[] = [];
 
-    @property(CCString)
+    @property([CCString])
     mapMusicList: string[] = [];
 
-    @property(CCString)
+    @property([CCString])
     endGameMusicList: string[] = [];
+
+    onLoad(): void {
+        if (AudioConfigurator._instance == null) {
+            AudioConfigurator._instance = this;
+            director.addPersistRootNode(this.node);
+        }  else {
+            this.node.destroy();
+        }
+    }
 
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
-        this._audio = this.getServiceOrThrow(AudioManagerService);
+        this._audio = this._audio = AudioManagerService.instance;
 
         this._audio.changeMusicVolume(this._settingsLoader.gameParameters.musicLevel);
         this._audio.changeSoundVolume(this._settingsLoader.gameParameters.soundLevel);
@@ -32,7 +46,7 @@ export class AudioConfigurator extends Service {
     }
 
     applyList(list: string[]) {
-        let idList = [...Array(list.length).keys()];
+        const idList = [...Array(list.length).keys()];
         const resList: string[] = [];
 
         list.forEach(() => {

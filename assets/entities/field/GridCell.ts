@@ -89,6 +89,12 @@ export class GridCell {
             this.detachSubObject(fog);
         }
 
+        // 💥 Удаляем эффекты
+        const effects = this.getSubObjects().filter(obj => obj instanceof EffectSubObject);
+        for (const effect of effects) {
+            (effect as EffectSubObject).consume(); // вызывает onRemove + detach
+        }
+
         // 🔄 Показываем визуалы
         for (const sub of this.getSubObjects()) {
             if (typeof sub.setHidden === 'function') {

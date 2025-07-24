@@ -52,10 +52,12 @@ export class MenuSelectorController extends Service {
 
   start(): void {
 
+    
+    this._aManager = AudioManagerService.instance;
     //this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._inGameLoader = this.getService(InGameLevelLoaderService);
     this._gameManager = this.getService(GameManager);
-    this._aManager = this.getService(AudioManagerService);
+    // this._aManager = this.getService(AudioManagerService);
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
     this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
 
